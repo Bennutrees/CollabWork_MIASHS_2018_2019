@@ -86,7 +86,20 @@ public class Noeud extends NoeudAbstrait {
 
 	@Override
 	public NoeudAbstrait suppr(String s) {
-		// TODO Auto-generated method stub
+		if(s.isEmpty() || s.charAt(0) < this.valeur) {
+			return this;
+		}
+
+		if(s.charAt(0) > this.valeur) {
+			this.frere = this.frere.suppr(s);
+			return this;
+		}
+		NoeudAbstrait n = this.fils.suppr(s.substring(1));
+		if (n == null) {
+			if(this.frere != null)
+				return this.frere;
+			return null;
+		}
 		return null;
 	}
 
@@ -102,5 +115,11 @@ public class Noeud extends NoeudAbstrait {
 		if(this.frere != null)
 			s += this.frere.toString();
 		return s;
+	}
+	
+	@Override
+	public String toString(String s) {
+		s+= s + this.valeur;
+		return this.fils.toString(s) + ((this.frere == null) ? "" : this.frere.toString(s));
 	}
 }

@@ -10,7 +10,13 @@ public class Main {
 		n = n.ajout("attention");
 		n = n.ajout("attenta");
 		n = n.ajout("nul");
+		
+//		n.suppr("");
+//		n.suppr("coup");
+//		n.suppr("at");
+//		n.suppr("nul");
 		System.out.println(n.toString());
+		System.out.println(n.toString(""));
 		
 
 	}

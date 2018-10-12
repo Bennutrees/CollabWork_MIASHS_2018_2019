@@ -11,4 +11,5 @@ public abstract class NoeudAbstrait {
 	public abstract NoeudAbstrait ajout(String s);
 	public abstract NoeudAbstrait suppr(String s);
 	public abstract String toString(); // éléments séparés par \n
+	public abstract String toString(String s);
 }

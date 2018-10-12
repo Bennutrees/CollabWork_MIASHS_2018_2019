@@ -53,6 +53,13 @@ public class Marque extends NoeudAbstrait {
 
 	@Override
 	public NoeudAbstrait suppr(String s) {
+		if(s.isEmpty()) {
+			return null;
+		}
+		if(this.frere != null) {
+			this.frere = this.frere.suppr(s);
+			return this;
+		}
 		return this;
 	}
 
@@ -61,5 +68,10 @@ public class Marque extends NoeudAbstrait {
 		if (this.frere != null)
 			return " \n" + this.frere.toString();
 		return " \n";
+	}
+	
+	@Override
+	public String toString(String s) {	
+		return s + "\n";
 	}
 }
