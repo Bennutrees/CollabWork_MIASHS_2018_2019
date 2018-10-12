@@ -100,7 +100,7 @@ public class Noeud extends NoeudAbstrait {
 				return this.frere;
 			return null;
 		}
-		return null;
+		return this;
 	}
 
 	@Override
@@ -119,7 +119,6 @@ public class Noeud extends NoeudAbstrait {
 	
 	@Override
 	public String toString(String s) {
-		s+= s + this.valeur;
-		return this.fils.toString(s) + ((this.frere == null) ? "" : this.frere.toString(s));
+		return this.fils.toString(s + this.valeur) + ((this.frere == null) ? "" : this.frere.toString(s));
 	}
 }

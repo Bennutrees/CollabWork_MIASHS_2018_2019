@@ -71,7 +71,7 @@ public class Marque extends NoeudAbstrait {
 	}
 	
 	@Override
-	public String toString(String s) {	
-		return s + "\n";
+	public String toString(String s) {
+		return s + "\n" + ((this.frere == null) ? "" : this.frere.toString(s));
 	}
 }
