@@ -1,4 +1,4 @@
-package Arbre;
+package Arbre.v1;
 
 public class Noeud extends NoeudAbstrait {
 

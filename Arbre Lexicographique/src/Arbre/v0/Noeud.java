@@ -1,4 +1,4 @@
-package Arbre;
+package Arbre.v0;
 
 public class Noeud extends NoeudAbstrait {
 
@@ -78,10 +78,10 @@ public class Noeud extends NoeudAbstrait {
 	@Override
 	public NoeudAbstrait suppr(String s) {
 		if (s.isEmpty())
-			throw new ModificationImpossibleException("Suppression impossible");
+			return this;
 		char c = s.charAt(0);
 		if (c < valeur)
-			throw new ModificationImpossibleException("Suppression impossible");
+			return this;
 		if (c == valeur) {
 			fils = fils.suppr(s.substring(1));
 			if (fils == null)
@@ -89,7 +89,7 @@ public class Noeud extends NoeudAbstrait {
 			return this;
 		}
 		if (frere == null) 
-			throw new ModificationImpossibleException("Suppression impossible");
+			return this;
 		frere = frere.suppr(s);
 		return this;
 	}

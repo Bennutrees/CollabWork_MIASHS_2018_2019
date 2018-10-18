@@ -1,4 +1,4 @@
-package Arbre;
+package Arbre.Perso;
 
 public class Main {
 

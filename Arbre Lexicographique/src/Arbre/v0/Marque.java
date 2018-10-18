@@ -1,4 +1,4 @@
-package Arbre;
+package Arbre.v0;
 
 public class Marque extends NoeudAbstrait {
 
@@ -29,7 +29,7 @@ public class Marque extends NoeudAbstrait {
 	@Override
 	public NoeudAbstrait ajout(String s) {
 		if (s.isEmpty())
-			throw new ModificationImpossibleException("Ajout impossible");
+			return this;
 		if (frere == null) {
 			NoeudAbstrait n = new Marque(null);
 			for (int i = s.length() - 1; i >= 0; i --)
@@ -46,7 +46,7 @@ public class Marque extends NoeudAbstrait {
 		if (s.isEmpty())
 			return frere;
 		if (frere == null)
-			throw new ModificationImpossibleException("Suppression impossible");
+			return this; 
 		frere = frere.suppr(s);
 		return this;
 	}
