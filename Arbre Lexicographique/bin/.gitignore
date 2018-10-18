@@ -1,1 +1,4 @@
 /Arbre/
+
+# Ignore `bin` dir
+bin/
