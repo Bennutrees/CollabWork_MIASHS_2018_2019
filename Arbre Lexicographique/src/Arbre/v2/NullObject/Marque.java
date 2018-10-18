@@ -1,4 +1,4 @@
-package Arbre;
+package Arbre.v2.NullObject;
 
 public class Marque extends NoeudAbstrait {
 

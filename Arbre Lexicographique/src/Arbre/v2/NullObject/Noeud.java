@@ -1,4 +1,4 @@
-package Arbre;
+package Arbre.v2.NullObject;
 
 public class Noeud extends NoeudAbstrait {
 
@@ -50,9 +50,9 @@ public class Noeud extends NoeudAbstrait {
 		}
 		char c = s.charAt(0);
 		if (c < valeur) {
-			NoeudAbstrait n = new Marque(NoeudVide.getInstance());
+			NoeudAbstrait n = new Marque(new NoeudVide());
 			for (int i = s.length() - 1; i >= 0; i --)
-				n = new Noeud(NoeudVide.getInstance(), n, s.charAt(i));
+				n = new Noeud(new NoeudVide(), n, s.charAt(i));
 			n.frere = this;
 			return n;
 		}

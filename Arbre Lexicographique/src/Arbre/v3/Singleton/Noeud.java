@@ -1,4 +1,4 @@
-package Arbre;
+package Arbre.v3.Singleton;
 
 public class Noeud extends NoeudAbstrait {
 

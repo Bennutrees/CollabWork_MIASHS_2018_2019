@@ -1,10 +1,10 @@
-package Arbre;
+package Arbre.v2.NullObject;
 
 public class ArbreLexicographique {
 	private NoeudAbstrait entree;
 
 	public ArbreLexicographique() {
-		entree = NoeudVide.getInstance();
+		entree = new NoeudVide();
 	}
 
 	public boolean estVide() {

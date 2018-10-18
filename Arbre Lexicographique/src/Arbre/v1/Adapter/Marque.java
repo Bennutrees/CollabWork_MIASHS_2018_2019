@@ -1,4 +1,4 @@
-package Arbre.v1;
+package Arbre.v1.Adapter;
 
 public class Marque extends NoeudAbstrait {
 

@@ -1,4 +1,4 @@
-package Arbre.v1;
+package Arbre.v1.Adapter;
 
 public abstract class NoeudAbstrait {
 
