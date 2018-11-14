@@ -8,8 +8,9 @@ public class BaghPawn extends AbstractPawn {
 	}
 
 	@Override
-	public int compareTo(AbstractPawn o) {
+	public void move(Move move) {
 		// TODO Auto-generated method stub
-		return 0;
+		
 	}
+
 }

@@ -1,6 +1,6 @@
 package baghchal;
 
-public abstract class AbstractPawn implements Comparable<AbstractPawn>{
+public abstract class AbstractPawn {
 	
 	private Coordinates position;
 	
