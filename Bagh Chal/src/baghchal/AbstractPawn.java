@@ -16,6 +16,7 @@ public abstract class AbstractPawn implements Comparable<AbstractPawn>{
 		this.position = position;
 	}
 	
-	public abstract boolean verifDeplacement();
+	public abstract void move(Move move);
+	
 	
 }

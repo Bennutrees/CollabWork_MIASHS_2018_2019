@@ -11,14 +11,7 @@ public class ChalPawn extends AbstractPawn {
 	public int compareTo(AbstractPawn o) {
 		// TODO Auto-generated method stub
 		return 0;
-	}
-
-	@Override
-	public boolean verifDeplacement() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
+	}	
 	
 
 }

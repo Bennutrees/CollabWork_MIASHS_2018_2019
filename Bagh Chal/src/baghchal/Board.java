@@ -3,19 +3,24 @@ package baghchal;
 
 import java.util.Random;
 
-public class Plateau {
+public class Board {
 	
-	private static Plateau plateau = new Plateau();
-	private ChalPawn[] chevres;
-	private BaghPawn[] tigres;
-	private int nbChevresAPlacer;
-	private int nbChevresMangees;
+	private static Board plateau = new Board();
+	private ChalPawn[] chalsOnBoard;
+	private BaghPawn[] baghOnBoard;
+	private int nbChalsToPlace;
+	private int nbBaghsFree;
+	private int nbEatenChals;
 	
-	private Plateau() {
-		
+	private Board() {
+		chalsOnBoard = new ChalPawn[25];
+		baghOnBoard = new BaghPawn[25];
+		nbChalsToPlace = 20;
+		nbBaghsFree = 4;
+		nbEatenChals = 0;
 	}
 	
-	public static Plateau getPlateau() {
+	public static Board getPlateau() {
 		return plateau;
 	}
 	
@@ -27,7 +32,7 @@ public class Plateau {
 	public Coordinates[] tirsRecus;
 	private int nbTirsRecus;
 	
-	public Plateau(int taille, int[] taillesNavires) {
+	public Board(int taille, int[] taillesNavires) {
 		this.taille = taille;
 		this.nbNavires = 0;
 		navires = new Navire[taillesNavires.length];
@@ -40,7 +45,7 @@ public class Plateau {
 		}*/
 	}
 	
-	public Plateau(int taille, int nbNavires) {
+	public Board(int taille, int nbNavires) {
 		this.taille = taille;
 		this.nbNavires = 0;
 		navires = new Navire[nbNavires];

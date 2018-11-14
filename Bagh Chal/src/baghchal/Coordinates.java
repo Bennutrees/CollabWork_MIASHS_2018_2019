@@ -5,7 +5,6 @@ public class Coordinates implements Comparable<Coordinates> {
 	private int colonne;
 
 	public Coordinates(int ligne, int colonne) {
-
 		this.ligne = ligne;
 		this.colonne = colonne;
 		if (colonne < 0 || colonne > 4 || ligne > 4 || ligne < 0) {
@@ -21,21 +20,16 @@ public class Coordinates implements Comparable<Coordinates> {
 		return colonne;
 	}	
 	
-	public boolean equals(Object obj) {
-		if (obj instanceof Coordinates) {
-			Coordinates obj1 = (Coordinates) obj;
-			return (obj1.colonne == this.colonne && obj1.ligne == this.ligne);
-		}
-		return false;
+	public boolean equals(Coordinates position) {
+		return position.getColonne() == this.getColonne() && position.getLigne() == this.getLigne();
 	}
-	
 
-	public int compareTo(Coordinates c) {
+	public int compareTo(Coordinates position) {
 		int res ;
-		if ((res = this.ligne - c.ligne) !=0 )
+		if ((res = this.getLigne() - position.getLigne()) != 0 )
 			return (res);
 		else
-			return (this.colonne - c.colonne);
+			return (this.getColonne() - position.getColonne());
 	}
 	
 
@@ -43,8 +37,8 @@ public class Coordinates implements Comparable<Coordinates> {
 
 		String coord = "";
 
-		coord += this.colonne + ",";
-		coord += this.ligne;
+		coord += this.getColonne() + ",";
+		coord += this.getLigne();
 
 		return coord;
 	}

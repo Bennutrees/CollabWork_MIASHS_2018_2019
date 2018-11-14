@@ -12,6 +12,7 @@ public abstract class AbstractSquare {
 		return position;
 	}
 	
-	public abstract boolean isNeighbour(AbstractSquare caseVoisine);
+	public abstract boolean isNeighbour(AbstractSquare neighbourSquare);
+	public abstract boolean isBorder(AbstractSquare borderSquare);
 	
 }

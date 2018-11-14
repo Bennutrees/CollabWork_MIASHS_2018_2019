@@ -12,11 +12,4 @@ public class BaghPawn extends AbstractPawn {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-	@Override
-	public boolean verifDeplacement() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 }
