@@ -12,11 +12,8 @@ public abstract class AbstractPawn {
 		return position;
 	}
 
-	public void setPosition(Coordinates position) {
-		this.position = position;
+	public void setPosition(int x, int y) {
+		this.position.setPosition(x,y);
 	}
-	
-	public abstract void move(Move move);
-	
 	
 }

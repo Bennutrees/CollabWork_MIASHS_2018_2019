@@ -6,11 +6,5 @@ public class BaghPawn extends AbstractPawn {
 		super(x, y);
 		// TODO Auto-generated constructor stub
 	}
-
-	@Override
-	public void move(Move move) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 }

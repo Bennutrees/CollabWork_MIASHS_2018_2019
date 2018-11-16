@@ -11,6 +11,8 @@ public class Coordinates implements Comparable<Coordinates> {
 			throw new IllegalArgumentException("Coordonnées en dehors du Plateau");
 		}
 	}
+	
+	
 
 	public int getLigne() {
 		return ligne;
@@ -18,7 +20,14 @@ public class Coordinates implements Comparable<Coordinates> {
 
 	public int getColonne() {
 		return colonne;
-	}	
+	}
+	
+	public void setPosition(int x, int y) {
+		this.ligne = x;
+		this.colonne = y;
+	}
+	
+	
 	
 	public boolean equals(Coordinates position) {
 		return position.getColonne() == this.getColonne() && position.getLigne() == this.getLigne();

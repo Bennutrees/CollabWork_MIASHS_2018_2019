@@ -7,10 +7,4 @@ public class ChalPawn extends AbstractPawn {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public void move(Move move) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }
