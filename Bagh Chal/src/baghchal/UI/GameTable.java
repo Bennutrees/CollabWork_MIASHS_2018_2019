@@ -2,7 +2,11 @@ package baghchal.UI;
 
 import java.awt.Panel;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Line;
 
 public class GameTable extends AnchorPane{
@@ -13,6 +17,32 @@ public class GameTable extends AnchorPane{
 	public GameTable() {
 		dessinTable();
 
+		GridPane gp = new GridPane();
+		gp.setPrefSize(500,500);
+		gp.setMaxSize(500,500);
+		gp.setMinSize(500,500);
+		this.getChildren().add(gp);
+
+		for(int i = 0; i < NB_LIGNE; i++) {
+			for(int j = 0; j < NB_COL; j++) {
+				String s = i + " : " + j;
+				Button button = new Button(s);
+				button.setPrefSize(100,100);
+				button.setMaxSize(100,100);
+				button.setMinSize(100,100);
+				GridPane.setRowIndex(button, i);
+				GridPane.setColumnIndex(button,j);
+				button.setStyle("-fx-background-color: transparent;");
+
+				button.setOnAction(new EventHandler<ActionEvent>() {
+				    @Override public void handle(ActionEvent e) {
+				        System.out.println(s);
+				    }
+				});
+
+				gp.getChildren().add(button);
+			}
+		}
 
 	}
 
