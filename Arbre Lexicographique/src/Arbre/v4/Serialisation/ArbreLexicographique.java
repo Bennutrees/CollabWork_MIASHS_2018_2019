@@ -1,6 +1,8 @@
-package Arbre.v3.Singleton;
+package Arbre.v4.Serialisation;
+
 
 public class ArbreLexicographique {
+	
 	private NoeudAbstrait entree;
 
 	public ArbreLexicographique() {
@@ -44,10 +46,5 @@ public class ArbreLexicographique {
 	public String toString() {
 		return entree.toString("");
 	}
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
+	
 }

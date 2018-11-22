@@ -1,9 +1,15 @@
-package Arbre.v2_1.AspectJ;
+package Arbre.v3_0.Singleton;
 
 public class NoeudVide extends NoeudAbstrait {
 
-	public NoeudVide() {
+	private static NoeudVide unique = new NoeudVide();
+	
+	private NoeudVide() {
 		super(null);
+	}
+	
+	public static NoeudVide getInstance() {
+		return unique;
 	}
 
 	@Override
@@ -23,9 +29,9 @@ public class NoeudVide extends NoeudAbstrait {
 
 	@Override
 	public NoeudAbstrait ajout(String s) {
-		NoeudAbstrait n = new Marque(new NoeudVide());
+		NoeudAbstrait n = new Marque(this);
 		for (int i = s.length() - 1; i >= 0; i --)
-			n = new Noeud(new NoeudVide(), n, s.charAt(i));
+			n = new Noeud(this, n, s.charAt(i));
 		return n;
 	}
 

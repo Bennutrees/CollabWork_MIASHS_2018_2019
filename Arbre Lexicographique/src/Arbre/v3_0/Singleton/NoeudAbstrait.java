@@ -1,4 +1,4 @@
-package Arbre.v2_1.AspectJ;
+package Arbre.v3_0.Singleton;
 
 public abstract class NoeudAbstrait {
 

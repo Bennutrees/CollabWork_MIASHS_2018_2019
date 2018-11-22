@@ -1,10 +1,10 @@
-package Arbre.v2_1.AspectJ;
+package Arbre.v3_0.Singleton;
 
 public class ArbreLexicographique {
 	private NoeudAbstrait entree;
 
 	public ArbreLexicographique() {
-		entree = new NoeudVide();
+		entree = NoeudVide.getInstance();
 	}
 
 	public boolean estVide() {
