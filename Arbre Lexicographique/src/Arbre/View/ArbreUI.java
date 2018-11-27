@@ -87,7 +87,7 @@ public class ArbreUI {
 		
 		searchBar = new JTextField();
 		btnPanel.add(searchBar);
-		searchBar.setColumns(10);
+		searchBar.setColumns(6);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		mainPanel.add(tabbedPane, BorderLayout.CENTER);
