@@ -26,6 +26,8 @@ public class Test {
 		System.out.println("----------");
 		System.out.println(arbre.toString());
 		System.out.println("----------");
+		
+		arbre.sauve();
 	}
 
 }
