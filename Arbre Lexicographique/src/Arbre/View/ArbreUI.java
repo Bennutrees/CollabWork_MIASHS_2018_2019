@@ -18,6 +18,7 @@ public class ArbreUI {
 
 	private JFrame frame;
 	private JTextField searchBar;
+	private JTextField logs;
 
 	/**
 	 * Launch the application.
@@ -64,9 +65,6 @@ public class ArbreUI {
 		frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
 		mainPanel.setLayout(new BorderLayout(0, 0));
 		
-		JTextPane logs = new JTextPane();
-		mainPanel.add(logs, BorderLayout.SOUTH);
-		
 		JPanel btnPanel = new JPanel();
 		mainPanel.add(btnPanel, BorderLayout.NORTH);
 		
@@ -97,6 +95,12 @@ public class ArbreUI {
 		
 		JTextArea liste = new JTextArea();
 		tabbedPane.addTab("Liste", null, liste, null);
+		
+		logs = new JTextField();
+		logs.setText("hello");
+		logs.setEditable(false);
+		frame.getContentPane().add(logs, BorderLayout.SOUTH);
+		logs.setColumns(10);
 	}
 
 }
