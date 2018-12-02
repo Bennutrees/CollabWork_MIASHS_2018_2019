@@ -4,6 +4,7 @@ import java.awt.Panel;
 
 import baghchal.BaghPawn;
 import baghchal.Board;
+import baghchal.ChalPawn;
 import baghchal.Coordinates;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -28,8 +29,7 @@ public class GameTable extends AnchorPane{
 	private MyPane buttonTable[][];
 	private ImageView tigres[];
 
-
-	private Board gameBoard;//TODO : A retirer
+	private Board gameBoard;
 
 	private MyPane selectedPane = null;
 
@@ -43,10 +43,22 @@ public class GameTable extends AnchorPane{
 
 		for(int i=0; i<4; i++) {
 			BaghPawn bp = gameBoard.getBaghOnBoard()[i];
-			this.tigres[i] = this.drawer.drawTigres(bp.getPosition().getLigne(), bp.getPosition().getColonne());
+			this.tigres[i] = this.drawer.drawTigre(bp.getPosition().getLigne(), bp.getPosition().getColonne());
+			this.gameBoard.getSquaresOnBoard()[bp.getPosition().getLigne()][bp.getPosition().getColonne()].setPawn(bp);
 		}
 	}
 
+	public StackPane[][] getButtonTable() {
+		return buttonTable;
+	}
+
+	public void drawBagh(int i, int j){
+		this.drawer.drawTigre(i,j);
+	}
+
+	public void drawChal(int i, int j){
+		this.drawer.drawChevre(i,j);
+	}
 
 	private void tableButtons() {
 
@@ -76,7 +88,7 @@ public class GameTable extends AnchorPane{
 
 				button.setOnMouseEntered(new EventHandler<MouseEvent>() {
 				    @Override public void handle(MouseEvent e) {
-				        button.setStyle("-fx-border-color: blue;");
+				        button.setStyle("-fx-border-color: red;");
 				    }
 				});
 				button.setOnMouseExited(new EventHandler<MouseEvent>() {
@@ -85,18 +97,23 @@ public class GameTable extends AnchorPane{
 				    }
 				});
 
-
 				this.buttonTable[i][j] = button;
 				this.gp.getChildren().add(button);
 			}
 		}
 	}
 
-	public StackPane[][] getButtonTable() {
-		return buttonTable;
+	private void defaultMouseEvent(MyPane p) {
+		p.setOnMouseEntered(new EventHandler<MouseEvent>() {
+		    @Override public void handle(MouseEvent e) {
+		        p.setStyle("-fx-border-color: red;");
+		    }
+		});
+		p.setOnMousePressed(null);
+		p.setOnMouseReleased(null);
 	}
 
-	public void chalPlayerPlacement() {
+	public void chalPlayerPlacement(EventHandler<MouseEvent> event) {
 
 		for(int i=0; i<5; i++) {
 			for(int j=0; j<5; j++) {
@@ -108,20 +125,50 @@ public class GameTable extends AnchorPane{
 					        p.setStyle("-fx-border-color: green;");
 					    }
 					});
-					p.setOnMouseClicked(new EventHandler<MouseEvent>() {
+					p.setOnMousePressed(new EventHandler<MouseEvent>() {
 					    @Override public void handle(MouseEvent e) {
 					        selectedPane = (MyPane) e.getTarget();
 					        if(selectedPane.getSquare().isAvailable()) {
 					        	Coordinates posi = selectedPane.getSquare().getPosition();
+					        	ChalPawn cp = new ChalPawn(posi.getLigne(), posi.getColonne());
 					        	drawer.drawChevre(posi.getLigne(), posi.getColonne());
+					        	selectedPane.getSquare().setPawn(cp);
+					        	selectedPane = null;
 					        }
 					    }
 					});
+					p.setOnMouseReleased(event);
+				}
+				else {
+					this.defaultMouseEvent(p);
 				}
 			}
 		}
+	}
 
-
+	public void bachPlayerSelect(EventHandler<MouseEvent> event) {
+		for(int i=0; i<5; i++) {
+			for(int j=0; j<5; j++) {
+				MyPane p = this.buttonTable[i][j];
+				if(p.getSquare().getPawn() instanceof BaghPawn) {
+					p.setOnMouseEntered(new EventHandler<MouseEvent>() {
+					    @Override public void handle(MouseEvent e) {
+					        p.setStyle("-fx-border-color: green;");
+					    }
+					});
+					p.setOnMousePressed(new EventHandler<MouseEvent>() {
+					    @Override public void handle(MouseEvent e) {
+					        selectedPane = (MyPane) e.getTarget();
+					        //TODO: bouger les pions tigres
+					    }
+					});
+					p.setOnMouseReleased(event);
+				}
+				else {
+					this.defaultMouseEvent(p);
+				}
+			}
+		}
 	}
 
 

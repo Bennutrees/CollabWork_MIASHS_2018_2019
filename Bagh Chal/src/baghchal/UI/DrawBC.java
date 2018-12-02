@@ -33,7 +33,7 @@ public class DrawBC {
 		this.gt.getChildren().addAll(l1, l2, l3, l4, l5, l6);
 	}
 
-	public ImageView drawTigres(int i, int j) {
+	public ImageView drawTigre(int i, int j) {
 
 		ImageView image = new ImageView("tigre.png");
 		image.setFitWidth(50);

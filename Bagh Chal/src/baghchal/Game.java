@@ -1,6 +1,9 @@
 package baghchal;
 
 import baghchal.UI.GameTable;
+import baghchal.UI.MyPane;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 
 public class Game {
 	private Board board;
@@ -14,10 +17,19 @@ public class Game {
 	}
 
 	public void play(){
-		if(this.currentPlayer)
-			chalPlayerTurn();
+		if(this.haveWinner()) {
+			if(this.currentPlayer) {
+				chalPlayerTurn();
+				System.out.println("Chal Turn");
+			}
+			else {
+				baghPlayerTurn();
+				System.out.println("Bhag Turn");
+			}
+
+		}
 		else
-			baghPlayerTurn();
+			System.out.println("win");
 	}
 
 	private boolean haveWinner(){
@@ -27,14 +39,35 @@ public class Game {
 		return false;
 	}
 
+
 	private void chalPlayerTurn() {
 		if(this.board.getNbChalsToPlace() > 0) {
-			gt.chalPlayerPlacement();
+			this.gt.chalPlayerPlacement(e -> endChalPlayerTurn());
 		}
 	}
 
-	private void baghPlayerTurn(){
+	private void endChalPlayerTurn() {
+		if(this.board.getNbChalsToPlace() > 0) {
+			this.board.onMoreChalInGame();
+		}
+		this.changePlayer();
+	}
 
+
+	private void baghPlayerTurn(){
+		this.gt.bachPlayerSelect(e -> endBaghPlayerTurn());
+	}
+
+	private void endBaghPlayerTurn() {
+
+	}
+
+	private void changePlayer() {
+		if(this.currentPlayer)
+			this.currentPlayer = false;
+		else
+			this.currentPlayer = true;
+		this.play();
 	}
 
 }

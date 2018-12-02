@@ -7,6 +7,8 @@ public class Square {
 	private boolean isBorder;
 	private boolean isDiagonal;
 
+	private AbstractPawn pawn;
+
 	public Square(int x,int y) {
 		this.position = new Coordinates(x,y);
 		this.setAvailable(true);
@@ -47,9 +49,6 @@ public class Square {
 		else {
 			return diagonallyAligned;
 		}
-
-
-
 	}
 
 	public boolean isAvailable() {
@@ -62,6 +61,14 @@ public class Square {
 
 	public boolean isBorder() {
 		return isBorder;
+	}
+
+	public AbstractPawn getPawn() {
+		return pawn;
+	}
+
+	public void setPawn(AbstractPawn pawn) {
+		this.pawn = pawn;
 	}
 
 }
