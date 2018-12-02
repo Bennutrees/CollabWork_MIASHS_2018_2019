@@ -1,4 +1,4 @@
-package Arbre.v3.Singleton;
+package Arbre.v4.Serialisation;
 
 public class ModificationImpossibleException extends RuntimeException {
 

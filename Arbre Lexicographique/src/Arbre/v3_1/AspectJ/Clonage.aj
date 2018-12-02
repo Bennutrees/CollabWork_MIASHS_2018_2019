@@ -1,4 +1,4 @@
-package Arbre.v2_1.AspectJ;
+package Arbre.v3_1.AspectJ;
 
 public privileged aspect Clonage {
 	declare parents : NoeudAbstrait || ArbreLexicographique implements Cloneable;

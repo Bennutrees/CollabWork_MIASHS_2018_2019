@@ -1,6 +1,6 @@
-package Arbre.v2_1.AspectJ;
+package Arbre.v3_1.AspectJ;
 
-import Arbre.v2_1.AspectJ.NoeudVide;
+import Arbre.v3_1.AspectJ.NoeudVide;
 
 public aspect NoeudVideSingleton {
 	private NoeudVide unique = new NoeudVide();

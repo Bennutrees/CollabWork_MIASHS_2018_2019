@@ -1,4 +1,4 @@
-package Arbre.v2_1.AspectJ;
+package Arbre.v4.Serialisation;
 
 public class Marque extends NoeudAbstrait {
 
