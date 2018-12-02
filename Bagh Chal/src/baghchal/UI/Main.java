@@ -18,6 +18,8 @@ public class Main extends Application {
 			GameTable table = new GameTable();
 			root.getChildren().add(table);
 			primaryStage.setScene(scene);
+			primaryStage.setResizable(false);
+			primaryStage.setTitle("Bagh Chal");
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
