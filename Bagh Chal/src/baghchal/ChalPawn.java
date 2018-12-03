@@ -7,4 +7,7 @@ public class ChalPawn extends AbstractPawn {
 		// TODO Auto-generated constructor stub
 	}
 
+	public String toString(){
+		return "c";
+	}
 }

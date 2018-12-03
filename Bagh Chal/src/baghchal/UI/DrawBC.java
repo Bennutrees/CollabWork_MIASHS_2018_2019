@@ -55,4 +55,15 @@ public class DrawBC {
 		this.gt.getButtonTable()[i][j].getChildren().add(image);
 		return image;
 	}
+
+	public void removeDraw(int i, int j) {
+		System.out.println(i+" : "+j);
+		this.gt.getButtonTable()[i][j].getChildren().clear();
+	}
+
+	public void removeDraw(MyPane selectedPane) {
+		selectedPane.getChildren().clear();
+	}
 }
+
+

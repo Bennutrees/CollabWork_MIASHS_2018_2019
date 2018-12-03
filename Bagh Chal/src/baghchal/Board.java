@@ -1,10 +1,13 @@
 package baghchal;
 
+import java.util.ArrayList;
+
 public class Board {
 
 	private static Board plateau = new Board();
 	private Square[][] squaresOnBoard;
-	private ChalPawn[] chalsOnBoard;
+//	private ChalPawn[] chalsOnBoard;
+	private ArrayList<ChalPawn> chalsOnBoard;
 	private BaghPawn[] baghOnBoard;
 	private int nbChalsToPlace;
 	private int nbBaghsFree;
@@ -20,7 +23,8 @@ public class Board {
 				this.squaresOnBoard[i][j] = new Square(i,j);
 			}
 		}
-		this.chalsOnBoard = new ChalPawn[nbChalsToPlace]; //Faire une liste plutôt qu'un tableau
+//		this.chalsOnBoard = new ChalPawn[nbChalsToPlace]; //Faire une liste plutôt qu'un tableau
+		this.chalsOnBoard = new ArrayList<ChalPawn>();
 		this.baghOnBoard = new BaghPawn[nbBaghsFree];
 
 		this.baghsInitPosition();
@@ -43,7 +47,7 @@ public class Board {
 		return this.squaresOnBoard;
 	}
 
-	public ChalPawn[] getChalsOnBoard() {
+	public ArrayList<ChalPawn> getChalsOnBoard() {
 		return this.chalsOnBoard;
 	}
 
@@ -63,8 +67,17 @@ public class Board {
 		return nbBaghsFree;
 	}
 
-	public void onMoreChalInGame() {
+	public void addChal(Coordinates crd) {
+    	ChalPawn cp = new ChalPawn(crd.getLigne(), crd.getColonne());
+		this.chalsOnBoard.add(cp);
+		this.squaresOnBoard[crd.getLigne()][crd.getColonne()].setPawn(cp);
 		this.nbChalsToPlace--;
+	}
+
+	public void eatChal(Coordinates crd) {
+		this.chalsOnBoard.remove(this.squaresOnBoard[crd.getLigne()][crd.getColonne()].getPawn());
+		this.squaresOnBoard[crd.getLigne()][crd.getColonne()].setPawn(null);
+
 	}
 
 }

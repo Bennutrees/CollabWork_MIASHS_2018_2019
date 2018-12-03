@@ -17,6 +17,9 @@ public class Game {
 	}
 
 	public void play(){
+
+		this.affichage();
+
 		if(this.haveWinner()) {
 			if(this.currentPlayer) {
 				chalPlayerTurn();
@@ -39,6 +42,21 @@ public class Game {
 		return false;
 	}
 
+	private void affichage() {
+		System.out.println("_______________");
+		for(int i=0; i<5; i++) {
+			for(int j=0; j<5; j++) {
+				String p = " ";
+				if(this.board.getSquaresOnBoard()[i][j].isAvailable() == false){
+					p = this.board.getSquaresOnBoard()[i][j].getPawn().toString();
+				}
+				System.out.print("|"+p);
+			}
+			System.out.println("|");
+			System.out.println("_______________");
+		}
+	}
+
 
 	private void chalPlayerTurn() {
 		if(this.board.getNbChalsToPlace() > 0) {
@@ -47,9 +65,6 @@ public class Game {
 	}
 
 	private void endChalPlayerTurn() {
-		if(this.board.getNbChalsToPlace() > 0) {
-			this.board.onMoreChalInGame();
-		}
 		this.changePlayer();
 	}
 

@@ -17,5 +17,17 @@ public enum Direction {
             }
         }
         return null;
-}
+    }
+
+    public static Direction[] getPossibleDirection(int x, int y) {
+    	if((x + y) % 2 == 0) {
+    		return values();
+    	}
+    	Direction[] dir = new Direction[4];
+    	dir[0] = N;
+    	dir[1] = S;
+    	dir[2] = E;
+    	dir[3] = W;
+    	return dir;
+    }
 }
