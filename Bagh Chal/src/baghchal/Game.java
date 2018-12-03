@@ -1,9 +1,6 @@
 package baghchal;
 
 import baghchal.UI.GameTable;
-import baghchal.UI.MyPane;
-import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
 
 public class Game {
 	private Board board;
@@ -31,12 +28,16 @@ public class Game {
 			}
 
 		}
-		else
+		else{
 			System.out.println("win");
+			this.gt.endGame();
+		}
+
+
 	}
 
 	private boolean haveWinner(){
-		if(this.board.getNbBaghsFree() != 0 || this.board.getNbEatenChals() != 5){
+		if(this.board.getNbBaghsFree() != 0 && this.board.getNbEatenChals() != 5){
 			return true;
 		}
 		return false;
@@ -59,26 +60,22 @@ public class Game {
 
 
 	private void chalPlayerTurn() {
-		if(this.board.getNbChalsToPlace() > 0) {
-			this.gt.chalPlayerPlacement(e -> endChalPlayerTurn());
-		}
+		if(this.board.getNbChalsToPlace() > 0)
+			this.gt.chalPlayerPlacement(e -> changePlayer());
+		else
+			this.gt.chalPlayerTurnSelect(e -> chalPlayerTurnMove());
 	}
 
-	private void endChalPlayerTurn() {
-		this.changePlayer();
+	private void chalPlayerTurnMove() {
+		this.gt.chalPlayerMove(e -> changePlayer());
 	}
-
 
 	private void baghPlayerTurn() {
 		this.gt.baghPlayerSelect(e -> baghPlayerTurnMove());
 	}
 
 	private void baghPlayerTurnMove() {
-		this.gt.baghPlayerMove(e -> endBaghPlayerTurn());
-	}
-
-	private void endBaghPlayerTurn() {
-		this.changePlayer();
+		this.gt.baghPlayerMove(e -> changePlayer(), e ->baghPlayerTurnMove());
 	}
 
 	private void changePlayer() {

@@ -56,6 +56,7 @@ public class Move {
 		AbstractPawn pawn= square[src.getLigne()][src.getColonne()].getPawn();
 		square[src.getLigne()][src.getColonne()].setPawn(null);
 		square[dest.getLigne()][dest.getColonne()].setPawn(pawn);
+		pawn.setPosition(dest.getLigne(),dest.getColonne());
 	}
 
 }

@@ -57,7 +57,6 @@ public class DrawBC {
 	}
 
 	public void removeDraw(int i, int j) {
-		System.out.println(i+" : "+j);
 		this.gt.getButtonTable()[i][j].getChildren().clear();
 	}
 

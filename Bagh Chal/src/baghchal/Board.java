@@ -6,7 +6,6 @@ public class Board {
 
 	private static Board plateau = new Board();
 	private Square[][] squaresOnBoard;
-//	private ChalPawn[] chalsOnBoard;
 	private ArrayList<ChalPawn> chalsOnBoard;
 	private BaghPawn[] baghOnBoard;
 	private int nbChalsToPlace;
@@ -23,7 +22,6 @@ public class Board {
 				this.squaresOnBoard[i][j] = new Square(i,j);
 			}
 		}
-//		this.chalsOnBoard = new ChalPawn[nbChalsToPlace]; //Faire une liste plutôt qu'un tableau
 		this.chalsOnBoard = new ArrayList<ChalPawn>();
 		this.baghOnBoard = new BaghPawn[nbBaghsFree];
 
@@ -77,7 +75,8 @@ public class Board {
 	public void eatChal(Coordinates crd) {
 		this.chalsOnBoard.remove(this.squaresOnBoard[crd.getLigne()][crd.getColonne()].getPawn());
 		this.squaresOnBoard[crd.getLigne()][crd.getColonne()].setPawn(null);
-
+		this.nbEatenChals++;
+		System.out.println(this.nbEatenChals);
 	}
 
 }

@@ -20,11 +20,13 @@ public class BaghPawn extends AbstractPawn {
 			if(Move.canMoveInDirection(this.position,dir)
 					&& Board.getBoard().getSquaresOnBoard()[dx][dy].isAvailable() == false
 					&& Board.getBoard().getSquaresOnBoard()[dx][dy].getPawn() instanceof ChalPawn
+					&& dx+dir.dx >= 0 && dx+dir.dx < 5 && dy+dir.dy >= 0 && dy+dir.dy < 5
 					&& Board.getBoard().getSquaresOnBoard()[dx+dir.dx][dy+dir.dy].isAvailable()) {
 				possibleMoves.add(new Coordinates(dx+dir.dx,dy+dir.dy));
 			}
 
 		}
+		System.out.println(possibleMoves);
 		return possibleMoves;
 	}
 
