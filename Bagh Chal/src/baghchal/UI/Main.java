@@ -15,7 +15,6 @@ public class Main extends Application {
 			Board gameBoard = Board.getBoard();
 
 
-
 			BorderPane root = new BorderPane();
 			Scene scene = new Scene(root,500,500);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());

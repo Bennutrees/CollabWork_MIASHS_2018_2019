@@ -44,7 +44,6 @@ public class GameTable extends AnchorPane{
 		for(int i=0; i<4; i++) {
 			BaghPawn bp = gameBoard.getBaghOnBoard()[i];
 			this.tigres[i] = this.drawer.drawTigre(bp.getPosition().getLigne(), bp.getPosition().getColonne());
-			this.gameBoard.getSquaresOnBoard()[bp.getPosition().getLigne()][bp.getPosition().getColonne()].setPawn(bp);
 		}
 	}
 
@@ -70,21 +69,13 @@ public class GameTable extends AnchorPane{
 
 		for(int i = 0; i < NB_LIGNE; i++) {
 			for(int j = 0; j < NB_COL; j++) {
-				String s = i + " : " + j;
 				MyPane button = new MyPane(this.gameBoard.getSquaresOnBoard()[i][j]);
-
 				button.setPrefSize(100,100);
 				button.setMaxSize(100,100);
 				button.setMinSize(100,100);
 				GridPane.setRowIndex(button, i);
 				GridPane.setColumnIndex(button,j);
 				button.setStyle("-fx-background-color: transparent;");
-
-				button.setOnMouseClicked(new EventHandler<MouseEvent>() {
-				    @Override public void handle(MouseEvent e) {
-				        System.out.println(e.getTarget());
-				    }
-				});
 
 				button.setOnMouseEntered(new EventHandler<MouseEvent>() {
 				    @Override public void handle(MouseEvent e) {
@@ -146,7 +137,7 @@ public class GameTable extends AnchorPane{
 		}
 	}
 
-	public void bachPlayerSelect(EventHandler<MouseEvent> event) {
+	public void baghPlayerSelect(EventHandler<MouseEvent> event) {
 		for(int i=0; i<5; i++) {
 			for(int j=0; j<5; j++) {
 				MyPane p = this.buttonTable[i][j];
@@ -159,7 +150,7 @@ public class GameTable extends AnchorPane{
 					p.setOnMousePressed(new EventHandler<MouseEvent>() {
 					    @Override public void handle(MouseEvent e) {
 					        selectedPane = (MyPane) e.getTarget();
-					        //TODO: bouger les pions tigres
+					        //TODO: Animation de la selection
 					    }
 					});
 					p.setOnMouseReleased(event);
@@ -167,6 +158,41 @@ public class GameTable extends AnchorPane{
 				else {
 					this.defaultMouseEvent(p);
 				}
+			}
+		}
+	}
+
+	public void baghPlayerMove(EventHandler<MouseEvent> event) {
+		for(int i=0; i<5; i++) {
+			for(int j=0; j<5; j++) {
+				MyPane p = this.buttonTable[i][j];
+
+				if(p.getSquare().isAvailable() && p.getSquare().isNeighbour(selectedPane.getSquare())) {
+					p.setOnMouseEntered(new EventHandler<MouseEvent>() {
+					    @Override public void handle(MouseEvent e) {
+					        p.setStyle("-fx-border-color: green;");
+					    }
+					});
+				}
+				else {
+					this.defaultMouseEvent(p);
+				}
+
+//				if(p.getSquare().getPawn() instanceof BaghPawn) {
+//					p.setOnMouseEntered(new EventHandler<MouseEvent>() {
+//					    @Override public void handle(MouseEvent e) {
+//					        p.setStyle("-fx-border-color: orange;");
+//					    }
+//					});
+//					p.setOnMousePressed(new EventHandler<MouseEvent>() {
+//					    @Override public void handle(MouseEvent e) {
+//					        selectedPane = (MyPane) e.getTarget();
+//					        //TODO: bouger les pions tigres
+//					    }
+//					});
+//					p.setOnMouseReleased(event);
+//				}
+
 			}
 		}
 	}

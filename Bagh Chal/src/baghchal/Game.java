@@ -54,12 +54,16 @@ public class Game {
 	}
 
 
-	private void baghPlayerTurn(){
-		this.gt.bachPlayerSelect(e -> endBaghPlayerTurn());
+	private void baghPlayerTurn() {
+		this.gt.baghPlayerSelect(e -> baghPlayerTurnMove());
+	}
+
+	private void baghPlayerTurnMove() {
+		this.gt.baghPlayerMove(e -> endBaghPlayerTurn());
 	}
 
 	private void endBaghPlayerTurn() {
-
+		this.changePlayer();
 	}
 
 	private void changePlayer() {

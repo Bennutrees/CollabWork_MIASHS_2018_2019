@@ -11,7 +11,7 @@ public class Square {
 
 	public Square(int x,int y) {
 		this.position = new Coordinates(x,y);
-		this.setAvailable(true);
+		this.isAvailable = true;
 		this.isBorder = this.calculBorder();
 		this.isDiagonal = this.isDiagonal();
 	}
@@ -55,9 +55,9 @@ public class Square {
 		return isAvailable;
 	}
 
-	public void setAvailable(boolean isAvailable) {
-		this.isAvailable = isAvailable;
-	}
+//	public void setAvailable(boolean isAvailable) {
+//		this.isAvailable = isAvailable;
+//	}
 
 	public boolean isBorder() {
 		return isBorder;
@@ -68,7 +68,14 @@ public class Square {
 	}
 
 	public void setPawn(AbstractPawn pawn) {
-		this.pawn = pawn;
+		if(pawn == null){
+			this.isAvailable = true;
+			this.pawn = null;
+		}
+		else {
+			this.isAvailable = false;
+			this.pawn = pawn;
+		}
 	}
 
 }

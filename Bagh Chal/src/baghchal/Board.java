@@ -31,7 +31,7 @@ public class Board {
 		for(int i=0; i<4; i++) {
 			BaghPawn bp = new BaghPawn(position[i][0], position[i][1]);
 			this.baghOnBoard[i] = bp;
-			this.squaresOnBoard[position[i][0]][position[i][1]].setAvailable(false);
+			this.squaresOnBoard[position[i][0]][position[i][1]].setPawn(bp);
 		}
 	}
 
