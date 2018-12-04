@@ -6,8 +6,6 @@ public class Square {
 	private boolean isAvailable;
 	private boolean isBorder;
 	private boolean isDiagonal;
-
-	private AbstractPawn pawn;
 	
 	//Constructor
 	public Square(int x,int y) {
@@ -68,22 +66,6 @@ public class Square {
 		}
 		else {
 			return diagonallyAligned;
-		}
-	}
-
-	
-	public AbstractPawn getPawn() {
-		return pawn;
-	}
-
-	public void setPawn(AbstractPawn pawn) {
-		if(pawn == null){
-			this.isAvailable = true;
-			this.pawn = null;
-		}
-		else {
-			this.isAvailable = false;
-			this.pawn = pawn;
 		}
 	}
 

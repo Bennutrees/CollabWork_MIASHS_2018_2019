@@ -243,7 +243,7 @@ public class GameTable extends AnchorPane{
 
 		BaghPawn bp = (BaghPawn) this.selectedPane.getSquare().getPawn();
 
-		for(Coordinates c : bp.allPosibleMoves()) {
+		for(Coordinates c : bp.allPossibleMoves()) {
 			MyPane p = this.buttonTable[c.getRow()][c.getColumn()];
 			p.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			    @Override public void handle(MouseEvent e) {
@@ -255,7 +255,7 @@ public class GameTable extends AnchorPane{
 			        MyPane targetPane = (MyPane) e.getTarget();
 			        Move mv = new Move(selectedPane.getSquare().getPosition(), targetPane.getSquare().getPosition());
 			        if(mv.isEatingMove()) {
-			        	Coordinates eatenChal = mv.getBoardCoordsOfGoatBeingEaten();
+			        	Coordinates eatenChal = mv.getEatenChalPosition();
 			        	gameBoard.eatChal(eatenChal);
 			        	drawer.removeDraw(eatenChal.getRow(), eatenChal.getColumn());
 			        }

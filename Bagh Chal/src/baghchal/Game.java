@@ -5,13 +5,13 @@ import baghchal.UI.GameTable;
 public class Game {
 	
 	private Board board;
-	private GameTable gt;
+	private GameTable gameTable;
 	private boolean currentPlayer; //True = Chals Player & False = Bash Player
 	
 	//Constructor
 	public Game(Board board, GameTable gameTable) {
 		this.board = board;
-		this.gt = gameTable;
+		this.gameTable = gameTable;
 		this.currentPlayer = true;
 	}
 
@@ -34,14 +34,14 @@ public class Game {
 		}
 		else{
 			System.out.println("win");
-			this.gt.endGame();
+			this.gameTable.endGame();
 		}
 
 
 	}
 
 	private boolean haveWinner(){
-		if(this.board.getNbBaghsFree() != 0 && this.board.getNbEatenChals() != 5){
+		if(this.board.getNbFreeBaghs() != 0 && this.board.getNbEatenChals() != 5){
 			return true;
 		}
 		return false;
@@ -65,21 +65,21 @@ public class Game {
 
 	private void chalPlayerTurn() {
 		if(this.board.getNbChalsToPlace() > 0)
-			this.gt.chalPlayerPlacement(e -> changePlayer());
+			this.gameTable.chalPlayerPlacement(e -> changePlayer());
 		else
-			this.gt.chalPlayerTurnSelect(e -> chalPlayerTurnMove());
+			this.gameTable.chalPlayerTurnSelect(e -> chalPlayerTurnMove());
 	}
 
 	private void chalPlayerTurnMove() {
-		this.gt.chalPlayerMove(e -> changePlayer());
+		this.gameTable.chalPlayerMove(e -> changePlayer());
 	}
 
 	private void baghPlayerTurn() {
-		this.gt.baghPlayerSelect(e -> baghPlayerTurnMove());
+		this.gameTable.baghPlayerSelect(e -> baghPlayerTurnMove());
 	}
 
 	private void baghPlayerTurnMove() {
-		this.gt.baghPlayerMove(e -> changePlayer(), e ->baghPlayerTurnMove());
+		this.gameTable.baghPlayerMove(e -> changePlayer(), e -> baghPlayerTurnMove());
 	}
 
 	private void changePlayer() {

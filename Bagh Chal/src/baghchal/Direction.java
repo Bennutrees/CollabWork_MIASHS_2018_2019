@@ -19,8 +19,8 @@ public enum Direction {
         return null;
     }
 
-    public static Direction[] getPossibleDirection(int x, int y) {
-    	if((x + y) % 2 == 0) {
+    public static Direction[] getPossibleDirection(Square square) {
+    	if(square.getIsDiagonal()) {
     		return values();
     	}
     	Direction[] dir = new Direction[4];
