@@ -79,4 +79,14 @@ public class Board {
 		System.out.println(this.nbEatenChals);
 	}
 
+	public int freeBagh() {
+		int freeBagh = 4;
+		for(int i=0; i<4; i++) {
+			ArrayList<Coordinates> list = this.baghOnBoard[i].allPosibleMoves();
+			if(list.isEmpty())
+				freeBagh--;
+		}
+		return freeBagh;
+	}
+
 }
