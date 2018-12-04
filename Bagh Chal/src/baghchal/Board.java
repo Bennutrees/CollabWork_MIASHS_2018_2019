@@ -7,36 +7,45 @@ public class Board {
 	private static Board plateau = new Board();
 	private Square[][] squaresOnBoard;
 	private ArrayList<ChalPawn> chalsOnBoard;
-	private BaghPawn[] baghOnBoard;
+	private BaghPawn[] baghsOnBoard;
 	private int nbChalsToPlace;
-	private int nbBaghsFree;
+	private int nbFreeBaghs;
 	private int nbEatenChals;
-
+	
+	//Constructor
 	private Board() {
 		this.nbChalsToPlace = 20;
-		this.nbBaghsFree = 4;
+		this.nbFreeBaghs = 4;
 		this.nbEatenChals = 0;
-		this.squaresOnBoard = new Square[5][5];
-		for(int i=0; i<5; i++) {
-			for(int j=0; j<5; j++) {
+		
+		this.squaresOnBoard = this.createSquaresMap(5);
+		this.chalsOnBoard = new ArrayList<ChalPawn>();
+		this.baghsOnBoard = new BaghPawn[nbFreeBaghs];
+		this.initBaghs();
+	}
+	
+	private Square[][] createSquaresMap(int size) {
+		this.squaresOnBoard = new Square[size][size];
+		for(int i = 0; i < size; i++) {
+			for(int j = 0; j < size; j++) {
 				this.squaresOnBoard[i][j] = new Square(i,j);
 			}
 		}
-		this.chalsOnBoard = new ArrayList<ChalPawn>();
-		this.baghOnBoard = new BaghPawn[nbBaghsFree];
-
-		this.baghsInitPosition();
+		return squaresOnBoard;
 	}
 
-	private void baghsInitPosition(){
-		int position[][] = { {0,0}, {4,0}, {0,4}, {4,4} };
+	private void initBaghs() {
+		int baghCoordinates[][] = { {0,0}, {4,0}, {0,4}, {4,4} };
+		int row = 0, column = 1;
 		for(int i=0; i<4; i++) {
-			BaghPawn bp = new BaghPawn(position[i][0], position[i][1]);
-			this.baghOnBoard[i] = bp;
-			this.squaresOnBoard[position[i][0]][position[i][1]].setPawn(bp);
+			BaghPawn newBagh = new BaghPawn(baghCoordinates[i][row], baghCoordinates[i][column]);
+			this.baghsOnBoard[i] = newBagh;
+			this.squaresOnBoard[baghCoordinates[i][row]][baghCoordinates[i][column]].setPawn(newBagh);
 		}
 	}
 
+
+	//Methods
 	public static Board getBoard() {
 		return plateau;
 	}
@@ -50,7 +59,7 @@ public class Board {
 	}
 
 	public BaghPawn[] getBaghOnBoard() {
-		return this.baghOnBoard;
+		return this.baghsOnBoard;
 	}
 
 	public int getNbEatenChals() {
@@ -62,19 +71,19 @@ public class Board {
 	}
 
 	public int getNbBaghsFree() {
-		return nbBaghsFree;
+		return nbFreeBaghs;
 	}
 
 	public void addChal(Coordinates crd) {
-    	ChalPawn cp = new ChalPawn(crd.getLigne(), crd.getColonne());
+    	ChalPawn cp = new ChalPawn(crd.getRow(), crd.getColumn());
 		this.chalsOnBoard.add(cp);
-		this.squaresOnBoard[crd.getLigne()][crd.getColonne()].setPawn(cp);
+		this.squaresOnBoard[crd.getRow()][crd.getColumn()].setPawn(cp);
 		this.nbChalsToPlace--;
 	}
 
 	public void eatChal(Coordinates crd) {
-		this.chalsOnBoard.remove(this.squaresOnBoard[crd.getLigne()][crd.getColonne()].getPawn());
-		this.squaresOnBoard[crd.getLigne()][crd.getColonne()].setPawn(null);
+		this.chalsOnBoard.remove(this.squaresOnBoard[crd.getRow()][crd.getColumn()].getPawn());
+		this.squaresOnBoard[crd.getRow()][crd.getColumn()].setPawn(null);
 		this.nbEatenChals++;
 		System.out.println(this.nbEatenChals);
 	}

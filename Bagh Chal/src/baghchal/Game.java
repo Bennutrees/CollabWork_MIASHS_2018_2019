@@ -3,16 +3,20 @@ package baghchal;
 import baghchal.UI.GameTable;
 
 public class Game {
+	
 	private Board board;
 	private GameTable gt;
 	private boolean currentPlayer; //True = Chals Player & False = Bash Player
-
+	
+	//Constructor
 	public Game(Board board, GameTable gameTable) {
 		this.board = board;
 		this.gt = gameTable;
 		this.currentPlayer = true;
 	}
 
+	
+	//Methods
 	public void play(){
 
 		this.affichage();
@@ -48,7 +52,7 @@ public class Game {
 		for(int i=0; i<5; i++) {
 			for(int j=0; j<5; j++) {
 				String p = " ";
-				if(this.board.getSquaresOnBoard()[i][j].isAvailable() == false){
+				if(this.board.getSquaresOnBoard()[i][j].getIsAvailable() == false){
 					p = this.board.getSquaresOnBoard()[i][j].getPawn().toString();
 				}
 				System.out.print("|"+p);
