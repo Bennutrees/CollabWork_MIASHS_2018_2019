@@ -1,44 +1,45 @@
 package baghchal;
 
 public class Coordinates implements Comparable<Coordinates> {
-	private int ligne;
-	private int colonne;
+	
+	private int row;
+	private int column;
 
-	public Coordinates(int ligne, int colonne) {
-		this.ligne = ligne;
-		this.colonne = colonne;
-		if (colonne < 0 || colonne > 4 || ligne > 4 || ligne < 0) {
+	//Constructor
+	public Coordinates(int row, int column) {
+		this.row = row;
+		this.column = column;
+		if (column < 0 || column > 4 || row > 4 || row < 0) {
 			throw new IllegalArgumentException("Coordonnées en dehors du Plateau");
 		}
 	}
 
 
-
-	public int getLigne() {
-		return ligne;
+	//Methods
+	public int getRow() {
+		return row;
 	}
 
-	public int getColonne() {
-		return colonne;
+	public int getColumn() {
+		return column;
 	}
 
 	public void setPosition(int x, int y) {
-		this.ligne = x;
-		this.colonne = y;
+		this.row = x;
+		this.column = y;
 	}
-
 
 
 	public boolean equals(Coordinates position) {
-		return position.getColonne() == this.getColonne() && position.getLigne() == this.getLigne();
+		return position.getColumn() == this.getColumn() && position.getRow() == this.getRow();
 	}
 
 	public int compareTo(Coordinates position) {
-		int res ;
-		if ((res = this.getLigne() - position.getLigne()) != 0 )
-			return (res);
+		int result ;
+		if ((result = this.getRow() - position.getRow()) != 0 )
+			return (result);
 		else
-			return (this.getColonne() - position.getColonne());
+			return (this.getColumn() - position.getColumn());
 	}
 
 
@@ -46,8 +47,8 @@ public class Coordinates implements Comparable<Coordinates> {
 
 		String coord = "";
 
-		coord += this.getColonne() + ",";
-		coord += this.getLigne();
+		coord += this.getColumn() + ",";
+		coord += this.getRow();
 
 		return coord;
 	}

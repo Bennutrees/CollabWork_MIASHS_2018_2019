@@ -3,16 +3,20 @@ package baghchal;
 import baghchal.UI.GameTable;
 
 public class Game {
+	
 	private Board board;
-	private GameTable gt;
+	private GameTable gameTable;
 	private boolean currentPlayer; //True = Chals Player & False = Bash Player
-
+	
+	//Constructor
 	public Game(Board board, GameTable gameTable) {
 		this.board = board;
-		this.gt = gameTable;
+		this.gameTable = gameTable;
 		this.currentPlayer = true;
 	}
 
+	
+	//Methods
 	public void play(){
 
 		this.affichage();
@@ -30,14 +34,14 @@ public class Game {
 		}
 		else{
 			System.out.println("win");
-			this.gt.endGame();
+			this.gameTable.endGame();
 		}
 
 
 	}
 
 	private boolean haveWinner(){
-		if(this.board.getNbBaghsFree() != 0 && this.board.getNbEatenChals() != 5){
+		if(this.board.getNbFreeBaghs() != 0 && this.board.getNbEatenChals() != 5){
 			return true;
 		}
 		return false;
@@ -48,7 +52,7 @@ public class Game {
 		for(int i=0; i<5; i++) {
 			for(int j=0; j<5; j++) {
 				String p = " ";
-				if(this.board.getSquaresOnBoard()[i][j].isAvailable() == false){
+				if(this.board.getSquaresOnBoard()[i][j].getIsAvailable() == false){
 					p = this.board.getSquaresOnBoard()[i][j].getPawn().toString();
 				}
 				System.out.print("|"+p);
@@ -61,21 +65,21 @@ public class Game {
 
 	private void chalPlayerTurn() {
 		if(this.board.getNbChalsToPlace() > 0)
-			this.gt.chalPlayerPlacement(e -> changePlayer());
+			this.gameTable.chalPlayerPlacement(e -> changePlayer());
 		else
-			this.gt.chalPlayerTurnSelect(e -> chalPlayerTurnMove());
+			this.gameTable.chalPlayerTurnSelect(e -> chalPlayerTurnMove());
 	}
 
 	private void chalPlayerTurnMove() {
-		this.gt.chalPlayerMove(e -> changePlayer());
+		this.gameTable.chalPlayerMove(e -> changePlayer());
 	}
 
 	private void baghPlayerTurn() {
-		this.gt.baghPlayerSelect(e -> baghPlayerTurnMove());
+		this.gameTable.baghPlayerSelect(e -> baghPlayerTurnMove());
 	}
 
 	private void baghPlayerTurnMove() {
-		this.gt.baghPlayerMove(e -> changePlayer(), e ->baghPlayerTurnMove());
+		this.gameTable.baghPlayerMove(e -> changePlayer(), e -> baghPlayerTurnMove());
 	}
 
 	private void changePlayer() {

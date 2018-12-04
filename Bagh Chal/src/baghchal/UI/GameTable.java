@@ -35,7 +35,7 @@ public class GameTable extends AnchorPane{
 
 		for(int i=0; i<4; i++) {
 			BaghPawn bp = gameBoard.getBaghOnBoard()[i];
-			this.tigres[i] = this.drawer.drawTigre(bp.getPosition().getLigne(), bp.getPosition().getColonne());
+			this.tigres[i] = this.drawer.drawTigre(bp.getPosition().getRow(), bp.getPosition().getColumn());
 		}
 	}
 
@@ -143,7 +143,7 @@ public class GameTable extends AnchorPane{
 					        if(selectedPane.getSquare().isAvailable()) {
 					        	Coordinates posi = selectedPane.getSquare().getPosition();
 					        	gameBoard.addChal(posi);
-					        	drawer.drawChevre(posi.getLigne(), posi.getColonne());
+					        	drawer.drawChevre(posi.getRow(), posi.getColumn());
 					        	selectedPane = null;
 					        }
 					    }
@@ -186,7 +186,7 @@ public class GameTable extends AnchorPane{
 		ChalPawn cp = (ChalPawn) this.selectedPane.getSquare().getPawn();
 
 		for(Coordinates c : cp.possibleMoves()) {
-			MyPane p = this.buttonTable[c.getLigne()][c.getColonne()];
+			MyPane p = this.buttonTable[c.getRow()][c.getColumn()];
 			p.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			    @Override public void handle(MouseEvent e) {
 			        p.setStyle("-fx-border-color: green;");
@@ -200,7 +200,7 @@ public class GameTable extends AnchorPane{
 			        mv.doMove();
 			        drawer.removeDraw(selectedPane);
 			        Coordinates coord = targetPane.getSquare().getPosition();
-			        drawer.drawChevre(coord.getLigne(),coord.getColonne());
+			        drawer.drawChevre(coord.getRow(),coord.getColumn());
 			    }
 			});
 			p.setOnMouseReleased(event);
@@ -214,7 +214,7 @@ public class GameTable extends AnchorPane{
 
 	private void selectBaghPawn(EventHandler<MouseEvent> event) {
 		for(BaghPawn bp : this.gameBoard.getBaghOnBoard()) {
-			MyPane p = this.buttonTable[bp.getPosition().getLigne()][bp.getPosition().getColonne()];
+			MyPane p = this.buttonTable[bp.getPosition().getRow()][bp.getPosition().getColumn()];
 			if(p.getSquare().getPawn() instanceof BaghPawn) {
 				p.setOnMouseEntered(new EventHandler<MouseEvent>() {
 				    @Override public void handle(MouseEvent e) {
@@ -243,8 +243,8 @@ public class GameTable extends AnchorPane{
 
 		BaghPawn bp = (BaghPawn) this.selectedPane.getSquare().getPawn();
 
-		for(Coordinates c : bp.allPosibleMoves()) {
-			MyPane p = this.buttonTable[c.getLigne()][c.getColonne()];
+		for(Coordinates c : bp.allPossibleMoves()) {
+			MyPane p = this.buttonTable[c.getRow()][c.getColumn()];
 			p.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			    @Override public void handle(MouseEvent e) {
 			        p.setStyle("-fx-border-color: green;");
@@ -255,14 +255,14 @@ public class GameTable extends AnchorPane{
 			        MyPane targetPane = (MyPane) e.getTarget();
 			        Move mv = new Move(selectedPane.getSquare().getPosition(), targetPane.getSquare().getPosition());
 			        if(mv.isEatingMove()) {
-			        	Coordinates eatenChal = mv.getBoardCoordsOfGoatBeingEaten();
+			        	Coordinates eatenChal = mv.getEatenChalPosition();
 			        	gameBoard.eatChal(eatenChal);
-			        	drawer.removeDraw(eatenChal.getLigne(), eatenChal.getColonne());
+			        	drawer.removeDraw(eatenChal.getRow(), eatenChal.getColumn());
 			        }
 			        mv.doMove();
 			        drawer.removeDraw(selectedPane);
 			        Coordinates coord = targetPane.getSquare().getPosition();
-			        drawer.drawTigre(coord.getLigne(),coord.getColonne());
+			        drawer.drawTigre(coord.getRow(),coord.getColumn());
 			    }
 			});
 			p.setOnMouseReleased(event);

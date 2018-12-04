@@ -1,7 +1,7 @@
 package baghchal;
 
 public class Square {
-
+	
 	private Coordinates position;
 	private boolean isAvailable;
 	private boolean isBorder;
@@ -14,59 +14,60 @@ public class Square {
 		this.isBorder = this.isBorder();
 		this.isDiagonal = this.isDiagonal();
 	}
-
+	
 	private boolean isBorder() {
-		int x = this.getPosition().getRow();
-		int y = this.getPosition().getColumn();
-
+		int x = this.getPosition().getLigne();
+		int y = this.getPosition().getColonne();
+		
 		return x == 0 || y == 0 || x == 4 || y == 4;
 	}
-
+	
 	private boolean isDiagonal() {
-		int x = this.getPosition().getRow();
-		int y = this.getPosition().getColumn();
-
+		int x = this.getPosition().getLigne();
+		int y = this.getPosition().getColonne();
+		
 		return (x + y) % 2 == 0;
 	}
-
+	
 	
 	//Methods
 	public Coordinates getPosition() {
-		return position;
+		return this.position;
 	}
 	
 	public boolean getIsAvailable() {
-		return isAvailable;
+		return this.isAvailable;
 	}
 
 	public boolean getIsBorder() {
-		return isBorder;
+		return this.isBorder;
 	}
 	
 	public boolean getIsDiagonal() {
 		return this.isDiagonal;
 	}
 	
-	public void setAvailable(boolean newAvailability) {
+	public void setIsAvailable(boolean newAvailability) {
 		this.isAvailable = newAvailability;
 	}
 
 	
 	public boolean isNeighbour(Square neighbourSquare) {
-		int x1 = this.getPosition().getRow();
-		int y1 = this.getPosition().getColumn();
-		int x2 = neighbourSquare.getPosition().getRow();
-		int y2 = neighbourSquare.getPosition().getColumn();
+		int x1 = this.getPosition().getLigne();
+		int y1 = this.getPosition().getColonne();
+		int x2 = neighbourSquare.getPosition().getLigne();
+		int y2 = neighbourSquare.getPosition().getColonne();
 		boolean horizontallyAligned = Math.abs(x1-x2) == 1 && y1 == y2;
 		boolean verticallyAligned = Math.abs(y1-y2) == 1 && x1 == x2;
 		boolean diagonallyAligned = Math.abs(x1-x2) == 1 && Math.abs(y1-y2) == 1;
-
+		
 		if (!(this.isDiagonal && neighbourSquare.isDiagonal)) {
 			return horizontallyAligned || verticallyAligned;
 		}
 		else {
 			return diagonallyAligned;
 		}
+		
 	}
-
+	
 }

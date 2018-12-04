@@ -1,32 +1,32 @@
 package baghchal;
 
-public class DeplacementImpossibleException extends RuntimeException {
+public class ImpossibleMoveException extends RuntimeException {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public DeplacementImpossibleException() {
+	public ImpossibleMoveException() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public DeplacementImpossibleException(String message) {
+	public ImpossibleMoveException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
 
-	public DeplacementImpossibleException(Throwable cause) {
+	public ImpossibleMoveException(Throwable cause) {
 		super(cause);
 		// TODO Auto-generated constructor stub
 	}
 
-	public DeplacementImpossibleException(String message, Throwable cause) {
+	public ImpossibleMoveException(String message, Throwable cause) {
 		super(message, cause);
 		// TODO Auto-generated constructor stub
 	}
 
-	public DeplacementImpossibleException(String message, Throwable cause, boolean enableSuppression,
+	public ImpossibleMoveException(String message, Throwable cause, boolean enableSuppression,
 			boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 		// TODO Auto-generated constructor stub
