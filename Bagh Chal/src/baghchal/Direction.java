@@ -1,6 +1,7 @@
 package baghchal;
 
 public enum Direction {
+	
 	NW(-1, -1), N(0, -1), NE(1, -1), E(1, 0), SE(1, 1), S(0, 1), SW(-1, 1), W(-1, 0);
 
     public final int dx, dy;
@@ -19,7 +20,7 @@ public enum Direction {
         return null;
     }
 
-    public static Direction[] getPossibleDirection(Square square) {
+    public static Direction[] getSquarePossibleDirections(Square square) {
     	if(square.getIsDiagonal()) {
     		return values();
     	}

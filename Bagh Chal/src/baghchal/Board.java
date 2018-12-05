@@ -22,16 +22,16 @@ public class Board {
 		this.nbEatenChals = 0;
 
 		this.pawnsMap = new HashMap<Square, AbstractPawn>();
-		this.squaresOnBoard = this.createSquaresMap(5);
+		this.squaresOnBoard = this.createSquaresMap();
 		this.chalsOnBoard = new ArrayList<ChalPawn>();
 		this.baghsOnBoard = new BaghPawn[nbFreeBaghs];
 		this.initBaghs();
 	}
 
-	private Square[][] createSquaresMap(int size) {
-		this.squaresOnBoard = new Square[size][size];
-		for(int i = 0; i < size; i++) {
-			for(int j = 0; j < size; j++) {
+	private Square[][] createSquaresMap() {
+		this.squaresOnBoard = new Square[5][5];
+		for(int i = 0; i < 5; i++) {
+			for(int j = 0; j < 5; j++) {
 				Square newSquare = new Square(i,j);
 				this.squaresOnBoard[i][j] = newSquare;
 				this.pawnsMap.put(newSquare, null);
@@ -43,8 +43,7 @@ public class Board {
 	private void initBaghs() {
 		int baghCoordinates[][] = { {0,0}, {4,0}, {0,4}, {4,4} };
 		int row = 0, column = 1;
-		for(int i=0; i<4; i++) {
-
+		for(int i = 0; i < 4; i++) {
 			BaghPawn newBagh = new BaghPawn(baghCoordinates[i][row], baghCoordinates[i][column]);
 			Square associatedSquare = this.squaresOnBoard[baghCoordinates[i][row]][baghCoordinates[i][column]];
 
@@ -67,10 +66,13 @@ public class Board {
 		return this.chalsOnBoard;
 	}
 
-	public BaghPawn[] getBaghOnBoard() {
+	public BaghPawn[] getBaghsOnBoard() {
 		return this.baghsOnBoard;
 	}
 
+	public HashMap<Square, AbstractPawn> getPawnsMap() {
+		return this.pawnsMap;
+	}
 	public int getNbEatenChals() {
 		return this.nbEatenChals;
 	}
@@ -83,21 +85,16 @@ public class Board {
 		return nbFreeBaghs;
 	}
 
-	public HashMap<Square, AbstractPawn> getPawnsMap() {
-		return pawnsMap;
-	}
-
 	public void addChal(Coordinates position) {
-		ChalPawn newChal = new ChalPawn(position.getRow(), position.getColumn());
-		Square associatedSquare = this.squaresOnBoard[position.getRow()][position.getColumn()];
-
+		ChalPawn newChal = new ChalPawn(position.getX(), position.getY());
+		Square associatedSquare = this.squaresOnBoard[position.getX()][position.getY()];
 		this.chalsOnBoard.add(newChal);
 		this.pawnsMap.put(associatedSquare, newChal);
 		this.nbChalsToPlace--;
 	}
 
 	public void eatChal(Coordinates position) {
-		Square associatedSquare = this.squaresOnBoard[position.getRow()][position.getColumn()];
+		Square associatedSquare = this.squaresOnBoard[position.getX()][position.getY()];
 		this.chalsOnBoard.remove(this.pawnsMap.get(associatedSquare));
 		this.nbEatenChals++;
 		System.out.println(this.nbEatenChals);

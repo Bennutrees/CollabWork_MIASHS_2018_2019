@@ -20,16 +20,19 @@ public abstract class AbstractPawn {
 
 	public ArrayList<Coordinates> possibleMoves() {
 		ArrayList<Coordinates> possibleMoves = new ArrayList<Coordinates>();
+
+		int x = this.position.getX();
+		int y = this.position.getY();
 		Square[][] squaresOnBoard = Board.getBoard().getSquaresOnBoard();
-		int x = this.position.getRow();
-		int y = this.position.getColumn();
-		Direction[] direction = Direction.getPossibleDirection(squaresOnBoard[x][y]);
+		Square associatedSquareToPawn = squaresOnBoard[x][y];
+		
+		Direction[] direction = Direction.getSquarePossibleDirections(associatedSquareToPawn);
 		
 		for (Direction dir : direction) {
-			int dx = x+dir.dx;
-			int dy = y+dir.dy;
+			int dx = x + dir.dx;
+			int dy = y + dir.dy;
 			
-			boolean directionIsPossible = Move.canMoveInDirection(this.position,dir);
+			boolean directionIsPossible = Move.canMoveInDirection(associatedSquareToPawn,dir);
 			boolean squareIsAvailable = squaresOnBoard[dx][dy].getIsAvailable();
 			
 			if(directionIsPossible && squareIsAvailable) {

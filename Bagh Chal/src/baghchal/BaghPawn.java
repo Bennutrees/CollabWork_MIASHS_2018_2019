@@ -1,9 +1,10 @@
 package baghchal;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class BaghPawn extends AbstractPawn {
-	
+		
 	//Constructor
 	public BaghPawn(int x, int y) {
 		super(x, y);
@@ -13,22 +14,36 @@ public class BaghPawn extends AbstractPawn {
 	//Methods
 	public ArrayList<Coordinates> possibleEatMoves() {
 		ArrayList<Coordinates> possibleMoves = new ArrayList<Coordinates>();
-		Direction[] direction = Direction.getPossibleDirection(this.position.getRow(), this.position.getColumn());
+		
+		int x = this.position.getX();
+		int y = this.position.getY();
+		HashMap<Square, AbstractPawn> pawnsMap = Board.getBoard().getPawnsMap();
+		Square[][] squaresOnBoard = Board.getBoard().getSquaresOnBoard();
+		Square associatedSquareToBagh = squaresOnBoard[x][y];
+		
+		Direction[] direction = Direction.getSquarePossibleDirections(associatedSquareToBagh);
 		
 		for (Direction dir : direction) {
-			int dx = this.position.getRow()+dir.dx;
-			int dy = this.position.getColumn()+dir.dy;
+			int dx = x + dir.dx;
+			int dy = y + dir.dy;
 
-			boolean directionIsPossible = Move.canMoveInDirection(this.position,dir);
-			boolean squareIsOccupiedByPawn = Board.getBoard().getSquaresOnBoard()[dx][dy].getIsAvailable() == false;
-			boolean pawnIsChal = Board.getBoard().getSquaresOnBoard()[dx][dy].getPawn() instanceof ChalPawn;
-			boolean moveIsInBoardRange = dx+dir.dx >= 0 && dx+dir.dx < 5 && dy+dir.dy >= 0 && dy+dir.dy < 5;
-			boolean nextSquareIsAvailable = Board.getBoard().getSquaresOnBoard()[dx+dir.dx][dy+dir.dy].getIsAvailable();
+			boolean directionIsPossible = Move.canMoveInDirection(associatedSquareToBagh,dir);
 			
-			if(directionIsPossible && squareIsOccupiedByPawn && pawnIsChal && moveIsInBoardRange && nextSquareIsAvailable) {
-				possibleMoves.add(new Coordinates(dx+dir.dx,dy+dir.dy));
-			}
+			if (directionIsPossible) {
+				Square associatedSquareToChal = squaresOnBoard[dx][dy];
 
+				boolean squareIsOccupiedByPawn = squaresOnBoard[dx][dy].getIsAvailable() == false;
+				boolean pawnIsChal = pawnsMap.get(squaresOnBoard[dx][dy]) instanceof ChalPawn;
+				boolean moveIsInBoardRange = !associatedSquareToChal.getIsBorder() ;
+				
+				if (squareIsOccupiedByPawn && pawnIsChal && moveIsInBoardRange) {
+					boolean nextSquareIsAvailable = squaresOnBoard[dx + dir.dx][dy + dir.dy].getIsAvailable();
+					
+					if(nextSquareIsAvailable) {
+						possibleMoves.add(new Coordinates(dx + dir.dx,dy + dir.dy));
+					}
+				}
+			}
 		}
 		System.out.println(possibleMoves);
 		return possibleMoves;
