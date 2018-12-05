@@ -46,7 +46,6 @@ public class Board {
 		for(int i = 0; i < 4; i++) {
 			BaghPawn newBagh = new BaghPawn(baghCoordinates[i][row], baghCoordinates[i][column]);
 			Square associatedSquare = this.squaresOnBoard[baghCoordinates[i][row]][baghCoordinates[i][column]];
-
 			this.baghsOnBoard[i] = newBagh;
 			this.pawnsMap.put(associatedSquare, newBagh);
 		}

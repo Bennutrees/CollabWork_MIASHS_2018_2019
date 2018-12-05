@@ -20,7 +20,6 @@ public class Game {
 	public void play(){
 
 		this.affichage();
-
 		if(this.haveWinner()) {
 			if(this.currentPlayer) {
 				chalPlayerTurn();

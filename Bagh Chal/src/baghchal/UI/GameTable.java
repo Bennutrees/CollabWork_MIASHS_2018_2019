@@ -44,14 +44,6 @@ public class GameTable extends AnchorPane{
 		return buttonTable;
 	}
 
-	public void drawBagh(int i, int j){
-		this.drawer.drawTigre(i,j);
-	}
-
-	public void drawChal(int i, int j){
-		this.drawer.drawChevre(i,j);
-	}
-
 	private void tableButtons() {
 
 		this.gp = new GridPane();
