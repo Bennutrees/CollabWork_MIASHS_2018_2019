@@ -16,11 +16,11 @@ public class Coordinates implements Comparable<Coordinates> {
 
 
 	//Methods
-	public int getRow() {
+	public int getX() {
 		return row;
 	}
 
-	public int getColumn() {
+	public int getY() {
 		return column;
 	}
 
@@ -31,15 +31,15 @@ public class Coordinates implements Comparable<Coordinates> {
 
 
 	public boolean equals(Coordinates position) {
-		return position.getColumn() == this.getColumn() && position.getRow() == this.getRow();
+		return position.getY() == this.getY() && position.getX() == this.getX();
 	}
 
 	public int compareTo(Coordinates position) {
 		int result ;
-		if ((result = this.getRow() - position.getRow()) != 0 )
+		if ((result = this.getX() - position.getX()) != 0 )
 			return (result);
 		else
-			return (this.getColumn() - position.getColumn());
+			return (this.getY() - position.getY());
 	}
 
 
@@ -47,8 +47,8 @@ public class Coordinates implements Comparable<Coordinates> {
 
 		String coord = "";
 
-		coord += this.getColumn() + ",";
-		coord += this.getRow();
+		coord += this.getY() + ",";
+		coord += this.getX();
 
 		return coord;
 	}
