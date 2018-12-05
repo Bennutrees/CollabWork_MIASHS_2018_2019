@@ -1,5 +1,7 @@
 package baghchal;
 
+import java.util.ArrayList;
+
 public class Square {
 
 	private Coordinates position;
@@ -14,7 +16,7 @@ public class Square {
 	private boolean hasNorthEast;
 	private boolean hasSouthWest;
 	private boolean hasSouthEast;
-	
+
 	//Constructor
 	public Square(int x,int y) {
 		this.position = new Coordinates(x,y);
@@ -37,11 +39,11 @@ public class Square {
 
 		return (x + y) % 2 == 0;
 	}
-	
+
 	private void initDirections() {
 		int x = this.getPosition().getX();
 		int y = this.getPosition().getY();
-		
+
 		boolean isDiagonalCenter = this.isDiagonal && !this.isBorder;
 		this.hasNorth = y != 0;
 		this.hasSouth = y != 4;
@@ -49,16 +51,16 @@ public class Square {
 		this.hasEast = x != 4;
 		this.hasNorthWest = isDiagonalCenter || (this.isDiagonal && (x >= 2 && y >= 2));
 		this.hasNorthEast = isDiagonalCenter || (this.isDiagonal && (x <= 2 && y >= 2));
-		this.hasSouthWest = isDiagonalCenter || (this.isDiagonal && (x >= 2 && y >= 2));
-		this.hasSouthEast = isDiagonalCenter || (this.isDiagonal && (x <= 2 && y >= 2));
+		this.hasSouthWest = isDiagonalCenter || (this.isDiagonal && (x >= 2 && y <= 2));
+		this.hasSouthEast = isDiagonalCenter || (this.isDiagonal && (x <= 2 && y <= 2));
 	}
-	
-	
+
+
 	//Methods
 	public Coordinates getPosition() {
 		return position;
 	}
-	
+
 	public boolean getIsAvailable() {
 		return isAvailable;
 	}
@@ -66,11 +68,11 @@ public class Square {
 	public boolean getIsBorder() {
 		return isBorder;
 	}
-	
+
 	public boolean getIsDiagonal() {
 		return this.isDiagonal;
 	}
-	
+
 	public boolean getHasNorth() {
 		return hasNorth;
 	}
@@ -107,7 +109,7 @@ public class Square {
 		this.isAvailable = newAvailability;
 	}
 
-	
+
 	public boolean isNeighbour(Square neighbourSquare) {
 		int x1 = this.getPosition().getX();
 		int y1 = this.getPosition().getY();
@@ -124,8 +126,8 @@ public class Square {
 			return diagonallyAligned;
 		}
 	}
-	
-	public boolean movePossibleToward(Direction direction) {
+
+	private boolean movePossibleToward(Direction direction) {
         if (direction == null) {
             return false;
         }
@@ -151,4 +153,14 @@ public class Square {
         }
 	}
 
+   public ArrayList<Direction> getSquarePossibleDirections() {
+    	Direction[] allDirection = Direction.values();
+    	ArrayList<Direction> possibleDir = new ArrayList<Direction>();
+
+    	for(int i=0; i<allDirection.length; i++){
+    		if (this.movePossibleToward(allDirection[i]))
+    			possibleDir.add(allDirection[i]);
+    	}
+    	return possibleDir;
+    }
 }

@@ -25,17 +25,13 @@ public abstract class AbstractPawn {
 		int y = this.position.getY();
 		Square[][] squaresOnBoard = Board.getBoard().getSquaresOnBoard();
 		Square associatedSquareToPawn = squaresOnBoard[x][y];
-		
-		Direction[] direction = Direction.getSquarePossibleDirections(associatedSquareToPawn);
-		
-		for (Direction dir : direction) {
+
+		for (Direction dir : associatedSquareToPawn.getSquarePossibleDirections()) {
 			int dx = x + dir.dx;
 			int dy = y + dir.dy;
-			
-			boolean directionIsPossible = associatedSquareToPawn.movePossibleToward(dir);
 			boolean squareIsAvailable = squaresOnBoard[dx][dy].getIsAvailable();
-			
-			if(directionIsPossible && squareIsAvailable) {
+
+			if(squareIsAvailable) {
 				possibleMoves.add(new Coordinates(dx,dy));
 			}
 

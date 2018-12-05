@@ -1,7 +1,7 @@
 package baghchal;
 
 public class Coordinates implements Comparable<Coordinates> {
-	
+
 	private int row;
 	private int column;
 

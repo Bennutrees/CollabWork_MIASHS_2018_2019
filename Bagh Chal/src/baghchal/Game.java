@@ -56,6 +56,7 @@ public class Game {
 					p = this.board.getPawnsMap().get(thisSquare).toString();
 				}
 				System.out.print("|"+p);
+//				System.out.print("|"+thisSquare.getPosition().getX()+","+thisSquare.getPosition().getY());
 			}
 			System.out.println("|");
 			System.out.println("_______________");
