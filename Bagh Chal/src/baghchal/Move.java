@@ -12,32 +12,6 @@ public class Move {
 		this.finish = finish;
 	}
 
-	public static boolean canMoveInDirection(Square initialSquare, Direction direction) {
-        if (direction == null) {
-            return false;
-        }
-        switch (direction) {
-	        case N:
-	            return initialSquare.getHasNorth();
-	        case E:
-	        	return initialSquare.getHasEast();
-	        case S:
-	        	return initialSquare.getHasSouth();
-	        case W:
-	        	return initialSquare.getHasWest();
-	        case NE:
-	        	return initialSquare.getHasNorthEast();
-	        case NW:
-	        	return initialSquare.getHasNorthWest();
-	        case SE:
-	        	return initialSquare.getHasSouthEast();
-	        case SW:
-	        	return initialSquare.getHasSouthWest();
-	        default:
-	            return false;
-        }
-	}
-
 	public boolean isEatingMove() {
         return Math.abs(start.getX() - finish.getX()) > 1 || Math.abs(start.getY() - finish.getY()) > 1;
 	}
@@ -55,8 +29,12 @@ public class Move {
 		Square finishSquare = squaresOnBoard[finish.getX()][finish.getY()];
 		
 		AbstractPawn selectedPawn = pawnsMap.get(startSquare);
+		//Remove pawn from startSquare
 		pawnsMap.put(startSquare, null);
+		startSquare.setAvailability(true);
+		//Add pawn to finishSquare
 		selectedPawn.setPosition(finish.getX(),finish.getY());
 		pawnsMap.put(finishSquare, selectedPawn);
+		finishSquare.setAvailability(false);
 	}
 }

@@ -27,7 +27,7 @@ public class BaghPawn extends AbstractPawn {
 			int dx = x + dir.dx;
 			int dy = y + dir.dy;
 
-			boolean directionIsPossible = Move.canMoveInDirection(associatedSquareToBagh,dir);
+			boolean directionIsPossible = associatedSquareToBagh.movePossibleToward(dir);
 			
 			if (directionIsPossible) {
 				Square associatedSquareToChal = squaresOnBoard[dx][dy];
