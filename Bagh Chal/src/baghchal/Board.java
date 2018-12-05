@@ -10,11 +10,11 @@ public class Board {
 	private ArrayList<ChalPawn> chalsOnBoard;
 	private BaghPawn[] baghsOnBoard;
 	private HashMap<Square, AbstractPawn> pawnsMap;
-	
+
 	private int nbChalsToPlace;
 	private int nbFreeBaghs;
 	private int nbEatenChals;
-	
+
 	//Constructor
 	private Board() {
 		this.nbChalsToPlace = 20;
@@ -27,7 +27,7 @@ public class Board {
 		this.baghsOnBoard = new BaghPawn[nbFreeBaghs];
 		this.initBaghs();
 	}
-	
+
 	private Square[][] createSquaresMap(int size) {
 		this.squaresOnBoard = new Square[size][size];
 		for(int i = 0; i < size; i++) {
@@ -40,14 +40,14 @@ public class Board {
 		return squaresOnBoard;
 	}
 
-	private void initBaghs() {		
+	private void initBaghs() {
 		int baghCoordinates[][] = { {0,0}, {4,0}, {0,4}, {4,4} };
 		int row = 0, column = 1;
 		for(int i=0; i<4; i++) {
-			
+
 			BaghPawn newBagh = new BaghPawn(baghCoordinates[i][row], baghCoordinates[i][column]);
 			Square associatedSquare = this.squaresOnBoard[baghCoordinates[i][row]][baghCoordinates[i][column]];
-			
+
 			this.baghsOnBoard[i] = newBagh;
 			this.pawnsMap.put(associatedSquare, newBagh);
 		}
@@ -83,10 +83,14 @@ public class Board {
 		return nbFreeBaghs;
 	}
 
+	public HashMap<Square, AbstractPawn> getPawnsMap() {
+		return pawnsMap;
+	}
+
 	public void addChal(Coordinates position) {
 		ChalPawn newChal = new ChalPawn(position.getRow(), position.getColumn());
 		Square associatedSquare = this.squaresOnBoard[position.getRow()][position.getColumn()];
-		
+
 		this.chalsOnBoard.add(newChal);
 		this.pawnsMap.put(associatedSquare, newChal);
 		this.nbChalsToPlace--;
@@ -102,7 +106,7 @@ public class Board {
 	public int freeBagh() {
 		int freeBagh = 4;
 		for(int i=0; i<4; i++) {
-			ArrayList<Coordinates> list = this.baghOnBoard[i].allPosibleMoves();
+			ArrayList<Coordinates> list = this.baghsOnBoard[i].allPossibleMoves();
 			if(list.isEmpty())
 				freeBagh--;
 		}
