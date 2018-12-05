@@ -48,6 +48,7 @@ public class Board {
 			Square associatedSquare = this.squaresOnBoard[baghCoordinates[i][row]][baghCoordinates[i][column]];
 
 			this.baghsOnBoard[i] = newBagh;
+			associatedSquare.setAvailability(false);
 			this.pawnsMap.put(associatedSquare, newBagh);
 		}
 	}
@@ -89,6 +90,7 @@ public class Board {
 		ChalPawn newChal = new ChalPawn(position.getX(), position.getY());
 		Square associatedSquare = this.squaresOnBoard[position.getX()][position.getY()];
 		this.chalsOnBoard.add(newChal);
+		associatedSquare.setAvailability(false);
 		this.pawnsMap.put(associatedSquare, newChal);
 		this.nbChalsToPlace--;
 	}
@@ -96,6 +98,8 @@ public class Board {
 	public void eatChal(Coordinates position) {
 		Square associatedSquare = this.squaresOnBoard[position.getX()][position.getY()];
 		this.chalsOnBoard.remove(this.pawnsMap.get(associatedSquare));
+		this.pawnsMap.put(associatedSquare, null);
+		associatedSquare.setAvailability(true);
 		this.nbEatenChals++;
 		System.out.println(this.nbEatenChals);
 	}

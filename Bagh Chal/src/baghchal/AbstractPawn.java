@@ -32,7 +32,7 @@ public abstract class AbstractPawn {
 			int dx = x + dir.dx;
 			int dy = y + dir.dy;
 			
-			boolean directionIsPossible = Move.canMoveInDirection(associatedSquareToPawn,dir);
+			boolean directionIsPossible = associatedSquareToPawn.movePossibleToward(dir);
 			boolean squareIsAvailable = squaresOnBoard[dx][dy].getIsAvailable();
 			
 			if(directionIsPossible && squareIsAvailable) {

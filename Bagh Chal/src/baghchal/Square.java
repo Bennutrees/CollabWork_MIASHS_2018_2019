@@ -103,7 +103,7 @@ public class Square {
 		return hasSouthEast;
 	}
 
-	public void setAvailable(boolean newAvailability) {
+	public void setAvailability(boolean newAvailability) {
 		this.isAvailable = newAvailability;
 	}
 
@@ -123,6 +123,32 @@ public class Square {
 		else {
 			return diagonallyAligned;
 		}
+	}
+	
+	public boolean movePossibleToward(Direction direction) {
+        if (direction == null) {
+            return false;
+        }
+        switch (direction) {
+	        case N:
+	            return this.getHasNorth();
+	        case E:
+	        	return this.getHasEast();
+	        case S:
+	        	return this.getHasSouth();
+	        case W:
+	        	return this.getHasWest();
+	        case NE:
+	        	return this.getHasNorthEast();
+	        case NW:
+	        	return this.getHasNorthWest();
+	        case SE:
+	        	return this.getHasSouthEast();
+	        case SW:
+	        	return this.getHasSouthWest();
+	        default:
+	            return false;
+        }
 	}
 
 }
