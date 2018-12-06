@@ -110,24 +110,24 @@ public class Square {
 	}
 
 
-	public boolean isNeighbour(Square neighbourSquare) {
-		int x1 = this.getPosition().getX();
-		int y1 = this.getPosition().getY();
-		int x2 = neighbourSquare.getPosition().getX();
-		int y2 = neighbourSquare.getPosition().getY();
-		boolean horizontallyAligned = Math.abs(x1-x2) == 1 && y1 == y2;
-		boolean verticallyAligned = Math.abs(y1-y2) == 1 && x1 == x2;
-		boolean diagonallyAligned = Math.abs(x1-x2) == 1 && Math.abs(y1-y2) == 1;
+//	public boolean isNeighbour(Square neighbourSquare) {
+//		int x1 = this.getPosition().getX();
+//		int y1 = this.getPosition().getY();
+//		int x2 = neighbourSquare.getPosition().getX();
+//		int y2 = neighbourSquare.getPosition().getY();
+//		boolean horizontallyAligned = Math.abs(x1-x2) == 1 && y1 == y2;
+//		boolean verticallyAligned = Math.abs(y1-y2) == 1 && x1 == x2;
+//		boolean diagonallyAligned = Math.abs(x1-x2) == 1 && Math.abs(y1-y2) == 1;
+//
+//		if (!(this.isDiagonal && neighbourSquare.isDiagonal)) {
+//			return horizontallyAligned || verticallyAligned;
+//		}
+//		else {
+//			return diagonallyAligned;
+//		}
+//	}
 
-		if (!(this.isDiagonal && neighbourSquare.isDiagonal)) {
-			return horizontallyAligned || verticallyAligned;
-		}
-		else {
-			return diagonallyAligned;
-		}
-	}
-
-	private boolean movePossibleToward(Direction direction) {
+	private boolean hasMovePossibleToward(Direction direction) {
         if (direction == null) {
             return false;
         }
@@ -153,14 +153,14 @@ public class Square {
         }
 	}
 
-   public ArrayList<Direction> getSquarePossibleDirections() {
-    	Direction[] allDirection = Direction.values();
-    	ArrayList<Direction> possibleDir = new ArrayList<Direction>();
+   public ArrayList<Direction> getSquareAllowedDirections() {
+    	Direction[] directions = Direction.values();
+    	ArrayList<Direction> allowedDirections = new ArrayList<Direction>();
 
-    	for(int i=0; i<allDirection.length; i++){
-    		if (this.movePossibleToward(allDirection[i]))
-    			possibleDir.add(allDirection[i]);
+    	for(int i=0; i<directions.length; i++){
+    		if (this.hasMovePossibleToward(directions[i]))
+    			allowedDirections.add(directions[i]);
     	}
-    	return possibleDir;
+    	return allowedDirections;
     }
 }

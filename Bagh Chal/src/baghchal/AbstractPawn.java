@@ -26,7 +26,7 @@ public abstract class AbstractPawn {
 		Square[][] squaresOnBoard = Board.getBoard().getSquaresOnBoard();
 		Square associatedSquareToPawn = squaresOnBoard[x][y];
 
-		for (Direction dir : associatedSquareToPawn.getSquarePossibleDirections()) {
+		for (Direction dir : associatedSquareToPawn.getSquareAllowedDirections()) {
 			int dx = x + dir.dx;
 			int dy = y + dir.dy;
 			boolean squareIsAvailable = squaresOnBoard[dx][dy].getIsAvailable();

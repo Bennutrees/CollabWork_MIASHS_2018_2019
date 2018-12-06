@@ -20,7 +20,7 @@ public class Game {
 	public void play(){
 
 		this.affichage();
-		if(this.haveWinner()) {
+		if(!this.haveWinner()) {
 			if(this.currentPlayer) {
 				chalPlayerTurn();
 				System.out.println("Chal Turn");
@@ -40,7 +40,8 @@ public class Game {
 	}
 
 	private boolean haveWinner(){
-		if(this.board.getNbFreeBaghs() != 0 && this.board.getNbEatenChals() != 5){
+		this.board.calculateNbFreeBaghs();
+		if(this.board.getNbFreeBaghs() == 0 || this.board.getNbEatenChals() == 5){
 			return true;
 		}
 		return false;

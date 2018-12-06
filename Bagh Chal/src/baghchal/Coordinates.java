@@ -1,6 +1,6 @@
 package baghchal;
 
-public class Coordinates implements Comparable<Coordinates> {
+public class Coordinates {
 
 	private int row;
 	private int column;
@@ -10,7 +10,7 @@ public class Coordinates implements Comparable<Coordinates> {
 		this.row = row;
 		this.column = column;
 		if (column < 0 || column > 4 || row > 4 || row < 0) {
-			throw new IllegalArgumentException("Coordonnées en dehors du Plateau");
+			throw new IllegalArgumentException("Coordinates out of Board range");
 		}
 	}
 
@@ -28,29 +28,4 @@ public class Coordinates implements Comparable<Coordinates> {
 		this.row = x;
 		this.column = y;
 	}
-
-
-	public boolean equals(Coordinates position) {
-		return position.getY() == this.getY() && position.getX() == this.getX();
-	}
-
-	public int compareTo(Coordinates position) {
-		int result ;
-		if ((result = this.getX() - position.getX()) != 0 )
-			return (result);
-		else
-			return (this.getY() - position.getY());
-	}
-
-
-	public String toString() {
-
-		String coord = "";
-
-		coord += this.getY() + ",";
-		coord += this.getX();
-
-		return coord;
-	}
-
 }

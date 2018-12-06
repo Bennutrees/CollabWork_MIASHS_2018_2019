@@ -22,7 +22,7 @@ public class BaghPawn extends AbstractPawn {
 		Square associatedSquareToBagh = squaresOnBoard[x][y];
 
 
-		for (Direction dir : associatedSquareToBagh.getSquarePossibleDirections()) {
+		for (Direction dir : associatedSquareToBagh.getSquareAllowedDirections()) {
 			int dx = x + dir.dx;
 			int dy = y + dir.dy;
 			Square associatedSquareToChal = squaresOnBoard[dx][dy];
@@ -38,6 +38,7 @@ public class BaghPawn extends AbstractPawn {
 			}
 			catch(IllegalArgumentException e){
 				moveIsInBoardRange = false;
+				throw new ImpossibleMoveException("Bagh cannot jump outside the board");
 			}
 
 			if (squareIsOccupiedByPawn && pawnIsChal && moveIsInBoardRange) {

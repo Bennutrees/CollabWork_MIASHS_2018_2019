@@ -82,7 +82,6 @@ public class Board {
 	}
 
 	public int getNbFreeBaghs() {
-		this.setFreeBagh();
 		return nbFreeBaghs;
 	}
 
@@ -104,14 +103,14 @@ public class Board {
 		System.out.println(this.nbEatenChals);
 	}
 
-	private void setFreeBagh() {
-		int freeBagh = 4;
-		for(int i=0; i<4; i++) {
+	public void calculateNbFreeBaghs() {
+		int nbFreeBaghs = this.getNbFreeBaghs();
+		for(int i = 0; i < 4; i++) {
 			ArrayList<Coordinates> list = this.baghsOnBoard[i].allPossibleMoves();
 			if(list.isEmpty())
-				freeBagh--;
+				nbFreeBaghs--;
 		}
-		this.nbFreeBaghs = freeBagh;
+		this.nbFreeBaghs = nbFreeBaghs;
 	}
 
 }

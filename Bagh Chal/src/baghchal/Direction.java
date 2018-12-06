@@ -11,12 +11,12 @@ public enum Direction {
         this.dy = dy;
     }
 
-    public static Direction getDirection(int dx, int dy) {
-        for (Direction direction : values()) {
-            if (direction.dx == dx && direction.dy == dy) {
-                return direction;
-            }
-        }
-        return null;
-    }
+//    public static Direction getDirection(int dx, int dy) {
+//        for (Direction direction : values()) {
+//            if (direction.dx == dx && direction.dy == dy) {
+//                return direction;
+//            }
+//        }
+//        return null;
+//    }
 }
