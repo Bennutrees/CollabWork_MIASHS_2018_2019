@@ -1,4 +1,4 @@
-package Arbre.v4.Serialisation;
+package Arbre.v4.SerialisationAndVisualisation;
 
 import java.io.BufferedReader;
 import java.io.File;
