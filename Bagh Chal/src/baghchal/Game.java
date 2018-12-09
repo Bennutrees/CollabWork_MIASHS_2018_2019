@@ -1,33 +1,92 @@
 package baghchal;
 
+import baghchal.IA.*;
 import baghchal.UI.GameTable;
 
 public class Game {
+	public final static int NO_IA = 0;
+	public final static int BAGH_IA = -1;
+	public final static int CHAL_IA = 1;
+	public final static int BOTH_IA = 2;
 
 	private Board board;
 	private GameTable gameTable;
-	private boolean currentPlayer; //True = Chals Player & False = Bash Player
+	private boolean currentPlayer = true; //True = Chals Player & False = Bash Player
+	private int iaRole ;
+	private IAPlayer iaPlayer;
 
 	//Constructor
 	public Game(Board board, GameTable gameTable) {
 		this.board = board;
 		this.gameTable = gameTable;
-		this.currentPlayer = true;
+		this.iaRole = NO_IA;
 	}
 
+	public Game(Board board, GameTable gameTable, int iaRole) {
+		this.board = board;
+		this.gameTable = gameTable;
+		if(iaRole >= CHAL_IA && iaRole <= BAGH_IA) {
+			throw new IllegalArgumentException("Not a correct value for IA");
+		}
+		this.iaRole  = iaRole;
+
+		if(this.iaRole == BAGH_IA) {
+			this.iaPlayer = new BaghIA();
+		}
+		else {
+			this.iaPlayer = new ChalIA();
+		}
+	}
 
 	//Methods
 	public void play(){
-
 		this.affichage();
+
 		if(!this.haveWinner()) {
-			if(this.currentPlayer) {
-				chalPlayerTurn();
-				System.out.println("Chal Turn");
-			}
-			else {
-				baghPlayerTurn();
-				System.out.println("Bhag Turn");
+
+			switch(this.iaRole) {
+				case NO_IA:
+					if(this.currentPlayer) {
+						System.out.println("Chal Turn");
+						chalPlayerTurn();
+					}
+					else {
+						System.out.println("Bhag Turn");
+						baghPlayerTurn();
+					}
+					break;
+				case BAGH_IA:
+					if(this.currentPlayer) {
+						System.out.println("Chal Turn");
+						chalPlayerTurn();
+					}
+					else {
+						System.out.println("Bhag Turn");
+						//TODO: bagh ia
+					}
+					break;
+				case CHAL_IA:
+					if(this.currentPlayer) {
+						System.out.println("Chal Turn");
+						//TODO: chal ia
+					}
+					else {
+						System.out.println("Bhag Turn");
+						baghPlayerTurn();
+					}
+					break;
+				case BOTH_IA:
+					if(this.currentPlayer) {
+						System.out.println("Chal Turn");
+						//TODO: chal ia
+					}
+					else {
+						System.out.println("Bhag Turn");
+						//TODO: bagh ia
+					}
+					break;
+				default:
+					throw new IllegalArgumentException("Not a correct value for IA");
 			}
 
 		}
@@ -35,7 +94,6 @@ public class Game {
 			System.out.println("win");
 			this.gameTable.endGame();
 		}
-
 
 	}
 
@@ -64,6 +122,17 @@ public class Game {
 		}
 	}
 
+	private void changePlayer() {
+		if(this.currentPlayer)
+			this.currentPlayer = false;
+		else
+			this.currentPlayer = true;
+		this.play();
+	}
+
+	/****************************************************************************************************/
+	/******************************************* Human player *******************************************/
+	/****************************************************************************************************/
 
 	private void chalPlayerTurn() {
 		if(this.board.getNbChalsToPlace() > 0)
@@ -84,12 +153,25 @@ public class Game {
 		this.gameTable.baghPlayerMove(e -> changePlayer(), e -> baghPlayerTurnMove());
 	}
 
-	private void changePlayer() {
-		if(this.currentPlayer)
-			this.currentPlayer = false;
-		else
-			this.currentPlayer = true;
-		this.play();
+
+	/****************************************************************************************************/
+	/********************************************* IA player ********************************************/
+	/****************************************************************************************************/
+
+	private void chalIATurn() {
+		if(this.board.getNbChalsToPlace() == 0) {
+			this.chalIATurnMove();
+		}
+		else {
+			this.iaPlayer.iaAction();
+		}
 	}
 
+	private void chalIATurnMove() {
+
+	}
+
+	private void baghIATurn() {
+
+	}
 }

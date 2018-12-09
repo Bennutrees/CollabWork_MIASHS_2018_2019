@@ -36,10 +36,7 @@ public class Menu {
 
 	@FXML
 	private void newGameJCJ(){
-
-        this.root.getChildren().clear();
-        this.root.getChildren().addAll(this.gameTable);
-
+        this.loadGameTable();
 		System.out.println("JCJ");
 		Game game= new Game(this.gameBoard, this.gameTable);
 		game.play();
@@ -47,16 +44,30 @@ public class Menu {
 
 	@FXML
 	private void newGamePlayBagh(){
+		this.loadGameTable();
 		System.out.println("Play Bagh");
+		Game game= new Game(this.gameBoard, this.gameTable, Game.CHAL_IA);
+		game.play();
 	}
 
 	@FXML
 	private void newGamePlayChal(){
+		this.loadGameTable();
 		System.out.println("Play Chal");
+		Game game= new Game(this.gameBoard, this.gameTable, Game.BAGH_IA);
+		game.play();
 	}
 
 	@FXML
 	private void newGameIaVsIa(){
+		this.loadGameTable();
 		System.out.println("IA VS IA");
+		Game game= new Game(this.gameBoard, this.gameTable, Game.BOTH_IA);
+		game.play();
+	}
+
+	private void loadGameTable() {
+		this.root.getChildren().clear();
+        this.root.getChildren().addAll(this.gameTable);
 	}
 }
