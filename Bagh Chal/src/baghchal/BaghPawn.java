@@ -38,7 +38,6 @@ public class BaghPawn extends AbstractPawn {
 			}
 			catch(IllegalArgumentException e){
 				moveIsInBoardRange = false;
-//				throw new ImpossibleMoveException("Bagh cannot jump outside the board");
 			}
 
 			if (squareIsOccupiedByPawn && pawnIsChal && moveIsInBoardRange) {
