@@ -20,7 +20,8 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
 			GameTable table = new GameTable(gameBoard);
-			root.getChildren().add(table);
+			Menu menu = new Menu(root);
+
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(false);
 			primaryStage.setTitle("Bagh Chal");

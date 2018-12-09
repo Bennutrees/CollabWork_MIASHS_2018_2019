@@ -100,7 +100,6 @@ public class Board {
 		this.pawnsMap.put(associatedSquare, null);
 		associatedSquare.setAvailability(true);
 		this.nbEatenChals++;
-		System.out.println(this.nbEatenChals);
 	}
 
 	public void calculateNbFreeBaghs() {

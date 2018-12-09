@@ -38,7 +38,7 @@ public class BaghPawn extends AbstractPawn {
 			}
 			catch(IllegalArgumentException e){
 				moveIsInBoardRange = false;
-				throw new ImpossibleMoveException("Bagh cannot jump outside the board");
+//				throw new ImpossibleMoveException("Bagh cannot jump outside the board");
 			}
 
 			if (squareIsOccupiedByPawn && pawnIsChal && moveIsInBoardRange) {
@@ -57,7 +57,6 @@ public class BaghPawn extends AbstractPawn {
 		ArrayList<Coordinates> possibleMoves = new ArrayList<Coordinates>();
 		possibleMoves.addAll(possibleEatMoves());
 		possibleMoves.addAll(possibleMoves());
-		System.out.println(possibleMoves);
 		return possibleMoves;
 	}
 

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button fx:id="jcjButton" mnemonicParsing="false" onAction="#newGameJCJ" prefHeight="30.0" prefWidth="100.0" text="Joueur contre joueur" />
+      <Button fx:id="playBaghButton" mnemonicParsing="false" onAction="#newGamePlayBagh" text="Jouer Tigre" />
+      <Button fx:id="playChalButton" mnemonicParsing="false" onAction="#newGamePlayChal" text="Jouer Chèvre !!" />
+      <Button fx:id="iaVsIaButton" mnemonicParsing="false" onAction="#newGameIaVsIa" text="Pas jouer mais regarder" />
+   </children>
+</VBox>
