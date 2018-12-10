@@ -34,7 +34,7 @@ public class Game {
 		if(this.iaRole == BAGH_IA) {
 			this.iaPlayer = new BaghIA();
 		}
-		if(this.iaRole == CHAL_IA) {
+		else if(this.iaRole == CHAL_IA) {
 			this.iaPlayer = new ChalIA();
 		}
 		else {
@@ -89,12 +89,6 @@ public class Game {
 					else {
 						System.out.println("Bhag Turn");
 						this.secondIAPlayerTurn();
-					}
-					try {
-						TimeUnit.SECONDS.sleep(1);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
 					}
 					break;
 				default:
@@ -196,6 +190,7 @@ public class Game {
 
 	/** Bagh turns */
 	private void baghIATurn() {
+		System.out.println(iaPlayer instanceof BaghIA);
 		Move move = this.iaPlayer.iaAction();
 		System.out.println(move);
 		this.gameTable.drawMoves(move, false);
