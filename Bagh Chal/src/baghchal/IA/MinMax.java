@@ -16,7 +16,7 @@ public abstract class MinMax<T> implements Cloneable {
 
     private int player = MinMax.MAX_TURN; // Must always be 1 or -1
 
-    public final boolean isMiniTurn() {
+    public final boolean isMinTurn() {
         return player == MinMax.MIN_TURN;
     }
 

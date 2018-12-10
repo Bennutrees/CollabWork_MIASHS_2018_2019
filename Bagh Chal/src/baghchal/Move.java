@@ -6,13 +6,18 @@ public class Move {
 
 	private Coordinates start;
 	private Coordinates finish;
-
+	
+	public Move(Coordinates finish) {
+		this.start = finish;
+		this.finish = finish;
+	}
+	
 	public Move(Coordinates start, Coordinates finish) {
 		this.start = start;
 		this.finish = finish;
 	}
 
-	public boolean isEatingMove() {
+	public boolean isEatingChalMove() {
         return Math.abs(start.getX() - finish.getX()) > 1 || Math.abs(start.getY() - finish.getY()) > 1;
 	}
 
@@ -33,7 +38,7 @@ public class Move {
 		Square startSquare = squaresOnBoard[start.getX()][start.getY()];
 		Square finishSquare = squaresOnBoard[finish.getX()][finish.getY()];
 
-		if(this.isEatingMove()) {
+		if(this.isEatingChalMove()) {
 			eatenChal = this.getEatenChalPosition();
         	board.eatChal(eatenChal);
 		}

@@ -92,7 +92,6 @@ public class Board {
 		associatedSquare.setAvailability(false);
 		this.pawnsMap.put(associatedSquare, newChal);
 		this.nbChalsToPlace--;
-		System.out.println(this.nbChalsToPlace);
 	}
 
 	public void eatChal(Coordinates position) {
