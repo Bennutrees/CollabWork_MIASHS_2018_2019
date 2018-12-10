@@ -12,7 +12,7 @@ public class Move {
 		this.finish = finish;
 	}
 
-	private boolean isEatingMove() {
+	public boolean isEatingMove() {
         return Math.abs(start.getX() - finish.getX()) > 1 || Math.abs(start.getY() - finish.getY()) > 1;
 	}
 
@@ -33,6 +33,11 @@ public class Move {
 		Square startSquare = squaresOnBoard[start.getX()][start.getY()];
 		Square finishSquare = squaresOnBoard[finish.getX()][finish.getY()];
 
+		if(this.isEatingMove()) {
+			eatenChal = this.getEatenChalPosition();
+        	board.eatChal(eatenChal);
+		}
+		
 		AbstractPawn selectedPawn = pawnsMap.get(startSquare);
 		//Remove pawn from startSquare
 		pawnsMap.put(startSquare, null);
@@ -41,11 +46,6 @@ public class Move {
 		selectedPawn.setPosition(finish.getX(),finish.getY());
 		pawnsMap.put(finishSquare, selectedPawn);
 		finishSquare.setAvailability(false);
-
-		if(this.isEatingMove()) {
-			eatenChal = this.getEatenChalPosition();
-        	board.eatChal(eatenChal);
-		}
 
 		return eatenChal;
 	}

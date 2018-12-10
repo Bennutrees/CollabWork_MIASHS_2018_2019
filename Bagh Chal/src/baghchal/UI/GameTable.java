@@ -6,6 +6,7 @@ import baghchal.Board;
 import baghchal.ChalPawn;
 import baghchal.Coordinates;
 import baghchal.Move;
+import baghchal.Square;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -70,10 +71,6 @@ public class GameTable extends AnchorPane{
 		else {
 			this.drawer.removeDraw(buttonTable[movement[0].getX()][movement[0].getY()]);
 			this.drawer.drawTigre(movement[1]);
-			Move mv = new Move(movement[0], movement[1]);
-			Coordinates eatenChal = mv.doMove();
-	        if(eatenChal != null)
-	        	this.drawer.removeDraw(eatenChal.getX(), eatenChal.getY());
 		}
 	}
 

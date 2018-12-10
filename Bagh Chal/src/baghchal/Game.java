@@ -1,5 +1,7 @@
 package baghchal;
 
+import java.util.concurrent.TimeUnit;
+
 import baghchal.IA.*;
 import baghchal.UI.GameTable;
 
@@ -14,6 +16,7 @@ public class Game {
 	private boolean currentPlayer = true; //True = Chals Player & False = Bash Player
 	private int iaRole ;
 	private IAPlayer iaPlayer;
+	private IAPlayer secondIAPlayer;
 
 	//Constructor
 	public Game(GameTable game) {
@@ -31,14 +34,19 @@ public class Game {
 		if(this.iaRole == BAGH_IA) {
 			this.iaPlayer = new BaghIA();
 		}
-		else {
+		if(this.iaRole == CHAL_IA) {
 			this.iaPlayer = new ChalIA();
 		}
+		else {
+			this.iaPlayer = new ChalIA();
+			this.secondIAPlayer = new BaghIA();
+		}
+		
 	}
 
 	//Methods
 	public void play(){
-//		this.affichage();
+		this.affichage();
 
 		if(!this.haveWinner()) {
 
@@ -80,10 +88,10 @@ public class Game {
 					}
 					else {
 						System.out.println("Bhag Turn");
-						this.baghIATurn();
+						this.secondIAPlayerTurn();
 					}
 					try {
-						wait(1);
+						TimeUnit.SECONDS.sleep(1);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -193,8 +201,25 @@ public class Game {
 		this.gameTable.drawMoves(movement, false);
 		Move mv = new Move(movement[0], movement[1]);
 		Coordinates eatenChal = mv.doMove();
-		if(eatenChal != null)
+		if(eatenChal != null) {
 			this.gameTable.removeDraw(eatenChal);
+		}
+
+		this.gameTable.drawMoves(movement, false);
+
+		this.changePlayer();
+	}
+	
+	private void secondIAPlayerTurn() {
+		Coordinates[] movement = this.secondIAPlayer.iaAction();
+		this.gameTable.drawMoves(movement, false);
+		Move mv = new Move(movement[0], movement[1]);
+		Coordinates eatenChal = mv.doMove();
+		if(eatenChal != null) {
+			this.gameTable.removeDraw(eatenChal);
+		}
+
+		this.gameTable.drawMoves(movement, false);
 
 		this.changePlayer();
 	}
