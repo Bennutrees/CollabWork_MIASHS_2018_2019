@@ -59,30 +59,30 @@ public class GameTable extends AnchorPane{
 		if(isChal) {
 
 			if(movement[1] == null) {
-				System.out.println("in : " + movement[0].getX() + " : " + movement[0].getY());
 				this.drawer.drawChevre(movement[0]);
 			}
 			else {
-				drawer.removeDraw(this.buttonTable[movement[0].getX()][movement[0].getY()]);
-		        drawer.drawChevre(movement[1]);
+				this.drawer.removeDraw(this.buttonTable[movement[0].getX()][movement[0].getY()]);
+				this.drawer.drawChevre(movement[1]);
 			}
 
 		}
 		else {
+			this.drawer.removeDraw(buttonTable[movement[0].getX()][movement[0].getY()]);
+			this.drawer.drawTigre(movement[1]);
 			Move mv = new Move(movement[0], movement[1]);
-			if(mv.isEatingMove()) {
-				Coordinates eatenChal = mv.getEatenChalPosition();
-//				gameBoard.eatChal(eatenChal);
-				drawer.removeDraw(eatenChal.getX(), eatenChal.getY());
-			}
-//		        mv.doMove();
-		        drawer.removeDraw(buttonTable[movement[0].getX()][movement[0].getY()]);
-		        drawer.drawTigre(movement[1]);
+			Coordinates eatenChal = mv.doMove();
+	        if(eatenChal != null)
+	        	this.drawer.removeDraw(eatenChal.getX(), eatenChal.getY());
 		}
 	}
 
+	public void removeDraw(Coordinates coord) {
+		this.drawer.removeDraw(coord.getX(), coord.getY());
+	}
+
 	/****************************************************************************************************/
-	/***************************************** private methodes *****************************************/
+	/***************************************** private methods ******************************************/
 	/****************************************************************************************************/
 
 	private void tableButtons() {
@@ -277,12 +277,10 @@ public class GameTable extends AnchorPane{
 			    @Override public void handle(MouseEvent e) {
 			        MyPane targetPane = (MyPane) e.getTarget();
 			        Move mv = new Move(selectedPane.getSquare().getPosition(), targetPane.getSquare().getPosition());
-			        if(mv.isEatingMove()) {
-			        	Coordinates eatenChal = mv.getEatenChalPosition();
-			        	gameBoard.eatChal(eatenChal);
+			        Coordinates eatenChal = mv.doMove();
+			        if(eatenChal != null)
 			        	drawer.removeDraw(eatenChal.getX(), eatenChal.getY());
-			        }
-			        mv.doMove();
+
 			        drawer.removeDraw(selectedPane);
 			        Coordinates coord = targetPane.getSquare().getPosition();
 			        drawer.drawTigre(coord.getX(),coord.getY());

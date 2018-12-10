@@ -28,4 +28,8 @@ public class Coordinates {
 		this.row = x;
 		this.column = y;
 	}
+
+	public String toString() {
+		return "x: " + this.row + " / y: " + this.column;
+	}
 }

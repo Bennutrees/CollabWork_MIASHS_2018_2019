@@ -92,6 +92,7 @@ public class Board {
 		associatedSquare.setAvailability(false);
 		this.pawnsMap.put(associatedSquare, newChal);
 		this.nbChalsToPlace--;
+		System.out.println(this.nbChalsToPlace);
 	}
 
 	public void eatChal(Coordinates position) {
@@ -103,7 +104,7 @@ public class Board {
 	}
 
 	public void calculateNbFreeBaghs() {
-		int nbFreeBaghs = this.getNbFreeBaghs();
+		int nbFreeBaghs = 4;
 		for(int i = 0; i < 4; i++) {
 			ArrayList<Coordinates> list = this.baghsOnBoard[i].allPossibleMoves();
 			if(list.isEmpty())

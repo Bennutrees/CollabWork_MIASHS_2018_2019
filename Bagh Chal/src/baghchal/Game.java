@@ -38,7 +38,7 @@ public class Game {
 
 	//Methods
 	public void play(){
-		this.affichage();
+//		this.affichage();
 
 		if(!this.haveWinner()) {
 
@@ -46,21 +46,21 @@ public class Game {
 				case NO_IA:
 					if(this.currentPlayer) {
 						System.out.println("Chal Turn");
-						chalPlayerTurn();
+						this.chalPlayerTurn();
 					}
 					else {
 						System.out.println("Bhag Turn");
-						baghPlayerTurn();
+						this.baghPlayerTurn();
 					}
 					break;
 				case BAGH_IA:
 					if(this.currentPlayer) {
 						System.out.println("Chal Turn");
-						chalPlayerTurn();
+						this.chalPlayerTurn();
 					}
 					else {
 						System.out.println("Bhag Turn");
-						//TODO: bagh ia
+						this.baghIATurn();
 					}
 					break;
 				case CHAL_IA:
@@ -70,7 +70,7 @@ public class Game {
 					}
 					else {
 						System.out.println("Bhag Turn");
-						baghPlayerTurn();
+						this.baghPlayerTurn();
 					}
 					break;
 				case BOTH_IA:
@@ -80,7 +80,13 @@ public class Game {
 					}
 					else {
 						System.out.println("Bhag Turn");
-						//TODO: bagh ia
+						this.baghIATurn();
+					}
+					try {
+						wait(1);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 					break;
 				default:
@@ -166,20 +172,31 @@ public class Game {
 			this.chalIATurnMove();
 		}
 		else {
-			Coordinates[] movements = this.iaPlayer.iaAction();
-			this.board.addChal(movements[0]);
-			this.gameTable.drawMoves(movements, true);
+			Coordinates[] movement = this.iaPlayer.iaAction();
+			this.board.addChal(movement[0]);
+			this.gameTable.drawMoves(movement, true);
 		}
+		this.changePlayer();
 	}
 
 	/** Chal movement turns */
 	private void chalIATurnMove() {
-		this.iaPlayer.iaAction();
+		Coordinates[] movement = this.iaPlayer.iaAction();
+		this.gameTable.drawMoves(movement, true);
+		Move mv = new Move(movement[0], movement[1]);
+		mv.doMove();
 	}
 
 	/** Bagh turns */
 	private void baghIATurn() {
+		Coordinates[] movement = this.iaPlayer.iaAction();
+		this.gameTable.drawMoves(movement, false);
+		Move mv = new Move(movement[0], movement[1]);
+		Coordinates eatenChal = mv.doMove();
+		if(eatenChal != null)
+			this.gameTable.removeDraw(eatenChal);
 
+		this.changePlayer();
 	}
 
 }
