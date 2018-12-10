@@ -1,5 +1,6 @@
 package baghchal.UI;
 
+import baghchal.Coordinates;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -36,24 +37,43 @@ public class DrawBC {
 	public ImageView drawTigre(int i, int j) {
 
 		ImageView image = new ImageView("tigre.png");
-		image.setFitWidth(50);
-		image.setFitHeight(50);
-		image.setMouseTransparent(true);
-		StackPane.setAlignment(image,Pos.CENTER);
+		this.imageOptions(image);
 
 		this.gt.getButtonTable()[i][j].getChildren().add(image);
 		return image;
 	}
 
+	public ImageView drawTigre(Coordinates coords) {
+
+		ImageView image = new ImageView("tigre.png");
+		this.imageOptions(image);
+
+		this.gt.getButtonTable()[coords.getX()][coords.getY()].getChildren().add(image);
+		return image;
+	}
+
 	public ImageView drawChevre(int i, int j) {
 		ImageView image = new ImageView("chevre.png");
+		this.imageOptions(image);
+
+		this.gt.getButtonTable()[i][j].getChildren().add(image);
+		return image;
+	}
+
+	public ImageView drawChevre(Coordinates coords) {
+
+		ImageView image = new ImageView("chevre.png");
+		this.imageOptions(image);
+
+		this.gt.getButtonTable()[coords.getX()][coords.getY()].getChildren().add(image);
+		return image;
+	}
+
+	private void imageOptions(ImageView image) {
 		image.setFitWidth(50);
 		image.setFitHeight(50);
 		image.setMouseTransparent(true);
 		StackPane.setAlignment(image,Pos.CENTER);
-
-		this.gt.getButtonTable()[i][j].getChildren().add(image);
-		return image;
 	}
 
 	public void removeDraw(int i, int j) {

@@ -1,5 +1,7 @@
 package baghchal.IA;
 
+import baghchal.Coordinates;
+
 public abstract class IAPlayer {
-	public abstract void iaAction();
+	public abstract Coordinates[] iaAction();
 }

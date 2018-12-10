@@ -1,13 +1,19 @@
 package baghchal.IA;
 
+import baghchal.Board;
+import baghchal.Coordinates;
+
 public class BaghIA extends IAPlayer{
 
-	public BaghIA() {
+	private Board board;
 
+	public BaghIA() {
+		this.board = Board.getBoard();
 	}
 
 	@Override
-	public void iaAction() {
+	public Coordinates[] iaAction() {
+		return null;
 		// TODO Auto-generated method stub
 
 	}

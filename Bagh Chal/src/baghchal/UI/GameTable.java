@@ -15,34 +15,75 @@ import javafx.scene.layout.StackPane;
 
 public class GameTable extends AnchorPane{
 
-	public static int NB_LIGNE = 5;
-	public static int NB_COL = 5;
-	private DrawBC drawer;
-	private GridPane gp;
-	private MyPane buttonTable[][];
-	private ImageView tigres[];
+    public static int NB_LIGNE = 5;
+    public static int NB_COL = 5;
+    private DrawBC drawer;
+    private GridPane gp;
+    private MyPane buttonTable[][];
+    private ImageView tigres[];
 
-	private Board gameBoard;
+    private Board gameBoard;
 
-	private MyPane selectedPane = null;
+    private MyPane selectedPane = null;
 
-	public GameTable(Board board) {
-		this.gameBoard = board;
-		this.buttonTable = new MyPane[5][5];
-		this.tigres = new ImageView[4];
-		this.drawer = new DrawBC(this);
+    public GameTable() {
+        this.gameBoard = Board.getBoard();
+        this.buttonTable = new MyPane[5][5];
+        this.tigres = new ImageView[4];
+        this.drawer = new DrawBC(this);
 
-		this.tableButtons();
+        this.tableButtons();
 
-		for(int i=0; i<4; i++) {
-			BaghPawn bp = gameBoard.getBaghsOnBoard()[i];
-			this.tigres[i] = this.drawer.drawTigre(bp.getPosition().getX(), bp.getPosition().getY());
+        for(int i=0; i<4; i++) {
+            BaghPawn bp = gameBoard.getBaghsOnBoard()[i];
+            this.tigres[i] = this.drawer.drawTigre(bp.getPosition().getX(), bp.getPosition().getY());
+        }
+    }
+
+    public StackPane[][] getButtonTable() {
+        return buttonTable;
+    }
+
+    public void endGame() {
+        for(int i=0; i<5; i++) {
+            for(int j=0; j<5; j++) {
+                MyPane p = this.buttonTable[i][j];
+                p.setOnMouseEntered(null);
+                p.setOnMousePressed(null);
+                p.setOnMouseReleased(null);
+            }
+        }
+    }
+
+	public void drawMoves(Coordinates[] movement, boolean isChal) {
+		if(isChal) {
+
+			if(movement[1] == null) {
+				System.out.println("in : " + movement[0].getX() + " : " + movement[0].getY());
+				this.drawer.drawChevre(movement[0]);
+			}
+			else {
+				drawer.removeDraw(this.buttonTable[movement[0].getX()][movement[0].getY()]);
+		        drawer.drawChevre(movement[1]);
+			}
+
+		}
+		else {
+			Move mv = new Move(movement[0], movement[1]);
+			if(mv.isEatingMove()) {
+				Coordinates eatenChal = mv.getEatenChalPosition();
+//				gameBoard.eatChal(eatenChal);
+				drawer.removeDraw(eatenChal.getX(), eatenChal.getY());
+			}
+//		        mv.doMove();
+		        drawer.removeDraw(buttonTable[movement[0].getX()][movement[0].getY()]);
+		        drawer.drawTigre(movement[1]);
 		}
 	}
 
-	public StackPane[][] getButtonTable() {
-		return buttonTable;
-	}
+	/****************************************************************************************************/
+	/***************************************** private methodes *****************************************/
+	/****************************************************************************************************/
 
 	private void tableButtons() {
 
@@ -104,25 +145,12 @@ public class GameTable extends AnchorPane{
 		}
 	}
 
-	public void endGame() {
-		for(int i=0; i<5; i++) {
-			for(int j=0; j<5; j++) {
-				MyPane p = this.buttonTable[i][j];
-				p.setOnMouseEntered(null);
-				p.setOnMousePressed(null);
-				p.setOnMouseReleased(null);
-			}
-		}
-	}
-
 	/**********************************************************************/
 	/******************************  Chals   ******************************/
 	/**********************************************************************/
 	public void chalPlayerPlacement(EventHandler<MouseEvent> event) {
-
 		for(int i=0; i<5; i++) {
 			for(int j=0; j<5; j++) {
-
 				MyPane p = this.buttonTable[i][j];
 				if(p.getSquare().getIsAvailable()){
 					p.setOnMouseEntered(new EventHandler<MouseEvent>() {

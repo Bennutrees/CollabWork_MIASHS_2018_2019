@@ -9,22 +9,20 @@ public class Game {
 	public final static int CHAL_IA = 1;
 	public final static int BOTH_IA = 2;
 
-	private Board board;
+	private Board board = Board.getBoard();
 	private GameTable gameTable;
 	private boolean currentPlayer = true; //True = Chals Player & False = Bash Player
 	private int iaRole ;
 	private IAPlayer iaPlayer;
 
 	//Constructor
-	public Game(Board board, GameTable gameTable) {
-		this.board = board;
-		this.gameTable = gameTable;
+	public Game(GameTable game) {
+		this.gameTable = game;
 		this.iaRole = NO_IA;
 	}
 
-	public Game(Board board, GameTable gameTable, int iaRole) {
-		this.board = board;
-		this.gameTable = gameTable;
+	public Game(GameTable game, int iaRole) {
+		this.gameTable = game;
 		if(iaRole >= CHAL_IA && iaRole <= BAGH_IA) {
 			throw new IllegalArgumentException("Not a correct value for IA");
 		}
@@ -68,7 +66,7 @@ public class Game {
 				case CHAL_IA:
 					if(this.currentPlayer) {
 						System.out.println("Chal Turn");
-						//TODO: chal ia
+						this.chalIATurn();
 					}
 					else {
 						System.out.println("Bhag Turn");
@@ -78,7 +76,7 @@ public class Game {
 				case BOTH_IA:
 					if(this.currentPlayer) {
 						System.out.println("Chal Turn");
-						//TODO: chal ia
+						this.chalIATurn();
 					}
 					else {
 						System.out.println("Bhag Turn");
@@ -96,6 +94,10 @@ public class Game {
 		}
 
 	}
+
+	/****************************************************************************************************/
+	/***************************************** private methodes *****************************************/
+	/****************************************************************************************************/
 
 	private boolean haveWinner(){
 		this.board.calculateNbFreeBaghs();
@@ -158,20 +160,26 @@ public class Game {
 	/********************************************* IA player ********************************************/
 	/****************************************************************************************************/
 
+	/** Chal placement turns */
 	private void chalIATurn() {
 		if(this.board.getNbChalsToPlace() == 0) {
 			this.chalIATurnMove();
 		}
 		else {
-			this.iaPlayer.iaAction();
+			Coordinates[] movements = this.iaPlayer.iaAction();
+			this.board.addChal(movements[0]);
+			this.gameTable.drawMoves(movements, true);
 		}
 	}
 
+	/** Chal movement turns */
 	private void chalIATurnMove() {
-
+		this.iaPlayer.iaAction();
 	}
 
+	/** Bagh turns */
 	private void baghIATurn() {
 
 	}
+
 }
