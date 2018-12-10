@@ -1,6 +1,7 @@
 package baghchal;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class AbstractPawn {
 
@@ -18,25 +19,46 @@ public abstract class AbstractPawn {
 		this.position.setPosition(x,y);
 	}
 
-	public ArrayList<Coordinates> possibleMoves() {
-		ArrayList<Coordinates> possibleMoves = new ArrayList<Coordinates>();
+//	public ArrayList<Coordinates> possibleMoves() {
+//		ArrayList<Coordinates> possibleMoves = new ArrayList<Coordinates>();
+//
+//		final int pawnX1 = this.getPosition().getX();
+//		final int pawnY1 = this.getPosition().getY();
+//		Square[][] squaresOnBoard = Board.getBoard().getSquaresOnBoard();
+//		Square associatedSquareToPawn = squaresOnBoard[pawnX1][pawnY1];
+//
+//		for (Direction dir : associatedSquareToPawn.getSquareAllowedDirections()) {
+//			final int pawnX2 = pawnX1 + dir.dx;
+//			final int pawnY2 = pawnY1 + dir.dy;
+//			boolean squareIsAvailable = squaresOnBoard[pawnX2][pawnY2].getIsAvailable();
+//
+//			if(squareIsAvailable) {
+//				possibleMoves.add(new Coordinates(pawnX2,pawnY2));
+//			}
+//
+//		}
+//		return possibleMoves;
+//	}
 
-		int x = this.position.getX();
-		int y = this.position.getY();
+	public List<Move> possibleMoves() {
+		List<Move> possibleMoves = new ArrayList<Move>();
+
+		final int pawnX1 = this.getPosition().getX();
+		final int pawnY1 = this.getPosition().getY();
 		Square[][] squaresOnBoard = Board.getBoard().getSquaresOnBoard();
-		Square associatedSquareToPawn = squaresOnBoard[x][y];
+		Square associatedSquareToPawn = squaresOnBoard[pawnX1][pawnY1];
 
 		for (Direction dir : associatedSquareToPawn.getSquareAllowedDirections()) {
-			int dx = x + dir.dx;
-			int dy = y + dir.dy;
-			boolean squareIsAvailable = squaresOnBoard[dx][dy].getIsAvailable();
+			final int pawnX2 = pawnX1 + dir.dx;
+			final int pawnY2 = pawnY1 + dir.dy;
+			boolean squareIsAvailable = squaresOnBoard[pawnX2][pawnY2].getIsAvailable();
 
 			if(squareIsAvailable) {
-				possibleMoves.add(new Coordinates(dx,dy));
+				possibleMoves.add(new Move(this.getPosition(),new Coordinates(pawnX2, pawnY2)));
 			}
-
 		}
 		return possibleMoves;
 	}
-
+	
+	public abstract List<Move> allPossibleMoves();
 }

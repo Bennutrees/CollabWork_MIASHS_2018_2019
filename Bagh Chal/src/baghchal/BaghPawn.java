@@ -1,6 +1,7 @@
 package baghchal;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 
 public class BaghPawn extends AbstractPawn {
@@ -12,20 +13,20 @@ public class BaghPawn extends AbstractPawn {
 
 
 	//Methods
-	public ArrayList<Coordinates> possibleEatMoves() {
-		ArrayList<Coordinates> possibleMoves = new ArrayList<Coordinates>();
+	public List<Move> possibleEatMoves() {
+		List<Move> possibleMoves = new ArrayList<Move>();
 
-		int x = this.position.getX();
-		int y = this.position.getY();
+		final int baghX = this.getPosition().getX();
+		final int baghY = this.getPosition().getY();
 		HashMap<Square, AbstractPawn> pawnsMap = Board.getBoard().getPawnsMap();
 		Square[][] squaresOnBoard = Board.getBoard().getSquaresOnBoard();
-		Square associatedSquareToBagh = squaresOnBoard[x][y];
+		Square associatedSquareToBagh = squaresOnBoard[baghX][baghY];
 
 
 		for (Direction dir : associatedSquareToBagh.getSquareAllowedDirections()) {
-			int dx = x + dir.dx;
-			int dy = y + dir.dy;
-			Square associatedSquareToChal = squaresOnBoard[dx][dy];
+			final int chalX = baghX + dir.dx;
+			final int chalY = baghY + dir.dy;
+			Square associatedSquareToChal = squaresOnBoard[chalX][chalY];
 
 			boolean squareIsOccupiedByPawn = associatedSquareToChal.getIsAvailable() == false;
 			boolean pawnIsChal = pawnsMap.get(associatedSquareToChal) instanceof ChalPawn;
@@ -34,17 +35,17 @@ public class BaghPawn extends AbstractPawn {
 
 			try {
 				moveIsInBoardRange = true;
-				nextCoordinates = new Coordinates(dx + dir.dx,dy + dir.dy);
+				nextCoordinates = new Coordinates(chalX + dir.dx,chalY + dir.dy);
 			}
 			catch(IllegalArgumentException e){
 				moveIsInBoardRange = false;
 			}
 
 			if (squareIsOccupiedByPawn && pawnIsChal && moveIsInBoardRange) {
-				boolean nextSquareIsAvailable = squaresOnBoard[dx + dir.dx][dy + dir.dy].getIsAvailable();
+				boolean nextSquareIsAvailable = squaresOnBoard[chalX + dir.dx][chalY + dir.dy].getIsAvailable();
 
 				if(nextSquareIsAvailable) {
-					possibleMoves.add(nextCoordinates);
+					possibleMoves.add(new Move(this.getPosition(),nextCoordinates));
 				}
 			}
 
@@ -52,8 +53,9 @@ public class BaghPawn extends AbstractPawn {
 		return possibleMoves;
 	}
 
-	public ArrayList<Coordinates> allPossibleMoves() {
-		ArrayList<Coordinates> possibleMoves = new ArrayList<Coordinates>();
+	@Override
+	public List<Move> allPossibleMoves() {
+		List<Move> possibleMoves = new ArrayList<Move>();
 		possibleMoves.addAll(possibleEatMoves());
 		possibleMoves.addAll(possibleMoves());
 		return possibleMoves;

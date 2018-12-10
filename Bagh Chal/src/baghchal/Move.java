@@ -6,13 +6,18 @@ public class Move {
 
 	private Coordinates start;
 	private Coordinates finish;
-
+	
+	public Move(Coordinates finish) {
+		this.start = finish;
+		this.finish = finish;
+	}
+	
 	public Move(Coordinates start, Coordinates finish) {
 		this.start = start;
 		this.finish = finish;
 	}
-
-	private boolean isEatingMove() {
+	
+	private boolean isEatingChalMove() {
         return Math.abs(start.getX() - finish.getX()) > 1 || Math.abs(start.getY() - finish.getY()) > 1;
 	}
 
@@ -42,7 +47,7 @@ public class Move {
 		pawnsMap.put(finishSquare, selectedPawn);
 		finishSquare.setAvailability(false);
 
-		if(this.isEatingMove()) {
+		if(this.isEatingChalMove()) {
 			eatenChal = this.getEatenChalPosition();
         	board.eatChal(eatenChal);
 		}
