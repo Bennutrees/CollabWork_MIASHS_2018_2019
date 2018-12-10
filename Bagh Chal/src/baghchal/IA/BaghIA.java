@@ -1,10 +1,12 @@
 package baghchal.IA;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import baghchal.BaghPawn;
 import baghchal.Board;
 import baghchal.Coordinates;
+import baghchal.Move;
 
 public class BaghIA extends IAPlayer{
 
@@ -15,18 +17,17 @@ public class BaghIA extends IAPlayer{
 	}
 
 	@Override
-	public Coordinates[] iaAction() {
-		Coordinates[] movement = this.randomMoves();
-		return movement;
+	public Move iaAction() {
+		Move move = this.randomMoves();
+		return move;
 	}
 
 	@Override
-	protected Coordinates[] randomMoves() {
-		Coordinates[] coords = new Coordinates[2];
+	protected Move randomMoves() {
 		BaghPawn[] baghs = this.board.getBaghsOnBoard();
 		int random = (int)(Math.random() * 3);
 		BaghPawn bagh = baghs[random];
-		ArrayList<Coordinates> moves = bagh.possibleMoves();
+		List<Move> moves = bagh.possibleMoves();
 
 		while(moves.isEmpty()) {
 			random = (int)(Math.random() * 3);
@@ -35,10 +36,8 @@ public class BaghIA extends IAPlayer{
 		}
 
 		random = (int)(Math.random() * moves.size()-1);
-		coords[0] = bagh.getPosition();
-		coords[1] = moves.get(random);
 
-		return coords;
+		return moves.get(random);
 	}
 
 }

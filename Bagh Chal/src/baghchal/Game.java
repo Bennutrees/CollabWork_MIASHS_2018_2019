@@ -180,48 +180,65 @@ public class Game {
 			this.chalIATurnMove();
 		}
 		else {
-			Coordinates[] movement = this.iaPlayer.iaAction();
-			this.board.addChal(movement[0]);
-			this.gameTable.drawMoves(movement, true);
+			Move move = this.iaPlayer.iaAction();
+			this.board.addChal(move.getFinish());
+			this.gameTable.drawMoves(move, true);
 		}
 		this.changePlayer();
 	}
 
 	/** Chal movement turns */
 	private void chalIATurnMove() {
-		Coordinates[] movement = this.iaPlayer.iaAction();
-		this.gameTable.drawMoves(movement, true);
-		Move mv = new Move(movement[0], movement[1]);
-		mv.doMove();
+		Move move = this.iaPlayer.iaAction();
+		this.gameTable.drawMoves(move, true);
+		move.doMove();
 	}
 
 	/** Bagh turns */
 	private void baghIATurn() {
-		Coordinates[] movement = this.iaPlayer.iaAction();
-		this.gameTable.drawMoves(movement, false);
-		Move mv = new Move(movement[0], movement[1]);
-		Coordinates eatenChal = mv.doMove();
+		Move move = this.iaPlayer.iaAction();
+		System.out.println(move);
+		this.gameTable.drawMoves(move, false);
+		Coordinates eatenChal = move.doMove();
 		if(eatenChal != null) {
 			this.gameTable.removeDraw(eatenChal);
 		}
-
-		this.gameTable.drawMoves(movement, false);
-
 		this.changePlayer();
+		
+		
+//		Coordinates[] movement = this.iaPlayer.iaAction();
+//		this.gameTable.drawMoves(movement, false);
+//		Move mv = new Move(movement[0], movement[1]);
+//		Coordinates eatenChal = mv.doMove();
+//		if(eatenChal != null) {
+//			this.gameTable.removeDraw(eatenChal);
+//		}
+//
+//		this.gameTable.drawMoves(movement, false);
+//
+//		this.changePlayer();
 	}
 	
 	private void secondIAPlayerTurn() {
-		Coordinates[] movement = this.secondIAPlayer.iaAction();
-		this.gameTable.drawMoves(movement, false);
-		Move mv = new Move(movement[0], movement[1]);
-		Coordinates eatenChal = mv.doMove();
+		Move move = this.secondIAPlayer.iaAction();
+		this.gameTable.drawMoves(move, false);
+		Coordinates eatenChal = move.doMove();
 		if(eatenChal != null) {
 			this.gameTable.removeDraw(eatenChal);
 		}
-
-		this.gameTable.drawMoves(movement, false);
-
 		this.changePlayer();
+		
+//		Coordinates[] movement = this.secondIAPlayer.iaAction();
+//		this.gameTable.drawMoves(movement, false);
+//		Move mv = new Move(movement[0], movement[1]);
+//		Coordinates eatenChal = mv.doMove();
+//		if(eatenChal != null) {
+//			this.gameTable.removeDraw(eatenChal);
+//		}
+//
+//		this.gameTable.drawMoves(movement, false);
+//
+//		this.changePlayer();
 	}
 
 }

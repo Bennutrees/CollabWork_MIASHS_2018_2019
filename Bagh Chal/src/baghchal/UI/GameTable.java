@@ -73,10 +73,23 @@ public class GameTable extends AnchorPane{
 			this.drawer.drawTigre(movement[1]);
 		}
 	}
+	
+	public void drawMoves(Move move, boolean isChal) {
+		Coordinates start = move.getStart();
+		this.drawer.removeDraw(this.buttonTable[start.getX()][start.getY()]);
+		if(isChal) {
+			this.drawer.drawChevre(move.getFinish());
+		}
+		else {
+			this.drawer.drawTigre(move.getFinish());
+		}
+	}
 
 	public void removeDraw(Coordinates coord) {
 		this.drawer.removeDraw(coord.getX(), coord.getY());
 	}
+	
+	
 
 	/****************************************************************************************************/
 	/***************************************** private methods ******************************************/
@@ -204,8 +217,8 @@ public class GameTable extends AnchorPane{
 	public void chalPlayerMove(EventHandler<MouseEvent> event) {
 		ChalPawn cp = (ChalPawn) this.gameBoard.getPawnsMap().get(this.selectedPane.getSquare());
 
-		for(Coordinates c : cp.possibleMoves()) {
-			MyPane p = this.buttonTable[c.getX()][c.getY()];
+		for(Move c : cp.possibleMoves()) {
+			MyPane p = this.buttonTable[c.getFinish().getX()][c.getFinish().getY()];
 			p.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			    @Override public void handle(MouseEvent e) {
 			        p.setStyle("-fx-border-color: green;");
@@ -263,8 +276,8 @@ public class GameTable extends AnchorPane{
 
 		BaghPawn bp = (BaghPawn) this.gameBoard.getPawnsMap().get(this.selectedPane.getSquare());
 
-		for(Coordinates c : bp.allPossibleMoves()) {
-			MyPane p = this.buttonTable[c.getX()][c.getY()];
+		for(Move c : bp.allPossibleMoves()) {
+			MyPane p = this.buttonTable[c.getFinish().getX()][c.getFinish().getY()];
 			p.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			    @Override public void handle(MouseEvent e) {
 			        p.setStyle("-fx-border-color: green;");

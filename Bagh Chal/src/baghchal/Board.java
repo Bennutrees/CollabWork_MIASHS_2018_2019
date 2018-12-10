@@ -2,6 +2,7 @@ package baghchal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Board {
 
@@ -105,7 +106,7 @@ public class Board {
 	public void calculateNbFreeBaghs() {
 		int nbFreeBaghs = 4;
 		for(int i = 0; i < 4; i++) {
-			ArrayList<Coordinates> list = this.baghsOnBoard[i].allPossibleMoves();
+			List<Move> list = this.baghsOnBoard[i].allPossibleMoves();
 			if(list.isEmpty())
 				nbFreeBaghs--;
 		}

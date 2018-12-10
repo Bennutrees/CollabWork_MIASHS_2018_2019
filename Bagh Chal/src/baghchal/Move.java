@@ -37,7 +37,6 @@ public class Move {
 		Square[][] squaresOnBoard = board.getSquaresOnBoard();
 		Square startSquare = squaresOnBoard[start.getX()][start.getY()];
 		Square finishSquare = squaresOnBoard[finish.getX()][finish.getY()];
-
 		if(this.isEatingChalMove()) {
 			eatenChal = this.getEatenChalPosition();
         	board.eatChal(eatenChal);
@@ -48,10 +47,23 @@ public class Move {
 		pawnsMap.put(startSquare, null);
 		startSquare.setAvailability(true);
 		//Add pawn to finishSquare
+		System.out.println(selectedPawn);
 		selectedPawn.setPosition(finish.getX(),finish.getY());
 		pawnsMap.put(finishSquare, selectedPawn);
 		finishSquare.setAvailability(false);
 
 		return eatenChal;
+	}
+	
+	public Coordinates getStart() {
+		return start;
+	}
+
+	public Coordinates getFinish() {
+		return finish;
+	}
+	
+	public String toString() {
+		return start.toString() + " : " + finish.toString();
 	}
 }
