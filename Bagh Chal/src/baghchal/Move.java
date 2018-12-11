@@ -37,6 +37,7 @@ public class Move {
 		Square[][] squaresOnBoard = board.getSquaresOnBoard();
 		Square startSquare = squaresOnBoard[start.getX()][start.getY()];
 		Square finishSquare = squaresOnBoard[finish.getX()][finish.getY()];
+		
 		if(this.isEatingChalMove()) {
 			eatenChal = this.getEatenChalPosition();
         	board.eatChal(eatenChal);
