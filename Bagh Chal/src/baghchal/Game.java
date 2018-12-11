@@ -1,7 +1,5 @@
 package baghchal;
 
-import java.util.concurrent.TimeUnit;
-
 import baghchal.IA.*;
 import baghchal.UI.GameTable;
 
@@ -40,13 +38,12 @@ public class Game {
 		else {
 			this.iaPlayer = new ChalIA();
 			this.secondIAPlayer = new BaghIA();
-		}
-		
+		}	
 	}
 
 	//Methods
 	public void play(){
-		this.affichage();
+//		this.affichage();
 
 		if(!this.haveWinner()) {
 
@@ -97,8 +94,12 @@ public class Game {
 
 		}
 		else{
-			System.out.println("win");
+			if(this.currentPlayer) 
+				System.out.println("Baghs win");
+			else
+				System.out.println("Chals win");
 			this.gameTable.endGame();
+			
 		}
 
 	}
@@ -190,28 +191,13 @@ public class Game {
 
 	/** Bagh turns */
 	private void baghIATurn() {
-		System.out.println(iaPlayer instanceof BaghIA);
 		Move move = this.iaPlayer.iaAction();
-		System.out.println(move);
 		this.gameTable.drawMoves(move, false);
 		Coordinates eatenChal = move.doMove();
 		if(eatenChal != null) {
 			this.gameTable.removeDraw(eatenChal);
 		}
 		this.changePlayer();
-		
-		
-//		Coordinates[] movement = this.iaPlayer.iaAction();
-//		this.gameTable.drawMoves(movement, false);
-//		Move mv = new Move(movement[0], movement[1]);
-//		Coordinates eatenChal = mv.doMove();
-//		if(eatenChal != null) {
-//			this.gameTable.removeDraw(eatenChal);
-//		}
-//
-//		this.gameTable.drawMoves(movement, false);
-//
-//		this.changePlayer();
 	}
 	
 	private void secondIAPlayerTurn() {
@@ -222,18 +208,6 @@ public class Game {
 			this.gameTable.removeDraw(eatenChal);
 		}
 		this.changePlayer();
-		
-//		Coordinates[] movement = this.secondIAPlayer.iaAction();
-//		this.gameTable.drawMoves(movement, false);
-//		Move mv = new Move(movement[0], movement[1]);
-//		Coordinates eatenChal = mv.doMove();
-//		if(eatenChal != null) {
-//			this.gameTable.removeDraw(eatenChal);
-//		}
-//
-//		this.gameTable.drawMoves(movement, false);
-//
-//		this.changePlayer();
 	}
 
 }

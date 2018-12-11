@@ -47,7 +47,6 @@ public class Move {
 		pawnsMap.put(startSquare, null);
 		startSquare.setAvailability(true);
 		//Add pawn to finishSquare
-		System.out.println(selectedPawn);
 		selectedPawn.setPosition(finish.getX(),finish.getY());
 		pawnsMap.put(finishSquare, selectedPawn);
 		finishSquare.setAvailability(false);

@@ -6,7 +6,6 @@ import baghchal.Board;
 import baghchal.ChalPawn;
 import baghchal.Coordinates;
 import baghchal.Move;
-import baghchal.Square;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;

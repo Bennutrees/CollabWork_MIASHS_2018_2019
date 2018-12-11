@@ -2,7 +2,6 @@ package baghchal.UI;
 
 import java.io.IOException;
 
-import baghchal.Board;
 import baghchal.Game;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +16,6 @@ public class Menu {
 	@FXML Button playChalButton;
 	@FXML Button iaVsIaButton;
 
-	private Board gameBoard;
 	private GameTable gameTable;
 	private BorderPane root;
 
@@ -29,7 +27,6 @@ public class Menu {
         VBox pane = loader.load();
         root.setCenter(pane);
 
-        this.gameBoard = Board.getBoard();
         this.gameTable = new GameTable();
         this.root = root;
 	}
