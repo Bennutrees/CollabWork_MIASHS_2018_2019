@@ -36,7 +36,7 @@ public abstract class MinMax<T> implements Cloneable {
         T bestMove = null;
 
         for (T move : moves) {
-            MinMax tempBoard = (MinMax) this.clone();
+            MinMax<T> tempBoard = (MinMax<T>) this.clone();
             tempBoard.doMove(move);
             int score =
                     tempBoard.evaluate(maxSearchDepth == MinMax.UNLIMITED_SEARCH_DEPTH ? MinMax.UNLIMITED_SEARCH_DEPTH : maxSearchDepth - 1,
@@ -97,7 +97,8 @@ public abstract class MinMax<T> implements Cloneable {
         return bestScore;
     }
 
-    public MinMax<T> clone() {
+    @SuppressWarnings("unchecked")
+	public MinMax<T> clone() {
         try {
             return (MinMax<T>) super.clone();
         } catch (Exception e) {

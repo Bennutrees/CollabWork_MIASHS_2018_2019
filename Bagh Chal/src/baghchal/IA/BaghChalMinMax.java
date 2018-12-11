@@ -88,20 +88,10 @@ public class BaghChalMinMax extends MinMax<Move> {
     
     @Override
     public void moveAction(Move move) {
-        if (move.isUnusedGoatBeingDropped) {
-            squareContents[move.dest.x][move.dest.y] = SquareContents.GOAT;
-        } else {
-            if (squareContents[move.src.x][move.src.y] == SquareContents.TIGER) {
-                boolean isTakingMove = Math.abs(move.src.x - move.dest.x) > 1 || Math.abs(move.src.y - move.dest.y) > 1;
-                if (isTakingMove) {
-                    int takenGoatX = (move.src.x + move.dest.x) / 2;
-                    int takenGoatY = (move.src.y + move.dest.y) / 2;
-                    squareContents[takenGoatX][takenGoatY] = SquareContents.EMPTY;
-                }
-            }
-
-            squareContents[move.dest.x][move.dest.y] = squareContents[move.src.x][move.src.y];
-            squareContents[move.src.x][move.src.y] = SquareContents.EMPTY;
-        }
+		Board board = Board.getBoard();
+		boolean isPuttingNewChal = move.getStart() == move.getFinish();
+		
+        if (isPuttingNewChal) board.addChal(move.getStart());
+        else move.doMove();
     }
 }
