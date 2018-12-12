@@ -2,6 +2,8 @@ package baghchal.IA;
 
 import java.util.List;
 
+import baghchal.BaghPawn;
+import baghchal.Board;
 import baghchal.ImpossibleMoveException;
 
 public abstract class MinMax<T> implements Cloneable {
@@ -15,6 +17,12 @@ public abstract class MinMax<T> implements Cloneable {
     public static final int MAX_HAS_WON = Integer.MIN_VALUE;
 
     private int player = MinMax.MAX_TURN; // Must always be 1 or -1
+    
+    protected Board board;
+    
+    protected MinMax(Board board) {
+    	this.board = board;
+    }
 
     public final boolean isMinTurn() {
         return player == MinMax.MIN_TURN;
@@ -26,6 +34,9 @@ public abstract class MinMax<T> implements Cloneable {
         }
 
         List<T> moves = listAllLegalMoves();
+        System.out.println("-------------------------------------------------");
+        System.out.println("pickPerfectMove");
+        System.out.println(moves);
         if (moves.isEmpty()) {
             throw new ImpossibleMoveException();
         } else if (moves.size() == 1) {
@@ -36,8 +47,9 @@ public abstract class MinMax<T> implements Cloneable {
         T bestMove = null;
 
         for (T move : moves) {
+        	System.out.println("slect move :");
             MinMax<T> tempBoard = (MinMax<T>) this.clone();
-            tempBoard.doMove(move);
+//            tempBoard.doMove(move);
             int score =
                     tempBoard.evaluate(maxSearchDepth == MinMax.UNLIMITED_SEARCH_DEPTH ? MinMax.UNLIMITED_SEARCH_DEPTH : maxSearchDepth - 1,
                             new AlphaBeta());
@@ -46,6 +58,8 @@ public abstract class MinMax<T> implements Cloneable {
                 bestMove = move;
             }
         }
+		System.out.println("best move : " + bestMove);
+        System.out.println("-------------------------------------------------");
         return bestMove;
     }
 
@@ -97,14 +111,7 @@ public abstract class MinMax<T> implements Cloneable {
         return bestScore;
     }
 
-    @SuppressWarnings("unchecked")
-	public MinMax<T> clone() {
-        try {
-            return (MinMax<T>) super.clone();
-        } catch (Exception e) {
-            return null;
-        }
-    }
+	public abstract MinMax<T> clone();
 
     public abstract int getCurrentScore();
 

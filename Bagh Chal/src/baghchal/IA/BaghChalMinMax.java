@@ -11,20 +11,13 @@ public class BaghChalMinMax extends MinMax<Move> {
 	private BaghPawn[] baghsOnBoard;
 	private HashMap<Square, AbstractPawn> pawnsMap;
     private int nbChalsToPlace;
-	private Board board;
 
     public BaghChalMinMax(Board board) {
-    	this.board = board;
+    	super(board);
         this.pawnsMap = board.getPawnsMap();
         this.chalsOnBoard = board.getChalsOnBoard();
         this.baghsOnBoard = board.getBaghsOnBoard();
         this.nbChalsToPlace = board.getNbChalsToPlace();
-        
-//        System.out.println(board + " / " + Board.getBoard());
-//        System.out.println(chalsOnBoard + " / " + Board.getBoard().getChalsOnBoard());
-//        System.out.println(baghsOnBoard + " / " + Board.getBoard().getBaghsOnBoard());
-//        nbChalsToPlace--;
-//        System.out.println(nbChalsToPlace + " / " + Board.getBoard().getNbChalsToPlace());
     }
 
     
@@ -49,7 +42,6 @@ public class BaghChalMinMax extends MinMax<Move> {
     @Override
     public List<Move> listAllLegalMoves() {
         List<Move> moves = isMinTurn() ? listAllChalMoves() : listAllBaghMoves();
-        System.out.println("moves : " + moves);
         Collections.shuffle(moves);
         return moves;
     }
@@ -101,9 +93,10 @@ public class BaghChalMinMax extends MinMax<Move> {
 		
         if (isPuttingNewChal) this.board.addChal(move.getStart());
         else move.doMove();
-        this.board.affichage();
-        for (BaghPawn baghPawn : baghsOnBoard) {
-            System.out.println(baghPawn.getPosition().getX() + " : " + baghPawn.getPosition().getY());
-		}
+    }
+    
+    @Override
+    public BaghChalMinMax clone() {
+    	return new BaghChalMinMax(new Board(this.board));
     }
 }

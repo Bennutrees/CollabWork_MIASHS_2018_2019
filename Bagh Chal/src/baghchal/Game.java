@@ -18,6 +18,7 @@ public class Game {
 
 	//Constructor
 	public Game(GameTable game, Board board) {
+		this.board = board;
 		this.gameTable = game;
 		this.iaRole = NO_IA;
 	}

@@ -24,7 +24,7 @@ public class Board {
 		this.pawnsMap = new HashMap<Square, AbstractPawn>();
 		this.squaresOnBoard = this.createSquaresMap();
 		this.chalsOnBoard = new ArrayList<ChalPawn>();
-		this.baghsOnBoard = new BaghPawn[nbFreeBaghs];
+		this.baghsOnBoard = new BaghPawn[4];
 		this.initBaghs();
 	}
 	
@@ -34,7 +34,7 @@ public class Board {
 		nbEatenChals = board.getNbEatenChals();
 
 		chalsOnBoard = new ArrayList<ChalPawn>();
-		baghsOnBoard = new BaghPawn[nbFreeBaghs];
+		baghsOnBoard = new BaghPawn[4];
 		
 		pawnsMap = new HashMap<Square, AbstractPawn>();
 		squaresOnBoard = createSquaresMap();
@@ -86,7 +86,7 @@ public class Board {
 	}
 
 	public void affichage() {
-		System.out.println("_______________");
+		System.out.println("------------");
 		for(int i=0; i<5; i++) {
 			for(int j=0; j<5; j++) {
 				String p = " ";
@@ -95,10 +95,9 @@ public class Board {
 					p = this.getPawnsMap().get(thisSquare).toString();
 				}
 				System.out.print("|"+p);
-//				System.out.print("|"+thisSquare.getPosition().getX()+","+thisSquare.getPosition().getY());
 			}
 			System.out.println("|");
-			System.out.println("_______________");
+			System.out.println("------------");
 		}
 	}
 
