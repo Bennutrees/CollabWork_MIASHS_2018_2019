@@ -199,19 +199,6 @@ public class Game {
 			this.gameTable.removeDraw(eatenChal);
 		}
 		this.changePlayer();
-		
-		
-//		Coordinates[] movement = this.iaPlayer.iaAction();
-//		this.gameTable.drawMoves(movement, false);
-//		Move mv = new Move(movement[0], movement[1]);
-//		Coordinates eatenChal = mv.doMove();
-//		if(eatenChal != null) {
-//			this.gameTable.removeDraw(eatenChal);
-//		}
-//
-//		this.gameTable.drawMoves(movement, false);
-//
-//		this.changePlayer();
 	}
 	
 	private void secondIAPlayerTurn() {
@@ -221,19 +208,7 @@ public class Game {
 		if(eatenChal != null) {
 			this.gameTable.removeDraw(eatenChal);
 		}
-		this.changePlayer();
-		
-//		Coordinates[] movement = this.secondIAPlayer.iaAction();
-//		this.gameTable.drawMoves(movement, false);
-//		Move mv = new Move(movement[0], movement[1]);
-//		Coordinates eatenChal = mv.doMove();
-//		if(eatenChal != null) {
-//			this.gameTable.removeDraw(eatenChal);
-//		}
-//
-//		this.gameTable.drawMoves(movement, false);
-//
-//		this.changePlayer();
+		this.changePlayer();	
 	}
 
 }
