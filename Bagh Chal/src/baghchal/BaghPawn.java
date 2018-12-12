@@ -7,8 +7,8 @@ import java.util.HashMap;
 public class BaghPawn extends AbstractPawn {
 
 	//Constructor
-	public BaghPawn(int x, int y) {
-		super(x, y);
+	public BaghPawn(int x, int y, Board board) {
+		super(x, y, board);
 	}
 
 
@@ -18,8 +18,8 @@ public class BaghPawn extends AbstractPawn {
 
 		final int baghX = this.getPosition().getX();
 		final int baghY = this.getPosition().getY();
-		HashMap<Square, AbstractPawn> pawnsMap = Board.getBoard().getPawnsMap();
-		Square[][] squaresOnBoard = Board.getBoard().getSquaresOnBoard();
+		HashMap<Square, AbstractPawn> pawnsMap = this.board.getPawnsMap();
+		Square[][] squaresOnBoard = this.board.getSquaresOnBoard();
 		Square associatedSquareToBagh = squaresOnBoard[baghX][baghY];
 
 
@@ -45,7 +45,7 @@ public class BaghPawn extends AbstractPawn {
 				boolean nextSquareIsAvailable = squaresOnBoard[chalX + dir.dx][chalY + dir.dy].getIsAvailable();
 
 				if(nextSquareIsAvailable) {
-					possibleMoves.add(new Move(this.getPosition(),nextCoordinates));
+					possibleMoves.add(new Move(this.getPosition(),nextCoordinates, this.board));
 				}
 			}
 

@@ -17,9 +17,9 @@ public class Menu {
 	@FXML Button playChalButton;
 	@FXML Button iaVsIaButton;
 
-	private Board gameBoard;
 	private GameTable gameTable;
 	private BorderPane root;
+	private Board board;
 
 	public Menu(BorderPane root) throws IOException {
 
@@ -29,8 +29,8 @@ public class Menu {
         VBox pane = loader.load();
         root.setCenter(pane);
 
-        this.gameBoard = Board.getBoard();
-        this.gameTable = new GameTable();
+        this.board = new Board();
+        this.gameTable = new GameTable(board);
         this.root = root;
 	}
 
@@ -38,7 +38,7 @@ public class Menu {
 	private void newGameJCJ(){
         this.loadGameTable();
 		System.out.println("JCJ");
-		Game game= new Game(this.gameTable);
+		Game game= new Game(this.gameTable, this.board);
 		game.play();
 	}
 
@@ -46,7 +46,7 @@ public class Menu {
 	private void newGamePlayBagh(){
 		this.loadGameTable();
 		System.out.println("Play Bagh");
-		Game game= new Game(this.gameTable, Game.CHAL_IA);
+		Game game= new Game(this.gameTable, Game.CHAL_IA, this.board);
 		game.play();
 	}
 
@@ -54,7 +54,7 @@ public class Menu {
 	private void newGamePlayChal(){
 		this.loadGameTable();
 		System.out.println("Play Chal");
-		Game game= new Game(this.gameTable, Game.BAGH_IA);
+		Game game= new Game(this.gameTable, Game.BAGH_IA, this.board);
 		game.play();
 	}
 
@@ -62,7 +62,7 @@ public class Menu {
 	private void newGameIaVsIa(){
 		this.loadGameTable();
 		System.out.println("IA VS IA");
-		Game game= new Game(this.gameTable,Game.BOTH_IA);
+		Game game= new Game(this.gameTable,Game.BOTH_IA, this.board);
 		game.play();
 	}
 

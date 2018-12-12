@@ -6,8 +6,8 @@ import java.util.List;
 public class ChalPawn extends AbstractPawn {
 	
 	//Constructor
-	public ChalPawn(int x, int y) {
-		super(x, y);
+	public ChalPawn(int x, int y, Board board) {
+		super(x, y, board);
 	}
 
 	//Methods

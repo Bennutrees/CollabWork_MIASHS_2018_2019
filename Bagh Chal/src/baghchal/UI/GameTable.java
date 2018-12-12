@@ -6,7 +6,6 @@ import baghchal.Board;
 import baghchal.ChalPawn;
 import baghchal.Coordinates;
 import baghchal.Move;
-import baghchal.Square;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -23,12 +22,12 @@ public class GameTable extends AnchorPane{
     private MyPane buttonTable[][];
     private ImageView tigres[];
 
-    private Board gameBoard;
+    private Board board;
 
     private MyPane selectedPane = null;
 
-    public GameTable() {
-        this.gameBoard = Board.getBoard();
+    public GameTable(Board board) {
+        this.board = board;
         this.buttonTable = new MyPane[5][5];
         this.tigres = new ImageView[4];
         this.drawer = new DrawBC(this);
@@ -36,7 +35,7 @@ public class GameTable extends AnchorPane{
         this.tableButtons();
 
         for(int i=0; i<4; i++) {
-            BaghPawn bp = gameBoard.getBaghsOnBoard()[i];
+            BaghPawn bp = board.getBaghsOnBoard()[i];
             this.tigres[i] = this.drawer.drawTigre(bp.getPosition().getX(), bp.getPosition().getY());
         }
     }
@@ -105,7 +104,7 @@ public class GameTable extends AnchorPane{
 
 		for(int i = 0; i < NB_LIGNE; i++) {
 			for(int j = 0; j < NB_COL; j++) {
-				MyPane button = new MyPane(this.gameBoard.getSquaresOnBoard()[i][j]);
+				MyPane button = new MyPane(this.board.getSquaresOnBoard()[i][j]);
 				button.setPrefSize(100,100);
 				button.setMaxSize(100,100);
 				button.setMinSize(100,100);
@@ -173,7 +172,7 @@ public class GameTable extends AnchorPane{
 					        selectedPane = (MyPane) e.getTarget();
 					        if(selectedPane.getSquare().getIsAvailable()) {
 					        	Coordinates posi = selectedPane.getSquare().getPosition();
-					        	gameBoard.addChal(posi);
+					        	board.addChal(posi);
 					        	drawer.drawChevre(posi.getX(), posi.getY());
 					        	selectedPane = null;
 					        }
@@ -192,7 +191,7 @@ public class GameTable extends AnchorPane{
 		for(int i=0; i<5; i++) {
 			for(int j=0; j<5; j++) {
 				MyPane p = this.buttonTable[i][j];
-				AbstractPawn pawn = this.gameBoard.getPawnsMap().get(p.getSquare());
+				AbstractPawn pawn = this.board.getPawnsMap().get(p.getSquare());
 				if(pawn instanceof ChalPawn) {
 					p.setOnMouseEntered(new EventHandler<MouseEvent>() {
 					    @Override public void handle(MouseEvent e) {
@@ -215,7 +214,7 @@ public class GameTable extends AnchorPane{
 	}
 
 	public void chalPlayerMove(EventHandler<MouseEvent> event) {
-		ChalPawn cp = (ChalPawn) this.gameBoard.getPawnsMap().get(this.selectedPane.getSquare());
+		ChalPawn cp = (ChalPawn) this.board.getPawnsMap().get(this.selectedPane.getSquare());
 
 		for(Move c : cp.possibleMoves()) {
 			MyPane p = this.buttonTable[c.getFinish().getX()][c.getFinish().getY()];
@@ -227,7 +226,7 @@ public class GameTable extends AnchorPane{
 			p.setOnMousePressed(new EventHandler<MouseEvent>() {
 			    @Override public void handle(MouseEvent e) {
 			        MyPane targetPane = (MyPane) e.getTarget();
-			        Move mv = new Move(selectedPane.getSquare().getPosition(), targetPane.getSquare().getPosition());
+			        Move mv = new Move(selectedPane.getSquare().getPosition(), targetPane.getSquare().getPosition(), board);
 
 			        mv.doMove();
 			        drawer.removeDraw(selectedPane);
@@ -245,9 +244,9 @@ public class GameTable extends AnchorPane{
 	/**********************************************************************/
 
 	private void selectBaghPawn(EventHandler<MouseEvent> event) {
-		for(BaghPawn bp : this.gameBoard.getBaghsOnBoard()) {
+		for(BaghPawn bp : this.board.getBaghsOnBoard()) {
 			MyPane p = this.buttonTable[bp.getPosition().getX()][bp.getPosition().getY()];
-			AbstractPawn pawn = this.gameBoard.getPawnsMap().get(p.getSquare());
+			AbstractPawn pawn = this.board.getPawnsMap().get(p.getSquare());
 			if(pawn instanceof BaghPawn) {
 				p.setOnMouseEntered(new EventHandler<MouseEvent>() {
 				    @Override public void handle(MouseEvent e) {
@@ -274,7 +273,7 @@ public class GameTable extends AnchorPane{
 		this.defaultMouseEvent();
 		this.selectBaghPawn(postEvent);
 
-		BaghPawn bp = (BaghPawn) this.gameBoard.getPawnsMap().get(this.selectedPane.getSquare());
+		BaghPawn bp = (BaghPawn) this.board.getPawnsMap().get(this.selectedPane.getSquare());
 
 		for(Move c : bp.allPossibleMoves()) {
 			MyPane p = this.buttonTable[c.getFinish().getX()][c.getFinish().getY()];
@@ -286,7 +285,7 @@ public class GameTable extends AnchorPane{
 			p.setOnMousePressed(new EventHandler<MouseEvent>() {
 			    @Override public void handle(MouseEvent e) {
 			        MyPane targetPane = (MyPane) e.getTarget();
-			        Move mv = new Move(selectedPane.getSquare().getPosition(), targetPane.getSquare().getPosition());
+			        Move mv = new Move(selectedPane.getSquare().getPosition(), targetPane.getSquare().getPosition(), board);
 			        Coordinates eatenChal = mv.doMove();
 			        if(eatenChal != null)
 			        	drawer.removeDraw(eatenChal.getX(), eatenChal.getY());

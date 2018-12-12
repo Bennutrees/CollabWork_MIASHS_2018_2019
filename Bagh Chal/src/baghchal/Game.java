@@ -1,7 +1,5 @@
 package baghchal;
 
-import java.util.concurrent.TimeUnit;
-
 import baghchal.IA.*;
 import baghchal.UI.GameTable;
 
@@ -11,7 +9,7 @@ public class Game {
 	public final static int CHAL_IA = 1;
 	public final static int BOTH_IA = 2;
 
-	private Board board = Board.getBoard();
+	private Board board;
 	private GameTable gameTable;
 	private boolean currentPlayer = true; //True = Chals Player & False = Bash Player
 	private int iaRole ;
@@ -19,12 +17,13 @@ public class Game {
 	private IAPlayer secondIAPlayer;
 
 	//Constructor
-	public Game(GameTable game) {
+	public Game(GameTable game, Board board) {
 		this.gameTable = game;
 		this.iaRole = NO_IA;
 	}
 
-	public Game(GameTable game, int iaRole) {
+	public Game(GameTable game, int iaRole, Board board) {
+		this.board = board;
 		this.gameTable = game;
 		if(iaRole >= CHAL_IA && iaRole <= BAGH_IA) {
 			throw new IllegalArgumentException("Not a correct value for IA");
@@ -32,21 +31,20 @@ public class Game {
 		this.iaRole  = iaRole;
 
 		if(this.iaRole == BAGH_IA) {
-			this.iaPlayer = new BaghIA();
+			this.iaPlayer = new BaghIA(this.board);
 		}
 		else if(this.iaRole == CHAL_IA) {
-			this.iaPlayer = new ChalIA();
+			this.iaPlayer = new ChalIA(this.board);
 		}
 		else {
-			this.iaPlayer = new ChalIA();
-			this.secondIAPlayer = new BaghIA();
-		}
-		
+			this.iaPlayer = new ChalIA(this.board);
+			this.secondIAPlayer = new BaghIA(this.board);
+		}	
 	}
 
 	//Methods
 	public void play(){
-		this.affichage();
+//		this.affichage();
 
 		if(!this.haveWinner()) {
 
@@ -97,8 +95,12 @@ public class Game {
 
 		}
 		else{
-			System.out.println("win");
+			if(this.currentPlayer) 
+				System.out.println("Baghs win");
+			else
+				System.out.println("Chals win");
 			this.gameTable.endGame();
+			
 		}
 
 	}
@@ -113,23 +115,6 @@ public class Game {
 			return true;
 		}
 		return false;
-	}
-
-	private void affichage() {
-		System.out.println("_______________");
-		for(int i=0; i<5; i++) {
-			for(int j=0; j<5; j++) {
-				String p = " ";
-				Square thisSquare = this.board.getSquaresOnBoard()[i][j];
-				if(thisSquare.getIsAvailable() == false){
-					p = this.board.getPawnsMap().get(thisSquare).toString();
-				}
-				System.out.print("|"+p);
-//				System.out.print("|"+thisSquare.getPosition().getX()+","+thisSquare.getPosition().getY());
-			}
-			System.out.println("|");
-			System.out.println("_______________");
-		}
 	}
 
 	private void changePlayer() {
@@ -190,9 +175,7 @@ public class Game {
 
 	/** Bagh turns */
 	private void baghIATurn() {
-		System.out.println(iaPlayer instanceof BaghIA);
 		Move move = this.iaPlayer.iaAction();
-		System.out.println(move);
 		this.gameTable.drawMoves(move, false);
 		Coordinates eatenChal = move.doMove();
 		if(eatenChal != null) {
@@ -208,7 +191,7 @@ public class Game {
 		if(eatenChal != null) {
 			this.gameTable.removeDraw(eatenChal);
 		}
-		this.changePlayer();	
+		this.changePlayer();
 	}
 
 }

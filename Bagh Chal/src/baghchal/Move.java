@@ -6,15 +6,18 @@ public class Move {
 
 	private Coordinates start;
 	private Coordinates finish;
+	private Board board;
 	
-	public Move(Coordinates finish) {
+	public Move(Coordinates finish, Board board) {
 		this.start = finish;
 		this.finish = finish;
+		this.board = board;
 	}
 	
-	public Move(Coordinates start, Coordinates finish) {
+	public Move(Coordinates start, Coordinates finish, Board board) {
 		this.start = start;
 		this.finish = finish;
+		this.board = board;
 	}
 
 	public boolean isEatingChalMove() {
@@ -31,15 +34,15 @@ public class Move {
 	 * Return null if no Chal is eaten, else return eaten chal position*/
 	public Coordinates doMove() {
 		Coordinates eatenChal = null;
-		Board board = Board.getBoard();
 
-		HashMap<Square, AbstractPawn> pawnsMap = board.getPawnsMap();
-		Square[][] squaresOnBoard = board.getSquaresOnBoard();
+		HashMap<Square, AbstractPawn> pawnsMap = this.board.getPawnsMap();
+		Square[][] squaresOnBoard = this.board.getSquaresOnBoard();
 		Square startSquare = squaresOnBoard[start.getX()][start.getY()];
 		Square finishSquare = squaresOnBoard[finish.getX()][finish.getY()];
+		
 		if(this.isEatingChalMove()) {
 			eatenChal = this.getEatenChalPosition();
-        	board.eatChal(eatenChal);
+			this.board.eatChal(eatenChal);
 		}
 		
 		AbstractPawn selectedPawn = pawnsMap.get(startSquare);
@@ -47,7 +50,6 @@ public class Move {
 		pawnsMap.put(startSquare, null);
 		startSquare.setAvailability(true);
 		//Add pawn to finishSquare
-		System.out.println(selectedPawn);
 		selectedPawn.setPosition(finish.getX(),finish.getY());
 		pawnsMap.put(finishSquare, selectedPawn);
 		finishSquare.setAvailability(false);
@@ -64,6 +66,6 @@ public class Move {
 	}
 	
 	public String toString() {
-		return start.toString() + " : " + finish.toString();
+		return "(" + start.toString() + " -> " + finish.toString() + ")";
 	}
 }

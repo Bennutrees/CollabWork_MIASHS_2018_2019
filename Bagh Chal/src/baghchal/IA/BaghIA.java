@@ -1,24 +1,23 @@
 package baghchal.IA;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import baghchal.BaghPawn;
 import baghchal.Board;
-import baghchal.Coordinates;
 import baghchal.Move;
 
 public class BaghIA extends IAPlayer{
-
-	private Board board;
-
-	public BaghIA() {
-		this.board = Board.getBoard();
+	
+	public BaghIA(Board board) {
+		super(board);
 	}
 
 	@Override
 	public Move iaAction() {
-		Move move = this.randomMoves();
+		BaghChalMinMax minmaxIA = new BaghChalMinMax(this.board);
+		Move move = this.randomEatingMove();
+		if(move == null)
+			move = minmaxIA.pickPerfectMove(10);
+//			move = this.randomMoves();
 		return move;
 	}
 
@@ -39,5 +38,19 @@ public class BaghIA extends IAPlayer{
 
 		return moves.get(random);
 	}
+	
+	private Move randomEatingMove() {
+		BaghPawn[] baghs = this.board.getBaghsOnBoard();
 
+		int rand = (int)(Math.random() * 3);
+		for(int i=rand; i<4+rand; i++) {
+			List<Move> eatMoves = baghs[i%4].possibleEatMoves();
+			if(!eatMoves.isEmpty()) {
+				rand = (int)(Math.random() * (eatMoves.size()-1));
+				return eatMoves.get(rand);
+			}
+		}
+		return null;
+	}
+	
 }

@@ -11,12 +11,20 @@ public class BaghChalMinMax extends MinMax<Move> {
 	private BaghPawn[] baghsOnBoard;
 	private HashMap<Square, AbstractPawn> pawnsMap;
     private int nbChalsToPlace;
+	private Board board;
 
-    public BaghChalMinMax() {
-        this.pawnsMap = Board.getBoard().getPawnsMap();
-        this.chalsOnBoard = Board.getBoard().getChalsOnBoard();
-        this.baghsOnBoard = Board.getBoard().getBaghsOnBoard();
-        this.nbChalsToPlace = Board.getBoard().getNbChalsToPlace();
+    public BaghChalMinMax(Board board) {
+    	this.board = board;
+        this.pawnsMap = board.getPawnsMap();
+        this.chalsOnBoard = board.getChalsOnBoard();
+        this.baghsOnBoard = board.getBaghsOnBoard();
+        this.nbChalsToPlace = board.getNbChalsToPlace();
+        
+//        System.out.println(board + " / " + Board.getBoard());
+//        System.out.println(chalsOnBoard + " / " + Board.getBoard().getChalsOnBoard());
+//        System.out.println(baghsOnBoard + " / " + Board.getBoard().getBaghsOnBoard());
+//        nbChalsToPlace--;
+//        System.out.println(nbChalsToPlace + " / " + Board.getBoard().getNbChalsToPlace());
     }
 
     
@@ -41,6 +49,7 @@ public class BaghChalMinMax extends MinMax<Move> {
     @Override
     public List<Move> listAllLegalMoves() {
         List<Move> moves = isMinTurn() ? listAllChalMoves() : listAllBaghMoves();
+        System.out.println("moves : " + moves);
         Collections.shuffle(moves);
         return moves;
     }
@@ -54,7 +63,7 @@ public class BaghChalMinMax extends MinMax<Move> {
         Set<Square> squaresOnMap = pawnsMap.keySet();
         
         for (Square actualSquare : squaresOnMap) {
-        	if (actualSquare.getIsAvailable()) phase1ChalsMoves.add(new Move(actualSquare.getPosition()));
+        	if (actualSquare.getIsAvailable()) phase1ChalsMoves.add(new Move(actualSquare.getPosition(), this.board));
         }
         return phase1ChalsMoves;
     }
@@ -88,20 +97,13 @@ public class BaghChalMinMax extends MinMax<Move> {
     
     @Override
     public void moveAction(Move move) {
-        if (move.isUnusedGoatBeingDropped) {
-            squareContents[move.dest.x][move.dest.y] = SquareContents.GOAT;
-        } else {
-            if (squareContents[move.src.x][move.src.y] == SquareContents.TIGER) {
-                boolean isTakingMove = Math.abs(move.src.x - move.dest.x) > 1 || Math.abs(move.src.y - move.dest.y) > 1;
-                if (isTakingMove) {
-                    int takenGoatX = (move.src.x + move.dest.x) / 2;
-                    int takenGoatY = (move.src.y + move.dest.y) / 2;
-                    squareContents[takenGoatX][takenGoatY] = SquareContents.EMPTY;
-                }
-            }
-
-            squareContents[move.dest.x][move.dest.y] = squareContents[move.src.x][move.src.y];
-            squareContents[move.src.x][move.src.y] = SquareContents.EMPTY;
-        }
+		boolean isPuttingNewChal = move.getStart() == move.getFinish();
+		
+        if (isPuttingNewChal) this.board.addChal(move.getStart());
+        else move.doMove();
+        this.board.affichage();
+        for (BaghPawn baghPawn : baghsOnBoard) {
+            System.out.println(baghPawn.getPosition().getX() + " : " + baghPawn.getPosition().getY());
+		}
     }
 }

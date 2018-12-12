@@ -11,10 +11,8 @@ import baghchal.Square;
 
 public class ChalIA extends IAPlayer{
 
-	private Board board;
-
-	public ChalIA() {
-		this.board = Board.getBoard();
+	public ChalIA(Board board) {
+		super(board);
 	}
 
 	@Override
@@ -23,10 +21,10 @@ public class ChalIA extends IAPlayer{
 
 		if(this.board.getNbChalsToPlace() > 0) {
 			if(this.isFirstMove()) {
-				move = new Move(this.selectRandomOpeningMoveLV2());
+				move = new Move(this.selectRandomOpeningMoveLV2(), this.board);
 			}
 			else {
-				move = new Move(this.selectRandomPositionBecauseImStupid());
+				move = new Move(this.selectRandomPositionBecauseImStupid(), this.board);
 			}
 		}
 		else {
