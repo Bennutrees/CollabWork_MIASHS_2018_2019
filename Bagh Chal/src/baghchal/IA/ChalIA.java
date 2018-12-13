@@ -24,10 +24,10 @@ public class ChalIA extends IAPlayer{
 				move = new Move(this.selectRandomOpeningMoveLV2(), this.board);
 			}
 			else {
-				BaghChalMinMax minmaxIA = new BaghChalMinMax(this.board);
-//				move = new Move(this.selectRandomPositionBecauseImStupid(), this.board);
-				move =  minmaxIA.pickPerfectMove(10);
-				move = new Move(move.getStart(), this.board);
+//				BaghChalMinMax minmaxIA = new BaghChalMinMax(this.board, true);
+				move = new Move(this.selectRandomPositionBecauseImStupid(), this.board);
+//				move =  minmaxIA.pickPerfectMove(10);
+//				move = new Move(move.getStart(), this.board);
 			}
 		}
 		else {

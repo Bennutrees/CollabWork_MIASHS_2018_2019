@@ -13,12 +13,12 @@ public class BaghIA extends IAPlayer{
 
 	@Override
 	public Move iaAction() {
-		BaghChalMinMax minmaxIA = new BaghChalMinMax(new Board(this.board));
+		BaghChalMinMax minmaxIA = new BaghChalMinMax(new Board(this.board), false);
 		Move move = this.randomEatingMove();
 		if(move == null) {
-			move = minmaxIA.pickPerfectMove(10);
-//			move = this.randomMoves();
-			move = new Move(move.getStart(), move.getFinish(), this.board);
+//			move = minmaxIA.pickPerfectMove(10);
+			move = this.randomMoves();
+//			move = new Move(move.getStart(), move.getFinish(), this.board);
 		}
 		return move;
 	}

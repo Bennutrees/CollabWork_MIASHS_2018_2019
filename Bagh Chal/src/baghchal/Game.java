@@ -96,6 +96,7 @@ public class Game {
 
 		}
 		else{
+			System.out.println(20-this.board.getNbChalsToPlace());
 			if(this.currentPlayer) 
 				System.out.println("Baghs win");
 			else
