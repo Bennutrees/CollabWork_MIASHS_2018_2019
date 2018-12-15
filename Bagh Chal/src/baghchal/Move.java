@@ -33,6 +33,10 @@ public class Move {
 	/**
 	 * Return null if no Chal is eaten, else return eaten chal position*/
 	public Coordinates doMove() {
+		if(this.start == this.finish) {
+			board.addChal(this.finish);
+			return null;
+		}
 		Coordinates eatenChal = null;
 
 		HashMap<Square, AbstractPawn> pawnsMap = this.board.getPawnsMap();

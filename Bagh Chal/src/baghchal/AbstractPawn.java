@@ -41,5 +41,5 @@ public abstract class AbstractPawn {
 		return possibleMoves;
 	}
 	
-	public abstract List<Move> allPossibleMoves();
+	public abstract List<Move> allPawnPossibleMoves();
 }

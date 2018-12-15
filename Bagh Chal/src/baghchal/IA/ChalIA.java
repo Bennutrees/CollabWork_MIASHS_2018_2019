@@ -24,15 +24,17 @@ public class ChalIA extends IAPlayer{
 				move = new Move(this.selectRandomOpeningMoveLV2(), this.board);
 			}
 			else {
-//				BaghChalMinMax minmaxIA = new BaghChalMinMax(this.board, true);
-				move = new Move(this.selectRandomPositionBecauseImStupid(), this.board);
-//				move =  minmaxIA.pickPerfectMove(10);
-//				move = new Move(move.getStart(), this.board);
+				BaghChalMinMax minmaxIA = new BaghChalMinMax(new Board(this.board), BaghChalMinMax.CHAL_TURN);
+//				move = new Move(this.selectRandomPositionBecauseImStupid(), this.board);
+				move =  minmaxIA.pickPerfectMove(100);
+				System.out.println(move);
+				move = new Move(move.getStart(), this.board);
 			}
 		}
 		else {
 			move = this.randomMoves();
 		}
+		System.out.println("Selected move : " + move);
 		return move;
 
 	}
@@ -61,6 +63,12 @@ public class ChalIA extends IAPlayer{
 		return moves.get(random);
 	}
 
+	@Override
+	protected List<Move> allPossibleMoves() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
     private Coordinates selectRandomOpeningMoveLV1() {
         int r = (int) (Math.random() * 5);
         switch (r) {
@@ -108,7 +116,5 @@ public class ChalIA extends IAPlayer{
 	private boolean isFirstMove() {
 		return (this.board.getNbChalsToPlace() == 20);
 	}
-
-
 
 }

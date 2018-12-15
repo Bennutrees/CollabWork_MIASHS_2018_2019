@@ -96,7 +96,6 @@ public class Game {
 
 		}
 		else{
-			System.out.println(20-this.board.getNbChalsToPlace());
 			if(this.currentPlayer) 
 				System.out.println("Baghs win");
 			else
@@ -157,22 +156,10 @@ public class Game {
 
 	/** Chal placement turns */
 	private void chalIATurn() {
-		if(this.board.getNbChalsToPlace() == 0) {
-			this.chalIATurnMove();
-		}
-		else {
-			Move move = this.iaPlayer.iaAction();
-			this.board.addChal(move.getFinish());
-			this.gameTable.drawMoves(move, true);
-		}
-		this.changePlayer();
-	}
-
-	/** Chal movement turns */
-	private void chalIATurnMove() {
 		Move move = this.iaPlayer.iaAction();
 		this.gameTable.drawMoves(move, true);
 		move.doMove();
+		this.changePlayer();
 	}
 
 	/** Bagh turns */

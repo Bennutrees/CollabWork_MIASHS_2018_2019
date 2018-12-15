@@ -2,6 +2,7 @@ package baghchal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.HashMap;
 
 public class BaghPawn extends AbstractPawn {
@@ -54,13 +55,22 @@ public class BaghPawn extends AbstractPawn {
 	}
 
 	@Override
-	public List<Move> allPossibleMoves() {
+	public List<Move> allPawnPossibleMoves() {
 		List<Move> possibleMoves = new ArrayList<Move>();
 		possibleMoves.addAll(possibleEatMoves());
 		possibleMoves.addAll(possibleMoves());
 		return possibleMoves;
 	}
-
+	
+	public static List<Move> allPossibleBaghsMoves(Board board) {
+		BaghPawn[] baghs = board.getBaghsOnBoard();
+		
+		List<Move> moves = new ArrayList<Move>();
+		for(int i=0; i<4; i++) {
+			moves.addAll(baghs[i].allPawnPossibleMoves());
+		}
+		return moves;
+	}
 
 	public String toString(){
 		return "t";
