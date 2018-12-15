@@ -3,7 +3,6 @@ package baghchal.IA;
 import java.util.List;
 
 import baghchal.Board;
-import baghchal.Coordinates;
 import baghchal.Move;
 
 public abstract class IAPlayer {
@@ -16,6 +15,6 @@ public abstract class IAPlayer {
 	
 	public abstract Move iaAction();
 	protected abstract Move randomMoves();
-	protected abstract List<Move> allPossibleMoves();
+	protected abstract List<Move> everyPossibleMoves();
 
 }

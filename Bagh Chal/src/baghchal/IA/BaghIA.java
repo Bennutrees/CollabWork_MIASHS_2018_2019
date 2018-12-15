@@ -27,7 +27,7 @@ public class BaghIA extends IAPlayer{
 
 	@Override
 	protected Move randomMoves() {
-		List<Move> moves = this.allPossibleMoves();
+		List<Move> moves = this.everyPossibleMoves();
 		if(!moves.isEmpty()) {
 			int rand = (int)(Math.random() * moves.size());
 			return moves.get(rand);
@@ -36,12 +36,12 @@ public class BaghIA extends IAPlayer{
 	}
 	
 	@Override
-	protected List<Move> allPossibleMoves() {
+	protected List<Move> everyPossibleMoves() {
 		BaghPawn[] baghs = this.board.getBaghsOnBoard();
 		
 		List<Move> moves = new ArrayList<Move>();
 		for(int i=0; i<4; i++) {
-			for (Move move : baghs[i].allPawnPossibleMoves()) {
+			for (Move move : baghs[i].everyPawnPossibleMoves()) {
 				moves.add(move);
 			}
 		}
@@ -49,7 +49,7 @@ public class BaghIA extends IAPlayer{
 	}
 	
 	private Move randomEatingMove() {
-		List<Move> moves = this.allEatingMoves();
+		List<Move> moves = this.everyBaghEatingMoves();
 		if(!moves.isEmpty()) {
 			int rand = (int)(Math.random() * moves.size());
 			return moves.get(rand);
@@ -57,7 +57,7 @@ public class BaghIA extends IAPlayer{
 		return null;
 	}
 	
-	public List<Move> allEatingMoves() {
+	public List<Move> everyBaghEatingMoves() {
 		BaghPawn[] baghs = this.board.getBaghsOnBoard();
 		
 		List<Move> eatMoves = new ArrayList<Move>();
@@ -67,15 +67,17 @@ public class BaghIA extends IAPlayer{
 		return eatMoves;
 	}
 
-	public List<Move> allSimpleMoves() {
+	public List<Move> everyBaghSimpleMoves() {
 		BaghPawn[] baghs = this.board.getBaghsOnBoard();
 		
-		List<Move> eatMoves = new ArrayList<Move>();
+		List<Move> moves = new ArrayList<Move>();
 		for(int i=0; i<4; i++) {
-			eatMoves.addAll(baghs[i].possibleMoves());
+			moves.addAll(baghs[i].possibleMoves());
 		}
-		return eatMoves;
+		return moves;
 	}
-
 	
+	public List<Move> everyBaghHuntingMoves() {
+		
+	}
 }

@@ -1,9 +1,6 @@
 package baghchal;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.HashMap;
+import java.util.*;
 
 public class BaghPawn extends AbstractPawn {
 
@@ -55,19 +52,19 @@ public class BaghPawn extends AbstractPawn {
 	}
 
 	@Override
-	public List<Move> allPawnPossibleMoves() {
+	public List<Move> selectedPawnEveryPossibleMoves() {
 		List<Move> possibleMoves = new ArrayList<Move>();
 		possibleMoves.addAll(possibleEatMoves());
 		possibleMoves.addAll(possibleMoves());
 		return possibleMoves;
 	}
 	
-	public static List<Move> allPossibleBaghsMoves(Board board) {
+	public static List<Move> everyBaghPossibleMoves(Board board) {
 		BaghPawn[] baghs = board.getBaghsOnBoard();
 		
 		List<Move> moves = new ArrayList<Move>();
 		for(int i=0; i<4; i++) {
-			moves.addAll(baghs[i].allPawnPossibleMoves());
+			moves.addAll(baghs[i].selectedPawnEveryPossibleMoves());
 		}
 		return moves;
 	}

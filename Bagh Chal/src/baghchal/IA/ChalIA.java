@@ -64,9 +64,8 @@ public class ChalIA extends IAPlayer{
 	}
 
 	@Override
-	protected List<Move> allPossibleMoves() {
-		// TODO Auto-generated method stub
-		return null;
+	protected List<Move> everyPossibleMoves() {
+		return ChalPawn.everyChalPossibleMoves(board);
 	}
 	
     private Coordinates selectRandomOpeningMoveLV1() {

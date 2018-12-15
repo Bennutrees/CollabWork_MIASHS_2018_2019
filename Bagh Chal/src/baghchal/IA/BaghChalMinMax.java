@@ -146,9 +146,9 @@ public class BaghChalMinMax {
     public List<Move> listAllLegalMoves() {
         List<Move> moves;
         if(isMinTurn())
-        	moves = ChalPawn.allPossibleChalsMoves(board);
+        	moves = ChalPawn.everyChalPossibleMoves(board);
         else {
-        	moves = BaghPawn.allPossibleBaghsMoves(board);
+        	moves = BaghPawn.everyBaghPossibleMoves(board);
 //            Collections.shuffle(moves);
         }
         return moves;
