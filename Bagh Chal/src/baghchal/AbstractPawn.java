@@ -28,6 +28,7 @@ public abstract class AbstractPawn {
 		
 		HashMap<Square, AbstractPawn> pawnsMap = this.board.getPawnsMap();
         Set<Square> squaresOnMap = pawnsMap.keySet();
+
         for (Square currentSquare : squaresOnMap) {
         	boolean isAroundThisSquare = (Math.abs(currentSquare.getPosition().getX() - this.getPosition().getX()) <= range)
         									|| (Math.abs(currentSquare.getPosition().getY() - this.getPosition().getY()) <= range);
