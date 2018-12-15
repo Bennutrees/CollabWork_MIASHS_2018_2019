@@ -37,15 +37,7 @@ public class BaghIA extends IAPlayer{
 	
 	@Override
 	protected List<Move> everyPossibleMoves() {
-		BaghPawn[] baghs = this.board.getBaghsOnBoard();
-		
-		List<Move> moves = new ArrayList<Move>();
-		for(int i=0; i<4; i++) {
-			for (Move move : baghs[i].everyPawnPossibleMoves()) {
-				moves.add(move);
-			}
-		}
-		return moves;
+		return BaghPawn.everyBaghPossibleMoves(board);
 	}
 	
 	private Move randomEatingMove() {
