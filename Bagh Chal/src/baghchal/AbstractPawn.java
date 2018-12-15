@@ -1,7 +1,9 @@
 package baghchal;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public abstract class AbstractPawn {
 
@@ -19,6 +21,21 @@ public abstract class AbstractPawn {
 
 	public void setPosition(int x, int y) {
 		this.position.setPosition(x,y);
+	}
+	
+	public ArrayList<Square> squaresAround(int range) {
+		ArrayList<Square> squaresAround = new ArrayList<Square>();
+		
+		HashMap<Square, AbstractPawn> pawnsMap = this.board.getPawnsMap();
+        Set<Square> squaresOnMap = pawnsMap.keySet();
+        for (Square currentSquare : squaresOnMap) {
+        	boolean isAroundThisSquare = (Math.abs(currentSquare.getPosition().getX() - this.getPosition().getX()) <= range)
+        									|| (Math.abs(currentSquare.getPosition().getY() - this.getPosition().getY()) <= range);
+        	if (isAroundThisSquare) {
+        		squaresAround.add(currentSquare);
+        	}
+        }
+        return squaresAround;
 	}
 
 	public List<Move> possibleMoves() {
