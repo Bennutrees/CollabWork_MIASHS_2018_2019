@@ -19,4 +19,26 @@ public enum Direction {
 //        }
 //        return null;
 //    }
+    
+    public static Direction getOpositeDirection(Direction direction) {
+    	switch(direction) {
+    		case N:
+    			return S;
+    		case S:
+    			return N;
+    		case E:
+    			return W;
+    		case W:
+    			return E;
+    		case NE:
+    			return SW;
+    		case NW:
+    			return SE;
+    		case SW:
+    			return NE;
+    		case SE:
+    			return NW;
+    	}
+		return null;
+    }
 }
