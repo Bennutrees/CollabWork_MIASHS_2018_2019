@@ -13,7 +13,7 @@ public class ChalPawn extends AbstractPawn {
 	//Constructor
 	public ChalPawn(int x, int y, Board board) {
 		super(x, y, board);
-		this.isVulnerable = this.calculateVulnerability();
+		this.isVulnerable = this.getIsVulnerable();
 	}
 
 	//Methods
@@ -21,7 +21,7 @@ public class ChalPawn extends AbstractPawn {
 		return "c";
 	}
 	
-	private boolean calculateVulnerability() {
+	public boolean getIsVulnerable() {
 		ArrayList<Square> squaresAround = this.squaresAround(1);
 		
 		Iterator<Square> squareIterator = squaresAround.iterator();
@@ -37,29 +37,32 @@ public class ChalPawn extends AbstractPawn {
         return false;
 	}
 	
-	public boolean getIsVulnerable() {
-		return this.isVulnerable;
-	}
-	
-	public int getAnglesOfAttack() {
-		int nbOfAngles = 0;
-		ArrayList<Square> squaresAround = this.squaresAround(1);
+	public ArrayList<Square> getAnglesOfAttack() {
+		ArrayList<Square> anglesOfAttack = new ArrayList<Square>();
+
+		Square[][] squaresOnBoard = this.board.getSquaresOnBoard();
+		Square associatedSquare = squaresOnBoard[this.getPosition().getX()][this.getPosition().getY()];
+		int squaresArroundIndex = associatedSquare.getHasNorthWest() ? 0 :
+			associatedSquare.getHasNorth() ? 1 :
+			associatedSquare.getHasNorthEast() ? 2 :
+			associatedSquare.getHasWest() ? 3 : 4;
 		
+		ArrayList<Square> squaresAround = this.squaresAround(1);
 		Iterator<Square> squareIterator = squaresAround.iterator();
-		int squareIndex = 0;
-		while (squareIterator.hasNext() && squareIndex < 4) {
-			Square currentSquare = squaresAround.get(squareIndex);
-			boolean oppositeSquareExist = squaresAround.get(7 - squareIndex) instanceof Square;
+		while (squareIterator.hasNext() && squaresArroundIndex < 4) {
+			Square currentSquare = squaresAround.get(squaresArroundIndex);
+			boolean oppositeSquareExist = squaresAround.get(7 - squaresArroundIndex) instanceof Square;
 			
-			if (currentSquare.getIsAvailable() && oppositeSquareExist) {
-				Square oppositeSquare = squaresAround.get(7 - squareIndex);
-				if (oppositeSquare.getIsAvailable()) {
-					nbOfAngles += 2;
+			if (oppositeSquareExist) {
+				Square oppositeSquare = squaresAround.get(7 - squaresArroundIndex);
+				if (currentSquare.getIsAvailable() && oppositeSquare.getIsAvailable()) {
+					anglesOfAttack.add(squaresArroundIndex,currentSquare);
+					anglesOfAttack.add(7 - squaresArroundIndex, oppositeSquare);
 				}
 			}
-			squareIndex++;
+			squaresArroundIndex++;		
 		}
-		return nbOfAngles;
+		return anglesOfAttack;
 	}
 	
 	@Override

@@ -136,8 +136,8 @@ public class BaghChalMinMax {
 
     private int getNbVulnerableChals() {
         int nbVulnerableChals = 0;        
-        for (BaghPawn baghPawn : baghsOnBoard) {
-        	nbVulnerableChals += baghPawn.possibleEatMoves().size();
+        for (ChalPawn chalPawn : chalsOnBoard) {
+        	nbVulnerableChals += chalPawn.getIsVulnerable() ? 1 : 0;
         }
         return nbVulnerableChals;
     }
