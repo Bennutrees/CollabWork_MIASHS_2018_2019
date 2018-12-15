@@ -95,7 +95,7 @@ public class BaghChalMinMax {
                                 alphaBeta);
 
                 // Alpha-beta pruning
-                if (player != BaghChalMinMax.CHAL_TURN) {
+                if (player == BaghChalMinMax.BAGH_TURN) {
                     if (score < alphaBeta.alpha) {
                         return score;
                     } else if (score < alphaBeta.beta) {

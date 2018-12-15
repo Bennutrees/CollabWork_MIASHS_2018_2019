@@ -20,28 +20,40 @@ public class ChalIA extends IAPlayer{
 		Move move;
 
 		if(this.board.getNbChalsToPlace() > 0) {
-			if(this.isFirstMove()) {
-				move = new Move(this.selectRandomOpeningMoveLV2(), this.board);
-			}
-			else {
-				BaghChalMinMax minmaxIA = new BaghChalMinMax(new Board(this.board), BaghChalMinMax.CHAL_TURN);
-//				move = new Move(this.selectRandomPositionBecauseImStupid(), this.board);
-				move =  minmaxIA.pickPerfectMove(100);
-				System.out.println(move);
-				move = new Move(move.getStart(), this.board);
-			}
+			move = this.positionAction();
 		}
 		else {
-			move = this.randomMoves();
+			move = this.moveAction();
 		}
 		System.out.println("Selected move : " + move);
 		return move;
-
+	}
+	
+	
+	private Move positionAction() {
+		Move move;
+		if(this.isFirstMove()) {
+			move = new Move(this.selectRandomOpeningMoveLV2(), this.board);
+		}
+		else {
+			BaghChalMinMax minmaxIA = new BaghChalMinMax(new Board(this.board), BaghChalMinMax.CHAL_TURN);
+//			move = new Move(this.selectRandomPositionBecauseImStupid(), this.board);
+			move =  minmaxIA.pickPerfectMove(100);
+			System.out.println(move);
+			move = new Move(move.getStart(), this.board);
+		}
+		return move;
+	}
+	
+	
+	private Move moveAction() {
+		Move move;
+		move = this.randomMoves();
+		return move;
 	}
 
-
 	/****************************************************************************************************/
-	/***************************************** private methodes *****************************************/
+	/********************************************* Heritage *********************************************/
 	/****************************************************************************************************/
 	@Override
 	protected Move randomMoves() {
@@ -50,7 +62,7 @@ public class ChalIA extends IAPlayer{
 		int random = (int)(Math.random() * chals.size()-1);
 		ChalPawn chal = chals.get(random);
 
-		List<Move> moves = chal.possibleMoves();
+		List<Move> moves = ChalPawn.allPossibleChalsMoves(this.board);
 
 		while(moves.isEmpty()) {
 			random = (int)(Math.random() * chals.size()-1);
@@ -62,13 +74,10 @@ public class ChalIA extends IAPlayer{
 
 		return moves.get(random);
 	}
-
-	@Override
-	protected List<Move> allPossibleMoves() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
+	/****************************************************************************************************/
+	/******************************************* Random moves *******************************************/
+	/****************************************************************************************************/
     private Coordinates selectRandomOpeningMoveLV1() {
         int r = (int) (Math.random() * 5);
         switch (r) {
