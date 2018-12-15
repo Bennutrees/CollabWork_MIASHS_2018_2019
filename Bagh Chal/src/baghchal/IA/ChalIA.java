@@ -66,7 +66,7 @@ public class ChalIA extends IAPlayer{
 		ChalPawn vulnerableChal = null;
 		Square BaghSquare;
 		for (ChalPawn chal : chals) {
-			if(chal.getIsVulnerable()) {
+			if(chal.isVulnerable()) {
 				vulnerableChal = chal;
 				
 			}
@@ -83,7 +83,7 @@ public class ChalIA extends IAPlayer{
 		
 		//TODO: trouver la case ou placer la chèvre pour le sauver
 		Square squareForSave = null;//TODO: lahaut
-		if(new ChalPawn(squareForSave.getPosition().getX(), squareForSave.getPosition().getY(),this.board).getIsVulnerable()) {
+		if(new ChalPawn(squareForSave.getPosition().getX(), squareForSave.getPosition().getY(),this.board).isVulnerable()) {
 			return null;
 		}
 		return new Move(squareForSave.getPosition(), this.board);
@@ -134,7 +134,7 @@ public class ChalIA extends IAPlayer{
 		int random = (int)(Math.random() * chals.size()-1);
 		ChalPawn chal = chals.get(random);
 
-		List<Move> moves = ChalPawn.allPossibleChalsMoves(this.board);
+		List<Move> moves = ChalPawn.everyChalPossibleMoves(this.board);
 
 		while(moves.isEmpty()) {
 			random = (int)(Math.random() * chals.size()-1);
@@ -145,6 +145,11 @@ public class ChalIA extends IAPlayer{
 		random = (int)(Math.random() * moves.size()-1);
 
 		return moves.get(random);
+	}
+	
+	@Override
+	protected List<Move> everyPossibleMoves() {
+		return ChalPawn.everyChalPossibleMoves(board);
 	}
 	
 	/****************************************************************************************************/

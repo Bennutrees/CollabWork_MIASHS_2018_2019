@@ -1,19 +1,12 @@
 package baghchal;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class ChalPawn extends AbstractPawn {
-	
-	private boolean isVulnerable;
 	
 	//Constructor
 	public ChalPawn(int x, int y, Board board) {
 		super(x, y, board);
-		this.isVulnerable = this.getIsVulnerable();
 	}
 
 	//Methods
@@ -21,7 +14,7 @@ public class ChalPawn extends AbstractPawn {
 		return "c";
 	}
 	
-	public boolean getIsVulnerable() {
+	public boolean isVulnerable() {
 		ArrayList<Square> squaresAround = this.squaresAround(1);
 		
 		Iterator<Square> squareIterator = squaresAround.iterator();
@@ -66,28 +59,28 @@ public class ChalPawn extends AbstractPawn {
 	}
 	
 	@Override
-	public List<Move> allPawnPossibleMoves() {
+	public List<Move> selectedPawnEveryPossibleMoves() {
 		List<Move> possibleMoves = new ArrayList<Move>();
 		possibleMoves.addAll(possibleMoves());
 		return possibleMoves;
 	}
 	
-	public static List<Move> allPossibleChalsMoves(Board board) {
-		List<Move> possibleActions = new ArrayList<Move>();
+	public static List<Move> everyChalPossibleMoves(Board board) {
+		List<Move> moves = new ArrayList<Move>();
 		if(board.getNbChalsToPlace() > 0) {
 	        Set<Square> squaresOnMap = board.getPawnsMap().keySet();
 	        
 	        for (Square currentSquare : squaresOnMap) {
 	        	if (currentSquare.getIsAvailable()) 
-	        		possibleActions.add(new Move(currentSquare.getPosition(), board));
+	        		moves.add(new Move(currentSquare.getPosition(), board));
 	        }
 		}
 		else {
 			ArrayList<ChalPawn> chals = board.getChalsOnBoard();
 			for (ChalPawn chal : chals) {
-				possibleActions.addAll(chal.allPawnPossibleMoves());
+				moves.addAll(chal.selectedPawnEveryPossibleMoves());
 			}
 		}
-		return possibleActions;
+		return moves;
 	}
 }

@@ -275,7 +275,7 @@ public class GameTable extends AnchorPane{
 
 		BaghPawn bp = (BaghPawn) this.board.getPawnsMap().get(this.selectedPane.getSquare());
 
-		for(Move c : bp.allPawnPossibleMoves()) {
+		for(Move c : bp.selectedPawnEveryPossibleMoves()) {
 			MyPane p = this.buttonTable[c.getFinish().getX()][c.getFinish().getY()];
 			p.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			    @Override public void handle(MouseEvent e) {

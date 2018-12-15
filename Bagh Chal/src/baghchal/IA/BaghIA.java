@@ -30,20 +30,23 @@ public class BaghIA extends IAPlayer{
 	/****************************************************************************************************/
 	@Override
 	protected Move randomMoves() {
-		List<Move> moves = BaghPawn.allPossibleBaghsMoves(this.board);
+		List<Move> moves = this.everyPossibleMoves();
 		if(!moves.isEmpty()) {
 			int rand = (int)(Math.random() * moves.size());
 			return moves.get(rand);
 		}
 		return null;
 	}
-	
+	@Override
+	protected List<Move> everyPossibleMoves() {
+		return BaghPawn.everyBaghPossibleMoves(this.board);
+	}
 	
 	/****************************************************************************************************/
 	/******************************************* Random eating ******************************************/
 	/****************************************************************************************************/
 	private Move randomEatingMove() {
-		List<Move> moves = this.allEatingMoves();
+		List<Move> moves = this.everyBaghEatingMoves();
 		if(!moves.isEmpty()) {
 			int rand = (int)(Math.random() * moves.size());
 			return moves.get(rand);
@@ -51,7 +54,8 @@ public class BaghIA extends IAPlayer{
 		return null;
 	}
 	
-	private List<Move> allEatingMoves() {
+
+	public List<Move> everyBaghEatingMoves() {
 		BaghPawn[] baghs = this.board.getBaghsOnBoard();
 		
 		List<Move> eatMoves = new ArrayList<Move>();
@@ -60,16 +64,18 @@ public class BaghIA extends IAPlayer{
 		}
 		return eatMoves;
 	}
-//
-//	public List<Move> allSimpleMoves() {
-//		BaghPawn[] baghs = this.board.getBaghsOnBoard();
-//		
-//		List<Move> eatMoves = new ArrayList<Move>();
-//		for(int i=0; i<4; i++) {
-//			eatMoves.addAll(baghs[i].possibleMoves());
-//		}
-//		return eatMoves;
-//	}
 
+	public List<Move> everyBaghSimpleMoves() {
+		BaghPawn[] baghs = this.board.getBaghsOnBoard();
+		
+		List<Move> moves = new ArrayList<Move>();
+		for(int i=0; i<4; i++) {
+			moves.addAll(baghs[i].possibleMoves());
+		}
+		return moves;
+	}
 	
+//	public List<Move> everyBaghHuntingMoves() {
+//		
+//	}
 }
