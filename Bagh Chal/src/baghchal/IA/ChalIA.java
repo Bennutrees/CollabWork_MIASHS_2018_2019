@@ -42,6 +42,7 @@ public class ChalIA extends IAPlayer{
 			List<ChalPawn> chals = this.board.getChalsOnBoard();
 			//On protège d'abord nos pions déjà posé.
 			move = this.foundChalToProtect(chals);
+			System.out.println("to save : " + move);
 			//On prend les coins disponible
 			if(move == null) {
 				move = this.takeAngle();
@@ -53,10 +54,9 @@ public class ChalIA extends IAPlayer{
 			//On pose là où il y a le moins de risque possible.
 			
 			
-			else {
+			if(move == null) {
 				BaghChalMinMax minmaxIA = new BaghChalMinMax(new Board(this.board), BaghChalMinMax.CHAL_TURN);
 				move =  minmaxIA.pickPerfectMove(100);
-				System.out.println(move);
 				move = new Move(move.getStart(), this.board);
 			}
 		}
@@ -68,7 +68,7 @@ public class ChalIA extends IAPlayer{
 		ChalPawn vulnerableChal = null;
 		BaghPawn baghPawn = null;
 		for (ChalPawn chal : chals) {
-			System.out.println(chal.isVulnerable());
+			System.out.println("vulnerable Chal : " + chal.isVulnerable());
 			if(chal.isVulnerable() ) {
 				Square chalSquare = this.board.getSquaresOnBoard()[chal.getPosition().getX()][chal.getPosition().getY()];
 				vulnerableChal = chal;
@@ -80,6 +80,7 @@ public class ChalIA extends IAPlayer{
 				}
 			}
 			if(vulnerableChal != null) {
+				System.out.println("in");
 				return this.saveChalWithPlacement(vulnerableChal, baghPawn);
 			}
 		}
