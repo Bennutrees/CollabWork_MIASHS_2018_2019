@@ -111,23 +111,22 @@ public class Square {
 		this.isAvailable = newAvailability;
 	}
 
+	public boolean isNeighbour(Square neighbourSquare) {
+		int x1 = this.getPosition().getX();
+		int y1 = this.getPosition().getY();
+		int x2 = neighbourSquare.getPosition().getX();
+		int y2 = neighbourSquare.getPosition().getY();
+		boolean horizontallyAligned = Math.abs(x1-x2) == 1 && y1 == y2;
+		boolean verticallyAligned = Math.abs(y1-y2) == 1 && x1 == x2;
+		boolean diagonallyAligned = Math.abs(x1-x2) == 1 && Math.abs(y1-y2) == 1;
 
-//	public boolean isNeighbour(Square neighbourSquare) {
-//		int x1 = this.getPosition().getX();
-//		int y1 = this.getPosition().getY();
-//		int x2 = neighbourSquare.getPosition().getX();
-//		int y2 = neighbourSquare.getPosition().getY();
-//		boolean horizontallyAligned = Math.abs(x1-x2) == 1 && y1 == y2;
-//		boolean verticallyAligned = Math.abs(y1-y2) == 1 && x1 == x2;
-//		boolean diagonallyAligned = Math.abs(x1-x2) == 1 && Math.abs(y1-y2) == 1;
-//
-//		if (!(this.isDiagonal && neighbourSquare.isDiagonal)) {
-//			return horizontallyAligned || verticallyAligned;
-//		}
-//		else {
-//			return diagonallyAligned;
-//		}
-//	}
+		if (!(this.isDiagonal && neighbourSquare.isDiagonal)) {
+			return horizontallyAligned || verticallyAligned;
+		}
+		else {
+			return diagonallyAligned;
+		}
+	}
 
 	private boolean hasMovePossibleToward(Direction direction) {
         if (direction == null) {
@@ -155,7 +154,7 @@ public class Square {
         }
 	}
 
-   public ArrayList<Direction> getSquareAllowedDirections() {
+	public ArrayList<Direction> getSquareAllowedDirections() {
     	Direction[] directions = Direction.values();
     	ArrayList<Direction> allowedDirections = new ArrayList<Direction>();
 

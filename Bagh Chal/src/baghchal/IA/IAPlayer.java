@@ -17,4 +17,5 @@ public abstract class IAPlayer {
 	protected abstract Move randomMoves();
 	protected abstract List<Move> everyPossibleMoves();
 
+
 }

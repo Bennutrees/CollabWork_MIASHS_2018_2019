@@ -25,6 +25,9 @@ public class BaghIA extends IAPlayer{
 		return move;
 	}
 
+	/****************************************************************************************************/
+	/********************************************* Heritage *********************************************/
+	/****************************************************************************************************/
 	@Override
 	protected Move randomMoves() {
 		List<Move> moves = this.everyPossibleMoves();
@@ -34,12 +37,14 @@ public class BaghIA extends IAPlayer{
 		}
 		return null;
 	}
-	
 	@Override
 	protected List<Move> everyPossibleMoves() {
-		return BaghPawn.everyBaghPossibleMoves(board);
+		return BaghPawn.everyBaghPossibleMoves(this.board);
 	}
 	
+	/****************************************************************************************************/
+	/******************************************* Random eating ******************************************/
+	/****************************************************************************************************/
 	private Move randomEatingMove() {
 		List<Move> moves = this.everyBaghEatingMoves();
 		if(!moves.isEmpty()) {
@@ -49,6 +54,7 @@ public class BaghIA extends IAPlayer{
 		return null;
 	}
 	
+
 	public List<Move> everyBaghEatingMoves() {
 		BaghPawn[] baghs = this.board.getBaghsOnBoard();
 		
@@ -68,8 +74,5 @@ public class BaghIA extends IAPlayer{
 		}
 		return moves;
 	}
-	
-	public List<Move> everyBaghHuntingMoves() {
-		
-	}
+
 }

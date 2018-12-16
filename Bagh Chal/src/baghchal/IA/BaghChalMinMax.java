@@ -1,18 +1,8 @@
 package baghchal.IA;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-import baghchal.AbstractPawn;
-import baghchal.BaghPawn;
-import baghchal.Board;
-import baghchal.ChalPawn;
-import baghchal.ImpossibleMoveException;
-import baghchal.Move;
-import baghchal.Square;
+import baghchal.*;
 
 public class BaghChalMinMax {
 	
@@ -95,7 +85,7 @@ public class BaghChalMinMax {
                                 alphaBeta);
 
                 // Alpha-beta pruning
-                if (player != BaghChalMinMax.CHAL_TURN) {
+                if (player == BaghChalMinMax.BAGH_TURN) {
                     if (score < alphaBeta.alpha) {
                         return score;
                     } else if (score < alphaBeta.beta) {
@@ -127,7 +117,7 @@ public class BaghChalMinMax {
 
     /**************************************************/
 	public int getCurrentScore() {
-        return -((5 * getNbChalsOnBoard()) + getNbVulnerableChals());
+        return -(5 * getNbChalsOnBoard() + getNbVulnerableChals());
     }
 	
     private int getNbChalsOnBoard() {
@@ -137,7 +127,7 @@ public class BaghChalMinMax {
     private int getNbVulnerableChals() {
         int nbVulnerableChals = 0;        
         for (ChalPawn chalPawn : chalsOnBoard) {
-        	nbVulnerableChals += chalPawn.getIsVulnerable() ? 1 : 0;
+        	nbVulnerableChals += chalPawn.isVulnerable() ? 1 : 0;
         }
         return nbVulnerableChals;
     }
