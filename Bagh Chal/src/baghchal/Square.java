@@ -164,4 +164,11 @@ public class Square {
     	}
     	return allowedDirections;
     }
+
+	@Override
+	public String toString() {
+		return "Square [position=" + position + "]";
+	}
+
+
 }

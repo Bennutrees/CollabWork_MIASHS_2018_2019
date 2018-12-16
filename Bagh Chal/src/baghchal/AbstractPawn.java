@@ -22,19 +22,24 @@ public abstract class AbstractPawn {
 	public void setPosition(int x, int y) {
 		this.position.setPosition(x,y);
 	}
-	
+
 	public ArrayList<Square> squaresAround(int range) {
 		ArrayList<Square> squaresAround = new ArrayList<Square>();
-		
-		HashMap<Square, AbstractPawn> pawnsMap = this.board.getPawnsMap();
-        Set<Square> squaresOnMap = pawnsMap.keySet();
+
+        Square[][] squaresOnMap = this.board.getSquaresOnBoard();
 
         Square mySquare = this.board.getSquaresOnBoard()[this.position.getX()][this.position.getY()];
-        
-        for (Square currentSquare : squaresOnMap) {
-        	if(mySquare.isNeighbour(currentSquare))
-        		squaresAround.add(currentSquare);
-        }
+
+		System.out.println("Dans squaresAround : ");
+		for (int i = 0; i < squaresOnMap.length; i++) {
+			for (int j = 0; j < squaresOnMap.length; j++) {
+				Square currentSquare = squaresOnMap[i][j];
+				if(mySquare.isNeighbour(currentSquare)) {
+					System.out.println(currentSquare.toString());
+					squaresAround.add(currentSquare);
+				}
+			}
+		}
         return squaresAround;
 	}
 
@@ -57,6 +62,6 @@ public abstract class AbstractPawn {
 		}
 		return possibleMoves;
 	}
-	
+
 	public abstract List<Move> selectedPawnEveryPossibleMoves();
 }
