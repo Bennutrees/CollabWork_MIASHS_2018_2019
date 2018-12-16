@@ -3,6 +3,7 @@ package baghchal.IA;
 import java.util.ArrayList;
 import java.util.List;
 
+import baghchal.BaghPawn;
 import baghchal.Board;
 import baghchal.ChalPawn;
 import baghchal.Coordinates;
@@ -41,6 +42,7 @@ public class ChalIA extends IAPlayer{
 			List<ChalPawn> chals = this.board.getChalsOnBoard();
 			//On protège d'abord nos pions déjà posé.
 			move = this.foundChalToProtect(chals);
+			System.out.println("to save : " + move);
 			//On prend les coins disponible
 			if(move == null) {
 				move = this.takeAngle();
@@ -52,10 +54,9 @@ public class ChalIA extends IAPlayer{
 			//On pose là où il y a le moins de risque possible.
 			
 			
-			else {
+			if(move == null) {
 				BaghChalMinMax minmaxIA = new BaghChalMinMax(new Board(this.board), BaghChalMinMax.CHAL_TURN);
 				move =  minmaxIA.pickPerfectMove(100);
-				System.out.println(move);
 				move = new Move(move.getStart(), this.board);
 			}
 		}
@@ -63,30 +64,44 @@ public class ChalIA extends IAPlayer{
 	}
 	
 	private Move foundChalToProtect(List<ChalPawn> chals) {
+		BaghPawn[] baghs = this.board.getBaghsOnBoard();
 		ChalPawn vulnerableChal = null;
-		Square BaghSquare;
+		BaghPawn baghPawn = null;
 		for (ChalPawn chal : chals) {
-			if(chal.isVulnerable()) {
+			System.out.println("vulnerable Chal : " + chal.isVulnerable());
+			if(chal.isVulnerable() ) {
+				Square chalSquare = this.board.getSquaresOnBoard()[chal.getPosition().getX()][chal.getPosition().getY()];
 				vulnerableChal = chal;
-				
+				for (BaghPawn bagh : baghs) {
+					Square baghSquare = this.board.getSquaresOnBoard()[bagh.getPosition().getX()][bagh.getPosition().getY()];
+					if(chalSquare.isNeighbour(baghSquare)) {
+						baghPawn = bagh;
+					}
+				}
 			}
 			if(vulnerableChal != null) {
-				return this.saveChalWithPlacement(vulnerableChal);
+				System.out.println("in");
+				return this.saveChalWithPlacement(vulnerableChal, baghPawn);
 			}
 		}
 		return null;
 	}
 	
-	@SuppressWarnings("null")
-	private Move saveChalWithPlacement(ChalPawn vulnerableChal) {
-		List<Square> squares = vulnerableChal.squaresAround(1);
+	private Move saveChalWithPlacement(ChalPawn vulnerableChal, BaghPawn agresivBagh) {
+		int x = agresivBagh.getPosition().getX() - vulnerableChal.getPosition().getX();
+		int y = agresivBagh.getPosition().getY() - vulnerableChal.getPosition().getY();
+		Direction baghDirection = Direction.getDirection(x, y);
+		Direction opositeDirection = Direction.getOpositeDirection(baghDirection);
 		
-		//TODO: trouver la case ou placer la chèvre pour le sauver
-		Square squareForSave = null;//TODO: lahaut
-		if(new ChalPawn(squareForSave.getPosition().getX(), squareForSave.getPosition().getY(),this.board).isVulnerable()) {
+		int dx = vulnerableChal.getPosition().getX() + opositeDirection.dx;
+		int dy = vulnerableChal.getPosition().getY() + opositeDirection.dy;
+		
+		try {
+			return new Move(new Coordinates(dx, dy), this.board);
+		}
+		catch (IllegalArgumentException e){
 			return null;
 		}
-		return new Move(squareForSave.getPosition(), this.board);
 	}
 	
 	private Move takeAngle() {

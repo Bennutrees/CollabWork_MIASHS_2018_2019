@@ -29,12 +29,11 @@ public abstract class AbstractPawn {
 		HashMap<Square, AbstractPawn> pawnsMap = this.board.getPawnsMap();
         Set<Square> squaresOnMap = pawnsMap.keySet();
 
+        Square mySquare = this.board.getSquaresOnBoard()[this.position.getX()][this.position.getY()];
+        
         for (Square currentSquare : squaresOnMap) {
-        	boolean isAroundThisSquare = (Math.abs(currentSquare.getPosition().getX() - this.getPosition().getX()) <= range)
-        									|| (Math.abs(currentSquare.getPosition().getY() - this.getPosition().getY()) <= range);
-        	if (isAroundThisSquare) {
+        	if(mySquare.isNeighbour(currentSquare))
         		squaresAround.add(currentSquare);
-        	}
         }
         return squaresAround;
 	}

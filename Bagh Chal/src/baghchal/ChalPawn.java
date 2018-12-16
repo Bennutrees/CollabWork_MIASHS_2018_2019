@@ -17,16 +17,24 @@ public class ChalPawn extends AbstractPawn {
 	public boolean isVulnerable() {
 		ArrayList<Square> squaresAround = this.squaresAround(1);
 		
-		Iterator<Square> squareIterator = squaresAround.iterator();
-		int squareIndex = 0;
-		while (squareIterator.hasNext()) {
-			Square currentSquare = squaresAround.get(squareIndex);
-    		AbstractPawn currentPawn = board.getPawnsMap().get(currentSquare);
+		for (Square currentSquare : squaresAround) {
+			AbstractPawn currentPawn = board.getPawnsMap().get(currentSquare);
     		if (currentPawn instanceof BaghPawn) {
-				return ((BaghPawn) currentPawn).possibleEatMoves() != null;
+    			int x = currentPawn.getPosition().getX() - this.getPosition().getX();
+    			int y = currentPawn.getPosition().getY() - this.getPosition().getY();
+    			Direction baghDirection = Direction.getDirection(x,y);
+    			Direction opositeDirection = Direction.getOpositeDirection(baghDirection);
+    			
+    			int dx = this.getPosition().getX() + opositeDirection.dx;
+    			int dy = this.getPosition().getY() + opositeDirection.dy;
+    			
+    			try {
+    				return this.board.getSquaresOnBoard()[dx][dy].getIsAvailable();
+    			}
+    			catch (ArrayIndexOutOfBoundsException e){
+    			}
 			}
-    		squareIndex++;
-        }
+		}
         return false;
 	}
 	

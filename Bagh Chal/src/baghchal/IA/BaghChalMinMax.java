@@ -47,19 +47,15 @@ public class BaghChalMinMax {
         Move bestMove = null;
 
         for (Move move : moves) {
-        	System.out.println(move);
         	BaghChalMinMax tempBoard = this.clone();
             int score =
                     tempBoard.evaluate(maxSearchDepth == BaghChalMinMax.UNLIMITED_SEARCH_DEPTH ? BaghChalMinMax.UNLIMITED_SEARCH_DEPTH : maxSearchDepth - 1,
                             new AlphaBeta());
-            System.out.println("score : " + score);
             if (score * player > bestScore || bestMove == null) {
-            	System.out.println("in?");
                 bestScore = score * player;
                 bestMove = move;
             }
         }
-        System.out.println(bestScore);
         return bestMove;
     }
 
