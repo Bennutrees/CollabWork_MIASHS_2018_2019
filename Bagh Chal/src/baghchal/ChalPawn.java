@@ -114,10 +114,10 @@ public class ChalPawn extends AbstractPawn {
 		return moves;
 	}
 
-	public static void main(String[] args) {
-		Board board = new Board();
-		ChalPawn testChal = new ChalPawn(1,1,board);
-		ArrayList<Square> anglesOfAttack = testChal.getAnglesOfAttack();
+//	public static void main(String[] args) {
+//		Board board = new Board();
+//		ChalPawn testChal = new ChalPawn(1,1,board);
+//		ArrayList<Square> anglesOfAttack = testChal.getAnglesOfAttack();
 //		Iterator iterator = anglesOfAttack.iterator();
 //		int index = 0;
 //		while (iterator.hasNext() && index < anglesOfAttack.size()) {
@@ -125,5 +125,5 @@ public class ChalPawn extends AbstractPawn {
 //			System.out.println(square.toString());
 //			index++;
 //		}
-	}
+//	}
 }
