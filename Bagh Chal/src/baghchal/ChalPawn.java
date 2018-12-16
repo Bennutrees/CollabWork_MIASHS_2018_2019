@@ -43,31 +43,48 @@ public class ChalPawn extends AbstractPawn {
 
 		Square[][] squaresOnBoard = this.board.getSquaresOnBoard();
 		Square associatedSquare = squaresOnBoard[this.getPosition().getX()][this.getPosition().getY()];
-		int squaresArroundIndex = associatedSquare.getHasNorthWest() ? 0 :
-			associatedSquare.getHasNorth() ? 1 :
-			associatedSquare.getHasNorthEast() ? 2 :
-			associatedSquare.getHasWest() ? 3 : 4;
-
-		System.out.println(squaresArroundIndex);
-
+		
+		int squareAroundIndex = 0;
 		ArrayList<Square> squaresAround = this.squaresAround(1);
-		Iterator<Square> squareIterator = squaresAround.iterator();
-		System.out.println("Dans getAnglesOfAttack : ");
-		while (squareIterator.hasNext() && squaresArroundIndex < 4) {
-			Square currentSquare = squaresAround.get(squaresArroundIndex);
-			boolean oppositeSquareExist = squaresAround.get(7 - squaresArroundIndex) instanceof Square;
-
-			if (oppositeSquareExist) {
-				Square oppositeSquare = squaresAround.get(7 - squaresArroundIndex);
-				if (currentSquare.getIsAvailable() && oppositeSquare.getIsAvailable()) {
-					anglesOfAttack.add(squaresArroundIndex,currentSquare);
-					System.out.println(currentSquare.toString());
-					anglesOfAttack.add(7 - squaresArroundIndex, oppositeSquare);
-					System.out.println(oppositeSquare.toString());
-				}
-			}
-			squaresArroundIndex++;
+		Square[][] squaresAroundTable = new Square[3][3];
+		for(int i = 0; i <= 2; i++) {
+		    for(int j = 0; j <= 2; j++) {
+		    	if (squareAroundIndex >= squaresAround.size()) {
+		    		squaresAroundTable[i][j] = null;
+		    	}
+		    	else {
+		    		int relativeX = squaresAround.get(squareAroundIndex).getPosition().getX() - this.getPosition().getX();
+			    	int relativeY = squaresAround.get(squareAroundIndex).getPosition().getY() - this.getPosition().getY();
+			    	if ((relativeX == j - 1) && (relativeY == i - 1)) {
+			    		squaresAroundTable[i][j] = squaresAround.get(squareAroundIndex);
+				        squareAroundIndex++;
+			    	}
+			    	else {
+			    		squaresAroundTable[i][j] = null;
+			    	}
+		    	}
+		    	
+		    }
 		}
+		
+		int squareIndex = 0;
+		for (int x = 0; x <= 2; x++) {
+			for (int y = 0; y <=2; y++) {
+				if (squareIndex < 4) {
+					Square currentSquare = squaresAroundTable[x][y];
+					int oppositex = x == 0 ? 2 : x == 2 ? 0 : 1;
+					int oppositey = y == 0 ? 2 : y == 2 ? 0 : 1;
+					Square oppositeSquare = squaresAroundTable[oppositex][oppositey];
+					if (!(currentSquare == null) && currentSquare.getIsAvailable()) {
+						if (!(oppositeSquare == null) && currentSquare.getIsAvailable()) {
+							anglesOfAttack.add(currentSquare);
+							anglesOfAttack.add(oppositeSquare);
+						}
+					}
+				}
+				squareIndex++;
+			}
+		}		
 		return anglesOfAttack;
 	}
 
@@ -101,12 +118,12 @@ public class ChalPawn extends AbstractPawn {
 		Board board = new Board();
 		ChalPawn testChal = new ChalPawn(1,1,board);
 		ArrayList<Square> anglesOfAttack = testChal.getAnglesOfAttack();
-		Iterator iterator = anglesOfAttack.iterator();
-		int index = 0;
-		while (iterator.hasNext() && index < anglesOfAttack.size()) {
-			Square square = anglesOfAttack.get(index);
-			System.out.println(square.toString());
-			index++;
-		}
+//		Iterator iterator = anglesOfAttack.iterator();
+//		int index = 0;
+//		while (iterator.hasNext() && index < anglesOfAttack.size()) {
+//			Square square = anglesOfAttack.get(index);
+//			System.out.println(square.toString());
+//			index++;
+//		}
 	}
 }

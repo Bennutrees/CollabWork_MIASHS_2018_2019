@@ -33,7 +33,7 @@ public abstract class AbstractPawn {
 		System.out.println("Dans squaresAround : ");
 		for (int i = 0; i < squaresOnMap.length; i++) {
 			for (int j = 0; j < squaresOnMap.length; j++) {
-				Square currentSquare = squaresOnMap[i][j];
+				Square currentSquare = squaresOnMap[j][i];
 				if(mySquare.isNeighbour(currentSquare)) {
 					System.out.println(currentSquare.toString());
 					squaresAround.add(currentSquare);

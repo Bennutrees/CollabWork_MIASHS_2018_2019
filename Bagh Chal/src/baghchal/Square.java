@@ -167,7 +167,7 @@ public class Square {
 
 	@Override
 	public String toString() {
-		return "Square [position=" + position + "]";
+		return "Square [position= " + position + "]";
 	}
 
 
