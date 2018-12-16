@@ -27,7 +27,7 @@ public class ChalIA extends IAPlayer{
 		else {
 			move = this.moveAction();
 		}
-		System.out.println("Selected move : " + move);
+//		System.out.println("Selected move : " + move);
 		return move;
 	}
 	
@@ -39,36 +39,46 @@ public class ChalIA extends IAPlayer{
 			move = new Move(this.selectRandomOpeningMoveLV2(), this.board);
 		}
 		else {
+			System.out.println("-------------------------------------------------");
 			List<ChalPawn> chals = this.board.getChalsOnBoard();
 			//On protège d'abord nos pions déjà posé.
 			move = this.foundChalToProtect(chals);
-			System.out.println("to save : " + move);
+			System.out.println("chal to protect : " + move);
 			//On prend les coins disponible
 			if(move == null) {
 				move = this.takeAngle();
+				System.out.println("take angle : " + move);
 			}
 			//On pose un pion à un endroit stratégique au bord.
 			if(move == null) {
 				move = this.takeBorderPosition(chals);
+				System.out.println("take strategic border : " + move);
 			}
 			//On pose là où il y a le moins de risque possible.
+			//TODO: A décomment si ChalPawn getAnglesOfAttack foncitonne.
+//			if(move == null) {
+//				move = this.safestPlace();
+//				System.out.println("Safest Place : " + move);
+//			}
+			
 			
 			
 			if(move == null) {
 				BaghChalMinMax minmaxIA = new BaghChalMinMax(new Board(this.board), BaghChalMinMax.CHAL_TURN);
 				move =  minmaxIA.pickPerfectMove(100);
 				move = new Move(move.getStart(), this.board);
+				System.out.println("minmax : " + move);
 			}
 		}
 		return move;
 	}
 	
+	/*Protect Chall if the position is not a vulnerable position*/
 	private Move foundChalToProtect(List<ChalPawn> chals) {
 		BaghPawn[] baghs = this.board.getBaghsOnBoard();
 		ChalPawn vulnerableChal = null;
 		BaghPawn baghPawn = null;
 		for (ChalPawn chal : chals) {
-			System.out.println("vulnerable Chal : " + chal.isVulnerable());
 			if(chal.isVulnerable() ) {
 				Square chalSquare = this.board.getSquaresOnBoard()[chal.getPosition().getX()][chal.getPosition().getY()];
 				vulnerableChal = chal;
@@ -80,13 +90,15 @@ public class ChalIA extends IAPlayer{
 				}
 			}
 			if(vulnerableChal != null) {
-				System.out.println("in");
-				return this.saveChalWithPlacement(vulnerableChal, baghPawn);
+				Move saveMove = this.saveChalWithPlacement(vulnerableChal, baghPawn);
+				if (saveMove != null)
+					return saveMove;
 			}
 		}
 		return null;
 	}
 	
+	/*Calculate the position for save*/
 	private Move saveChalWithPlacement(ChalPawn vulnerableChal, BaghPawn agresivBagh) {
 		int x = agresivBagh.getPosition().getX() - vulnerableChal.getPosition().getX();
 		int y = agresivBagh.getPosition().getY() - vulnerableChal.getPosition().getY();
@@ -96,6 +108,10 @@ public class ChalIA extends IAPlayer{
 		int dx = vulnerableChal.getPosition().getX() + opositeDirection.dx;
 		int dy = vulnerableChal.getPosition().getY() + opositeDirection.dy;
 		
+		ChalPawn tempChal = new ChalPawn(dx, dy, this.board);
+		if(tempChal.isVulnerable()) {
+			return null;
+		}
 		try {
 			return new Move(new Coordinates(dx, dy), this.board);
 		}
@@ -115,6 +131,7 @@ public class ChalIA extends IAPlayer{
 		return null;
 	}	
 	
+	/*Place Chal on border and next to other Chal*/
 	private Move takeBorderPosition(List<ChalPawn> chals) {
 		for (ChalPawn chal : chals) {
 			Square mySquare = this.board.getSquaresOnBoard()[chal.getPosition().getX()][chal.getPosition().getY()];
@@ -129,6 +146,36 @@ public class ChalIA extends IAPlayer{
 					}
 				}
 			}
+		}
+		System.out.println("on cherche un bord classieu");
+		ArrayList<Square> borderSquares = this.board.getBorderSquares();
+		for (Square square : borderSquares) {
+			int x = square.getPosition().getX();
+			int y = square.getPosition().getY();
+			if(this.board.getSquaresOnBoard()[x][y].getIsAvailable() && !new ChalPawn(x, y, this.board).isVulnerable())
+				return new Move(new Coordinates(square.getPosition().getX(), square.getPosition().getY()), this.board);
+		}
+		return null;
+	}
+	
+	private Move safestPlace() {
+		ArrayList<Square> freeSquares = this.board.getFreeSquares();
+		if(freeSquares.isEmpty())
+			return null;
+		int safeInd = 10;
+		ArrayList<Square> possiblePosition = null;
+		for (Square square : freeSquares) {
+			ChalPawn chal = new ChalPawn(square.getPosition().getX(), square.getPosition().getY(), this.board);
+			ArrayList<Square> angleOfAttack = chal.getAnglesOfAttack();
+			if(safeInd > angleOfAttack.size()) {
+				safeInd = angleOfAttack.size();
+				possiblePosition = angleOfAttack;
+			}
+		}
+		if(possiblePosition != null) {
+			int rand = (int) (Math.random() * safeInd);
+			Square selectedSquare = possiblePosition.get(rand);
+			return new Move(selectedSquare.getPosition(), this.board);
 		}
 		return null;
 	}

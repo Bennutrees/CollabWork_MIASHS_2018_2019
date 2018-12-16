@@ -52,41 +52,33 @@ public class Game {
 			switch(this.iaRole) {
 				case NO_IA:
 					if(this.currentPlayer) {
-						System.out.println("Chal Turn");
 						this.chalPlayerTurn();
 					}
 					else {
-						System.out.println("Bhag Turn");
 						this.baghPlayerTurn();
 					}
 					break;
 				case BAGH_IA:
 					if(this.currentPlayer) {
-						System.out.println("Chal Turn");
 						this.chalPlayerTurn();
 					}
 					else {
-						System.out.println("Bhag Turn");
 						this.baghIATurn();
 					}
 					break;
 				case CHAL_IA:
 					if(this.currentPlayer) {
-						System.out.println("Chal Turn");
 						this.chalIATurn();
 					}
 					else {
-						System.out.println("Bhag Turn");
 						this.baghPlayerTurn();
 					}
 					break;
 				case BOTH_IA:
 					if(this.currentPlayer) {
-						System.out.println("Chal Turn");
 						this.chalIATurn();
 					}
 					else {
-						System.out.println("Bhag Turn");
 						this.secondIAPlayerTurn();
 					}
 					break;
@@ -119,10 +111,14 @@ public class Game {
 	}
 
 	private void changePlayer() {
-		if(this.currentPlayer)
+		if(this.currentPlayer) {
 			this.currentPlayer = false;
-		else
+//			System.out.println("Bhag Turn");
+		}
+		else {
 			this.currentPlayer = true;
+//			System.out.println("Chal Turn");
+		}
 		this.play();
 	}
 

@@ -7,6 +7,7 @@ import java.util.List;
 public class Board {
 
 	private Square[][] squaresOnBoard;
+	private ArrayList<Square> borderSquares;
 	private ArrayList<ChalPawn> chalsOnBoard;
 	private BaghPawn[] baghsOnBoard;
 	private HashMap<Square, AbstractPawn> pawnsMap;
@@ -25,6 +26,17 @@ public class Board {
 		this.squaresOnBoard = this.createSquaresMap();
 		this.chalsOnBoard = new ArrayList<ChalPawn>();
 		this.baghsOnBoard = new BaghPawn[4];
+		
+		this.borderSquares = new ArrayList<Square>();
+		Square[][] allSquares = this.squaresOnBoard;
+		for (Square[] squares : allSquares) {
+			for (Square square : squares) {
+				if (square.getIsBorder()) {
+					this.borderSquares.add(square);
+				}
+			}
+		}
+		
 		this.initBaghs();
 	}
 	
@@ -104,6 +116,10 @@ public class Board {
 	public Square[][] getSquaresOnBoard() {
 		return this.squaresOnBoard;
 	}
+	
+	public ArrayList<Square> getBorderSquares() {
+		return this.borderSquares;
+	}
 
 	public ArrayList<ChalPawn> getChalsOnBoard() {
 		return this.chalsOnBoard;
@@ -126,6 +142,17 @@ public class Board {
 
 	public int getNbFreeBaghs() {
 		return nbFreeBaghs;
+	}
+	
+	public ArrayList<Square> getFreeSquares() {
+		ArrayList<Square> freeSquares = new ArrayList<Square>();
+		for (Square[] squares : this.squaresOnBoard) {
+			for (Square square : squares) {
+				if(square.getIsAvailable())
+					freeSquares.add(square);
+			}
+		}
+		return freeSquares;
 	}
 
 	public void addChal(Coordinates position) {
