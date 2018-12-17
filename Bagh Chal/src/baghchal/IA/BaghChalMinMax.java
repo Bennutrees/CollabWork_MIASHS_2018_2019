@@ -46,7 +46,7 @@ public class BaghChalMinMax {
 
         for (Move move : moves) {
             BaghChalMinMax temporaryBoard = this.clone();
-            int score = temporaryBoard.simulateMove(maxSearchDepth - 1, IA_level, new AlphaBeta());
+            int score = temporaryBoard.anticipateNextConfiguration(maxSearchDepth - 1, IA_level, new AlphaBeta());
             
             switch (player) {
             case BaghChalMinMax.BAGH_TURN :
@@ -67,7 +67,7 @@ public class BaghChalMinMax {
         return bestMove;
     }
 
-    private int simulateMove(int maxSearchDepth, int IA_level, AlphaBeta alphaBeta) {
+    private int anticipateNextConfiguration(int maxSearchDepth, int IA_level, AlphaBeta alphaBeta) {
         int currentScore = getSituationScore(IA_level);
         if (maxSearchDepth == 0 || currentScore == BaghChalMinMax.CHAL_VICTORY || currentScore == BaghChalMinMax.BAGH_VICTORY) {
             return currentScore;
@@ -80,7 +80,7 @@ public class BaghChalMinMax {
         for (Move move : moves) {
             BaghChalMinMax temporaryBoard = this.clone();
             temporaryBoard.doMove(move);
-            int score = temporaryBoard.simulateMove(maxSearchDepth - 1, IA_level, alphaBeta);
+            int score = temporaryBoard.anticipateNextConfiguration(maxSearchDepth - 1, IA_level, alphaBeta);
 
             switch(alphaBeta.pruning(score)) {
                 case 1 :
@@ -128,7 +128,7 @@ public class BaghChalMinMax {
     	case 1 :
     		return score + getGlobalVulnerabilityLevel();
     	case 2 :
-    		return score + getGlobalVulnerabilityLevel() - getNbFreeBaghs();
+    		return score + getGlobalVulnerabilityLevel() - 5 * getNbFreeBaghs();
     	default :
     		return score;
     	}
