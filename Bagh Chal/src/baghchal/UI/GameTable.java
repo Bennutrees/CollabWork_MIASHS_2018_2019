@@ -15,8 +15,8 @@ import javafx.scene.layout.StackPane;
 
 public class GameTable extends AnchorPane{
 
-    public static int NB_LIGNE = 5;
-    public static int NB_COL = 5;
+    public final static int NB_LIGNE = 5;
+    public final static int NB_COL = 5;
     private DrawBC drawer;
     private GridPane gp;
     private MyPane buttonTable[][];
@@ -28,7 +28,7 @@ public class GameTable extends AnchorPane{
 
     public GameTable(Board board) {
         this.board = board;
-        this.buttonTable = new MyPane[5][5];
+        this.buttonTable = new MyPane[GameTable.NB_LIGNE][GameTable.NB_COL];
         this.tigres = new ImageView[4];
         this.drawer = new DrawBC(this);
 
@@ -36,17 +36,19 @@ public class GameTable extends AnchorPane{
 
         for(int i=0; i<4; i++) {
             BaghPawn bp = board.getBaghsOnBoard()[i];
-            this.tigres[i] = this.drawer.drawTigre(bp.getPosition().getX(), bp.getPosition().getY());
+            this.tigres[i] = this.drawer.drawBagh(bp.getPosition().getX(), bp.getPosition().getY());
         }
     }
 
+    /*Get all the "buttons" of the table. The Buttons are Panes.*/
     public StackPane[][] getButtonTable() {
         return buttonTable;
     }
 
+    /*This method allow to remove the actions on each buttons.*/
     public void endGame() {
-        for(int i=0; i<5; i++) {
-            for(int j=0; j<5; j++) {
+        for(int i=0; i<GameTable.NB_LIGNE; i++) {
+            for(int j=0; j<GameTable.NB_COL; j++) {
                 MyPane p = this.buttonTable[i][j];
                 p.setOnMouseEntered(null);
                 p.setOnMousePressed(null);
@@ -55,6 +57,7 @@ public class GameTable extends AnchorPane{
         }
     }
 
+    /*this method remove the image on of the pawn and draw it on his next move position*/
 	public void drawMoves(Coordinates[] movement, boolean isChal) {
 		if(isChal) {
 
@@ -69,10 +72,11 @@ public class GameTable extends AnchorPane{
 		}
 		else {
 			this.drawer.removeDraw(buttonTable[movement[0].getX()][movement[0].getY()]);
-			this.drawer.drawTigre(movement[1]);
+			this.drawer.drawBagh(movement[1]);
 		}
 	}
 	
+	/*this method remove the image on of the pawn and draw it on his next move position*/
 	public void drawMoves(Move move, boolean isChal) {
 		Coordinates start = move.getStart();
 		this.drawer.removeDraw(this.buttonTable[start.getX()][start.getY()]);
@@ -80,7 +84,7 @@ public class GameTable extends AnchorPane{
 			this.drawer.drawChevre(move.getFinish());
 		}
 		else {
-			this.drawer.drawTigre(move.getFinish());
+			this.drawer.drawBagh(move.getFinish());
 		}
 	}
 
@@ -94,6 +98,7 @@ public class GameTable extends AnchorPane{
 	/***************************************** private methods ******************************************/
 	/****************************************************************************************************/
 
+	/*Create each Button of the board and set his size and style.*/
 	private void tableButtons() {
 
 		this.gp = new GridPane();
@@ -129,6 +134,9 @@ public class GameTable extends AnchorPane{
 		}
 	}
 
+	/*The default event of each buttons.
+	 * When the mouse enter on the button, his border become red.
+	 * This methode is just for one Button*/
 	private void defaultMouseEvent(MyPane p) {
 		p.setOnMouseEntered(new EventHandler<MouseEvent>() {
 		    @Override public void handle(MouseEvent e) {
@@ -139,6 +147,7 @@ public class GameTable extends AnchorPane{
 		p.setOnMouseReleased(null);
 	}
 
+	/*Same but for all Buttons*/
 	private void defaultMouseEvent() {
 		for(int i=0; i<5; i++) {
 			for(int j=0; j<5; j++) {
@@ -157,6 +166,10 @@ public class GameTable extends AnchorPane{
 	/**********************************************************************/
 	/******************************  Chals   ******************************/
 	/**********************************************************************/
+	/*Mouse Action: For the 1st phase of Chal player, he must put his Chal on the board, so this methode add event on 
+	 * each available buttons on the board.
+	 * Events:	- green border if button is available.
+	 * 			- Put and draw Chal on the board, if player clic on button.*/
 	public void chalPlayerPlacement(EventHandler<MouseEvent> event) {
 		for(int i=0; i<5; i++) {
 			for(int j=0; j<5; j++) {
@@ -173,7 +186,7 @@ public class GameTable extends AnchorPane{
 					        if(selectedPane.getSquare().getIsAvailable()) {
 					        	Coordinates posi = selectedPane.getSquare().getPosition();
 					        	board.addChal(posi);
-					        	drawer.drawChevre(posi.getX(), posi.getY());
+					        	drawer.drawChal(posi.getX(), posi.getY());
 					        	selectedPane = null;
 					        }
 					    }
@@ -187,6 +200,7 @@ public class GameTable extends AnchorPane{
 		}
 	}
 
+	/*For the 2nd phase of Chal player, add green border for each button with Chal on his position.*/
 	public void chalPlayerTurnSelect(EventHandler<MouseEvent> event) {
 		for(int i=0; i<5; i++) {
 			for(int j=0; j<5; j++) {
@@ -213,6 +227,7 @@ public class GameTable extends AnchorPane{
 		}
 	}
 
+	
 	public void chalPlayerMove(EventHandler<MouseEvent> event) {
 		ChalPawn cp = (ChalPawn) this.board.getPawnsMap().get(this.selectedPane.getSquare());
 
@@ -231,7 +246,7 @@ public class GameTable extends AnchorPane{
 			        mv.doMove();
 			        drawer.removeDraw(selectedPane);
 			        Coordinates coord = targetPane.getSquare().getPosition();
-			        drawer.drawChevre(coord.getX(),coord.getY());
+			        drawer.drawChal(coord.getX(),coord.getY());
 			    }
 			});
 			p.setOnMouseReleased(event);
@@ -292,7 +307,7 @@ public class GameTable extends AnchorPane{
 
 			        drawer.removeDraw(selectedPane);
 			        Coordinates coord = targetPane.getSquare().getPosition();
-			        drawer.drawTigre(coord.getX(),coord.getY());
+			        drawer.drawBagh(coord.getX(),coord.getY());
 			    }
 			});
 			p.setOnMouseReleased(event);

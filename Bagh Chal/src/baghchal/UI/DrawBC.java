@@ -15,6 +15,7 @@ public class DrawBC {
 		this.drawTable();
 	}
 
+	/*Draw the table of the game*/
 	private void drawTable() {
 		Line l;
 		for(int i = 0; i < GameTable.NB_LIGNE; i++) {
@@ -34,7 +35,8 @@ public class DrawBC {
 		this.gt.getChildren().addAll(l1, l2, l3, l4, l5, l6);
 	}
 
-	public ImageView drawTigre(int i, int j) {
+	/*Draw the Bagh image on the table with his (x,y) value. */
+	public ImageView drawBagh(int i, int j) {
 
 		ImageView image = new ImageView("tigre.png");
 		this.imageOptions(image);
@@ -43,7 +45,8 @@ public class DrawBC {
 		return image;
 	}
 
-	public ImageView drawTigre(Coordinates coords) {
+	/*Draw the Bagh image on the table with his Coordinates. */
+	public ImageView drawBagh(Coordinates coords) {
 
 		ImageView image = new ImageView("tigre.png");
 		this.imageOptions(image);
@@ -52,7 +55,8 @@ public class DrawBC {
 		return image;
 	}
 
-	public ImageView drawChevre(int i, int j) {
+	/*Draw the Chal image on the table with his (x,y) value. */
+	public ImageView drawChal(int i, int j) {
 		ImageView image = new ImageView("chevre.png");
 		this.imageOptions(image);
 
@@ -60,6 +64,7 @@ public class DrawBC {
 		return image;
 	}
 
+	/*Draw the Chal image on the table with his Coordinates.*/
 	public ImageView drawChevre(Coordinates coords) {
 
 		ImageView image = new ImageView("chevre.png");
@@ -69,6 +74,7 @@ public class DrawBC {
 		return image;
 	}
 
+	/*That method set the size and properties of Bagh and Chal images.*/
 	private void imageOptions(ImageView image) {
 		image.setFitWidth(50);
 		image.setFitHeight(50);
@@ -76,10 +82,12 @@ public class DrawBC {
 		StackPane.setAlignment(image,Pos.CENTER);
 	}
 
+	/*Remove image on (x,y) position.*/
 	public void removeDraw(int i, int j) {
 		this.gt.getButtonTable()[i][j].getChildren().clear();
 	}
 
+	/*Remove image on the selected MyPane.*/
 	public void removeDraw(MyPane selectedPane) {
 		selectedPane.getChildren().clear();
 	}
