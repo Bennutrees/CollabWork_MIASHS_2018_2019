@@ -43,6 +43,29 @@ public abstract class AbstractPawn {
         return squaresAround;
 	}
 
+	public int manhattanDistance(Square squareToReach) {
+		int distanceX = Math.abs(this.getPosition().getX() - squareToReach.getPosition().getX());
+		int distanceY = Math.abs(this.getPosition().getY() - squareToReach.getPosition().getY());
+		int globalDistance = Math.max(distanceX, distanceY);
+		
+		if (globalDistance == 0) {
+			return globalDistance;
+		}
+		else {
+			List<Integer> possibleManhattanDistances = new ArrayList<Integer>();
+			for(Square neighbourSquare : this.squaresAround(1)) {
+				possibleManhattanDistances.add(manhattanDistance(neighbourSquare) + 1);
+			}
+			int minimumValue = possibleManhattanDistances.get(0);
+			for (Integer currentValue : possibleManhattanDistances) {
+				if (currentValue < minimumValue) {
+					minimumValue = currentValue;
+				}
+			}
+			return minimumValue;
+		}
+	}
+	
 	public List<Move> possibleMoves() {
 		List<Move> possibleMoves = new ArrayList<Move>();
 

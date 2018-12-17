@@ -22,17 +22,17 @@ public class ChalIA extends IAPlayer{
 		Move move;
 
 		if(this.board.getNbChalsToPlace() > 0) {
-			move = this.positionAction();
+			move = this.positioningAction();
 		}
 		else {
-			move = this.moveAction();
+			move = this.movingAction();
 		}
 //		System.out.println("Selected move : " + move);
 		return move;
 	}
 	
 	
-	private Move positionAction() {
+	private Move positioningAction() {
 		int IA_level = 2;
 		Move move = null;
 		//Le premier pion à un endroit sûr
@@ -43,7 +43,7 @@ public class ChalIA extends IAPlayer{
 			System.out.println("-------------------------------------------------");
 			List<ChalPawn> chals = this.board.getChalsOnBoard();
 			//On protège d'abord nos pions déjà posé.
-			move = this.foundChalToProtect(chals);
+			move = this.findChalToProtect(chals);
 			System.out.println("chal to protect : " + move);
 			//On prend les coins disponible
 			if(move == null) {
@@ -72,7 +72,7 @@ public class ChalIA extends IAPlayer{
 	}
 	
 	/*Protect Chall if the position is not a vulnerable position*/
-	private Move foundChalToProtect(List<ChalPawn> chals) {
+	private Move findChalToProtect(List<ChalPawn> chals) {
 		BaghPawn[] baghs = this.board.getBaghsOnBoard();
 		ChalPawn vulnerableChal = null;
 		BaghPawn baghPawn = null;
@@ -178,7 +178,7 @@ public class ChalIA extends IAPlayer{
 		return null;
 	}
 	
-	private Move moveAction() {
+	private Move movingAction() {
 		Move move;
 		move = this.randomMoves();
 		return move;
