@@ -63,7 +63,7 @@ public class ChalIA extends IAPlayer{
 //			}
 			if(move == null) {
 				BaghChalMinMax minmaxIA = new BaghChalMinMax(new Board(this.board), BaghChalMinMax.CHAL_TURN);
-				move =  minmaxIA.pickPerfectMove(100,IA_level);
+				move =  minmaxIA.selectBestMove(100,IA_level);
 				move = new Move(move.getStart(), this.board);
 				System.out.println("minmax : " + move);
 			}
