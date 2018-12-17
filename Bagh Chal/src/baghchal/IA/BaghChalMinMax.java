@@ -7,21 +7,19 @@ public class BaghChalMinMax {
 
     public static final int BAGH_TURN = 1;
     public static final int CHAL_TURN = -1;
+    private int player;
 
-    public static final int UNLIMITED_SEARCH_DEPTH = -1;
-    public static final int CHAL_HAS_WON = Integer.MAX_VALUE;
-    public static final int STALE_MATE = 0;
-    public static final int BAGH_HAS_WON = Integer.MIN_VALUE;
-
-    private int player;// = BaghChalMinMax.BAGH_TURN; // Must always be 1 or -1
+    public static final int CHAL_VICTORY = Integer.MAX_VALUE;
+    public static final int STALEMATE = 0;
+    public static final int BAGH_VICTORY = Integer.MIN_VALUE;
 
     private Board board;
     private ArrayList<ChalPawn> chalsOnBoard;
-	private BaghPawn[] baghsOnBoard;
+    private BaghPawn[] baghsOnBoard;
 
     public BaghChalMinMax(Board board, int baghOrChal) {
-    	this.player = baghOrChal;
-    	this.board = board;
+        this.player = baghOrChal;
+        this.board = board;
         this.chalsOnBoard = board.getChalsOnBoard();
         this.baghsOnBoard = board.getBaghsOnBoard();
     }
@@ -30,12 +28,12 @@ public class BaghChalMinMax {
         return player == BaghChalMinMax.CHAL_TURN;
     }
 
-    public Move pickPerfectMove(int maxSearchDepth) throws ImpossibleMoveException {
+    public Move pickPerfectMove(int maxSearchDepth, int IA_level) throws ImpossibleMoveException {
         if (maxSearchDepth <= 0) {
             throw new ImpossibleMoveException();
         }
 
-        List<Move> moves = listAllLegalMoves();
+        List<Move> moves = everyPawnPossibleMoves();
         if (moves.isEmpty()) {
             throw new ImpossibleMoveException();
         }
@@ -43,116 +41,169 @@ public class BaghChalMinMax {
             return moves.get(0);
         }
 
-        int bestScore = player == BaghChalMinMax.BAGH_TURN ? BaghChalMinMax.CHAL_HAS_WON : BaghChalMinMax.BAGH_HAS_WON;
+        int bestScore = player == BaghChalMinMax.BAGH_TURN ? BaghChalMinMax.CHAL_VICTORY : BaghChalMinMax.BAGH_VICTORY;
         Move bestMove = null;
 
         for (Move move : moves) {
-        	BaghChalMinMax tempBoard = this.clone();
-            int score =
-                    tempBoard.evaluate(maxSearchDepth == BaghChalMinMax.UNLIMITED_SEARCH_DEPTH ? BaghChalMinMax.UNLIMITED_SEARCH_DEPTH : maxSearchDepth - 1,
-                            new AlphaBeta());
-            if (score * player > bestScore || bestMove == null) {
-                bestScore = score * player;
-                bestMove = move;
+            BaghChalMinMax temporaryBoard = this.clone();
+            int score = temporaryBoard.evaluate(maxSearchDepth - 1, IA_level, new AlphaBeta());
+            
+            switch (player) {
+            case BaghChalMinMax.BAGH_TURN :
+            	if (score > bestScore || bestMove == null) {
+            		bestScore = score;
+            		bestMove = move;
+            	}
+            case BaghChalMinMax.CHAL_TURN :
+            	if (score < bestScore || bestMove == null) {
+            		bestScore = score;
+            		bestMove = move;
+            	}
+            default :
+            	// TODO Error handling
+            	break;
             }
         }
         return bestMove;
     }
 
-    private int evaluate(int maxSearchDepth, AlphaBeta alphaBeta) {
-        int currentScore = getCurrentScore();
-        if (currentScore == BaghChalMinMax.CHAL_HAS_WON || currentScore == BaghChalMinMax.BAGH_HAS_WON) {
+    private int evaluate(int maxSearchDepth, int IA_level, AlphaBeta alphaBeta) {
+        int currentScore = getSituationScore(IA_level);
+        if (maxSearchDepth == 0 || currentScore == BaghChalMinMax.CHAL_VICTORY || currentScore == BaghChalMinMax.BAGH_VICTORY) {
             return currentScore;
         }
-        List<Move> moves = listAllLegalMoves();
+        List<Move> moves = everyPawnPossibleMoves();
         if (moves.isEmpty()) {
-            return BaghChalMinMax.STALE_MATE;
+            return BaghChalMinMax.STALEMATE;
         }
-        int bestScore = 0;
+        int bestScore = player == BaghChalMinMax.BAGH_TURN ? BaghChalMinMax.CHAL_VICTORY : BaghChalMinMax.BAGH_VICTORY;
         for (Move move : moves) {
-        	BaghChalMinMax tempBoard = this.clone();
-            tempBoard.doMove(move);
-            int score;
-            if (maxSearchDepth == 0) {
-                score = tempBoard.getCurrentScore();
-            } else {
-                score =
-                        tempBoard.evaluate(maxSearchDepth == BaghChalMinMax.UNLIMITED_SEARCH_DEPTH ? BaghChalMinMax.UNLIMITED_SEARCH_DEPTH : maxSearchDepth - 1,
-                                alphaBeta);
+            BaghChalMinMax temporaryBoard = this.clone();
+            temporaryBoard.doMove(move);
+            int score = temporaryBoard.evaluate(maxSearchDepth - 1, IA_level, alphaBeta);
 
-                // Alpha-beta pruning
-                if (player == BaghChalMinMax.BAGH_TURN) {
-                    if (score < alphaBeta.alpha) {
-                        return score;
-                    }
-                    else if (score < alphaBeta.beta) {
-                        alphaBeta.beta = score;
-                    }
-                }
-                else {
-                    if (score > alphaBeta.beta) {
-                        return score;
-                    }
-                    else if (score > alphaBeta.alpha) {
-                        alphaBeta.alpha = score;
-                    }
-                }
+            switch(alphaBeta.pruning(score)) {
+                case 1 :
+                	return score;
+                case 2 :
+                	alphaBeta.beta = score;
+                    break;
+                case 3 :
+                	alphaBeta.alpha = score;
+                    break;
+                default :
+                	// TODO Error handling
+                    break;
             }
-            if (score == BaghChalMinMax.CHAL_HAS_WON && player == -1) {
-                return BaghChalMinMax.CHAL_HAS_WON;
-            }
-            else if (score == BaghChalMinMax.BAGH_HAS_WON && player == 1) {
-                return BaghChalMinMax.BAGH_HAS_WON;
-            }
-            if (score * player > bestScore) {
-                bestScore = score * player;
+            
+            switch (player) {
+            case BaghChalMinMax.BAGH_TURN :
+            	if (score > bestScore) {
+            		bestScore = score;
+            	}
+            	break;
+            case BaghChalMinMax.CHAL_TURN :
+            	if (score < bestScore) {
+            		bestScore = score;
+            	}
+            	break;
+            default :
+            	// TODO Error handling
+            	break;
             }
         }
         return bestScore;
     }
-
+    
     public BaghChalMinMax clone() {
-    	return new BaghChalMinMax(new Board(this.board), this.player);
+        return new BaghChalMinMax(new Board(this.board), this.player);
     }
 
     /**************************************************/
-	public int getCurrentScore() {
-        return -(5 * getNbChalsOnBoard() + getNbVulnerableChals());
+    public int getSituationScore(int IA_level) {
+    	int score = getNbThreatenChals() - 5 * getNbChalsOnBoard();
+    	switch (IA_level) {
+    	case 0 :
+    		return score;
+    	case 1 :
+    		return score + getGlobalVulnerabilityLevel();
+    	case 2 :
+    		return score - getNbFreeBaghs();
+    	default :
+    		return score;
+    	}
     }
 
     private int getNbChalsOnBoard() {
         return chalsOnBoard.size();
     }
 
-    private int getNbVulnerableChals() {
+    private int getNbThreatenChals() {
         int nbVulnerableChals = 0;
         for (ChalPawn chalPawn : chalsOnBoard) {
-        	nbVulnerableChals += chalPawn.isVulnerable() ? 1 : 0;
+            nbVulnerableChals += chalPawn.isThreaten() ? 1 : 0;
         }
         return nbVulnerableChals;
     }
+    
+    private int getGlobalVulnerabilityLevel() {
+        int VulnerabilityLevel = 0;
+        for (ChalPawn chalPawn : chalsOnBoard) {
+            VulnerabilityLevel += chalPawn.getVulnerabilityLevel();
+        }
+        return VulnerabilityLevel;
+    }
+    
+    private int getNbFreeBaghs() {
+    	int nbFreeBaghs = 4;
+    	for (BaghPawn baghPawn : baghsOnBoard) {
+			if (baghPawn.isBlocked())
+				nbFreeBaghs--;
+		}
+		return nbFreeBaghs;
+    }
+    
     /**************************************************/
 
-    public List<Move> listAllLegalMoves() {
+    public List<Move> everyPawnPossibleMoves() {
         List<Move> moves;
         if(isMinTurn())
-        	moves = ChalPawn.everyChalPossibleMoves(board);
+            moves = ChalPawn.everyChalPossibleMoves(board);
         else {
-        	moves = BaghPawn.everyBaghPossibleMoves(board);
+            moves = BaghPawn.everyBaghPossibleMoves(board);
 //            Collections.shuffle(moves);
         }
         return moves;
     }
-
     /**************************************************/
 
     public final void doMove(Move move) {
-    	move.doMove();
+        move.doMove();
         player *= -1;
     }
 
     private class AlphaBeta {
-        int alpha = BaghChalMinMax.CHAL_HAS_WON;
-        int beta = BaghChalMinMax.BAGH_HAS_WON;
+        int alpha = BaghChalMinMax.CHAL_VICTORY;
+        int beta = BaghChalMinMax.BAGH_VICTORY;
+
+        private int pruning(int score) {
+	        if (player == BaghChalMinMax.BAGH_TURN) {
+	            if (score < alpha) {
+	                return 1;
+	            }
+	            else if (score < beta) {
+	                return 2;
+	            }
+	        }
+	        else {
+	            if (score > beta) {
+	                return 1;
+	            }
+	            else if (score > alpha) {
+	                return 3;
+	            }
+	        }
+			return score;
+	    }
     }
 }

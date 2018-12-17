@@ -14,7 +14,7 @@ public class ChalPawn extends AbstractPawn {
 		return "c";
 	}
 
-	public boolean isVulnerable() {
+	public boolean isThreaten() {
 		ArrayList<Square> squaresAround = this.squaresAround(1);
 
 		for (Square currentSquare : squaresAround) {
@@ -44,6 +44,7 @@ public class ChalPawn extends AbstractPawn {
 		Square[][] squaresOnBoard = this.board.getSquaresOnBoard();
 		Square associatedSquare = squaresOnBoard[this.getPosition().getX()][this.getPosition().getY()];
 		
+		//Transform the ArrayList<Square> into Square[][] for easier use of opposedSquares afterward
 		int squareAroundIndex = 0;
 		ArrayList<Square> squaresAround = this.squaresAround(1);
 		Square[][] squaresAroundTable = new Square[3][3];
@@ -67,6 +68,7 @@ public class ChalPawn extends AbstractPawn {
 		    }
 		}
 		
+		//Calculate pairs of squares from which this Chal can be attacked
 		int squareIndex = 0;
 		for (int x = 0; x <= 2; x++) {
 			for (int y = 0; y <=2; y++) {
@@ -86,6 +88,10 @@ public class ChalPawn extends AbstractPawn {
 			}
 		}		
 		return anglesOfAttack;
+	}
+	
+	public int getVulnerabilityLevel() {
+		return this.getAnglesOfAttack().size();
 	}
 
 	@Override

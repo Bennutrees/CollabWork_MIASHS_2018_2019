@@ -174,9 +174,8 @@ public class Board {
 
 	public void calculateNbFreeBaghs() {
 		int nbFreeBaghs = 4;
-		for(int i = 0; i < 4; i++) {
-			List<Move> list = this.baghsOnBoard[i].selectedPawnEveryPossibleMoves();
-			if(list.isEmpty())
+		for (BaghPawn baghPawn : baghsOnBoard) {
+			if (baghPawn.isBlocked())
 				nbFreeBaghs--;
 		}
 		this.nbFreeBaghs = nbFreeBaghs;

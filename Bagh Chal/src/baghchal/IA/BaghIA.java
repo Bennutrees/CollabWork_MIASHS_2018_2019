@@ -15,9 +15,10 @@ public class BaghIA extends IAPlayer{
 	@Override
 	public Move iaAction() {
 		BaghChalMinMax minmaxIA = new BaghChalMinMax(new Board(this.board), BaghChalMinMax.BAGH_TURN);
+		int IA_level = 2;
 		Move move = this.randomEatingMove();
 		if(move == null) {
-			move = minmaxIA.pickPerfectMove(100);
+			move = minmaxIA.pickPerfectMove(100,IA_level);
 //			move = this.randomMoves();
 			move = new Move(move.getStart(), move.getFinish(), this.board);
 		}

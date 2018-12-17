@@ -11,6 +11,11 @@ public class BaghPawn extends AbstractPawn {
 
 
 	//Methods
+	public boolean isBlocked() {
+		List<Move> moves = this.selectedPawnEveryPossibleMoves();
+		return moves.isEmpty();
+	}
+	
 	public List<Move> possibleEatMoves() {
 		List<Move> possibleMoves = new ArrayList<Move>();
 

@@ -33,6 +33,7 @@ public class ChalIA extends IAPlayer{
 	
 	
 	private Move positionAction() {
+		int IA_level = 2;
 		Move move = null;
 		//Le premier pion à un endroit sûr
 		if(this.isFirstMove()) {
@@ -60,12 +61,9 @@ public class ChalIA extends IAPlayer{
 //				move = this.safestPlace();
 //				System.out.println("Safest Place : " + move);
 //			}
-			
-			
-			
 			if(move == null) {
 				BaghChalMinMax minmaxIA = new BaghChalMinMax(new Board(this.board), BaghChalMinMax.CHAL_TURN);
-				move =  minmaxIA.pickPerfectMove(100);
+				move =  minmaxIA.pickPerfectMove(100,IA_level);
 				move = new Move(move.getStart(), this.board);
 				System.out.println("minmax : " + move);
 			}
@@ -79,7 +77,7 @@ public class ChalIA extends IAPlayer{
 		ChalPawn vulnerableChal = null;
 		BaghPawn baghPawn = null;
 		for (ChalPawn chal : chals) {
-			if(chal.isVulnerable() ) {
+			if(chal.isThreaten() ) {
 				Square chalSquare = this.board.getSquaresOnBoard()[chal.getPosition().getX()][chal.getPosition().getY()];
 				vulnerableChal = chal;
 				for (BaghPawn bagh : baghs) {
@@ -109,7 +107,7 @@ public class ChalIA extends IAPlayer{
 		int dy = vulnerableChal.getPosition().getY() + opositeDirection.dy;
 		
 		ChalPawn tempChal = new ChalPawn(dx, dy, this.board);
-		if(tempChal.isVulnerable()) {
+		if(tempChal.isThreaten()) {
 			return null;
 		}
 		try {
@@ -152,7 +150,7 @@ public class ChalIA extends IAPlayer{
 		for (Square square : borderSquares) {
 			int x = square.getPosition().getX();
 			int y = square.getPosition().getY();
-			if(this.board.getSquaresOnBoard()[x][y].getIsAvailable() && !new ChalPawn(x, y, this.board).isVulnerable())
+			if(this.board.getSquaresOnBoard()[x][y].getIsAvailable() && !new ChalPawn(x, y, this.board).isThreaten())
 				return new Move(new Coordinates(square.getPosition().getX(), square.getPosition().getY()), this.board);
 		}
 		return null;
