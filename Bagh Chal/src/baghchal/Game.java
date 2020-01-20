@@ -1,7 +1,10 @@
 package baghchal;
 
+import java.io.IOException;
+
 import baghchal.IA.*;
 import baghchal.UI.GameTable;
+import baghchal.UI.Menu;
 
 public class Game {
 	public final static int NO_IA = 0;
@@ -15,17 +18,20 @@ public class Game {
 	private int iaRole ;
 	private IAPlayer iaPlayer;
 	private IAPlayer secondIAPlayer;
+	private Menu menu;
 
 	//Constructor
-	public Game(GameTable game, Board board) {
+	public Game(GameTable game, Board board, Menu menu) {
 		this.board = board;
 		this.gameTable = game;
 		this.iaRole = NO_IA;
+		this.menu = menu;
 	}
 
-	public Game(GameTable game, int iaRole, Board board) {
+	public Game(GameTable game, int iaRole, Board board, Menu menu) {
 		this.board = board;
 		this.gameTable = game;
+		this.menu = menu;
 		if(iaRole >= CHAL_IA && iaRole <= BAGH_IA) {
 			throw new IllegalArgumentException("Not a correct value for IA");
 		}
@@ -44,7 +50,7 @@ public class Game {
 	}
 
 	//Methods
-	public void play(){
+	public void play() throws IOException{
 //		this.affichage();
 
 		if(!this.haveWinner()) {
@@ -89,9 +95,9 @@ public class Game {
 		}
 		else{
 			if(this.currentPlayer) 
-				System.out.println("Baghs win");
+				this.menu.BackToMenu("Baghs win");
 			else
-				System.out.println("Chals win");
+				this.menu.BackToMenu("Chals win");
 			this.gameTable.endGame();
 			
 		}
@@ -110,7 +116,7 @@ public class Game {
 		return false;
 	}
 
-	private void changePlayer() {
+	private void changePlayer() throws IOException {
 		if(this.currentPlayer) {
 			this.currentPlayer = false;
 //			System.out.println("Bhag Turn");
@@ -128,13 +134,27 @@ public class Game {
 
 	private void chalPlayerTurn() {
 		if(this.board.getNbChalsToPlace() > 0)
-			this.gameTable.chalPlayerPlacement(e -> changePlayer());
+			this.gameTable.chalPlayerPlacement(e -> {
+				try {
+					changePlayer();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			});
 		else
 			this.gameTable.chalPlayerTurnSelect(e -> chalPlayerTurnMove());
 	}
 
 	private void chalPlayerTurnMove() {
-		this.gameTable.chalPlayerMove(e -> changePlayer());
+		this.gameTable.chalPlayerMove(e -> {
+			try {
+				changePlayer();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
 	}
 
 	private void baghPlayerTurn() {
@@ -142,7 +162,14 @@ public class Game {
 	}
 
 	private void baghPlayerTurnMove() {
-		this.gameTable.baghPlayerMove(e -> changePlayer(), e -> baghPlayerTurnMove());
+		this.gameTable.baghPlayerMove(e -> {
+			try {
+				changePlayer();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}, e -> baghPlayerTurnMove());
 	}
 
 
@@ -150,16 +177,18 @@ public class Game {
 	/********************************************* IA player ********************************************/
 	/****************************************************************************************************/
 
-	/** Chal placement turns */
-	private void chalIATurn() {
+	/** Chal placement turns 
+	 * @throws IOException */
+	private void chalIATurn() throws IOException {
 		Move move = this.iaPlayer.iaAction();
 		this.gameTable.drawMoves(move, true);
 		move.doMove();
 		this.changePlayer();
 	}
 
-	/** Bagh turns */
-	private void baghIATurn() {
+	/** Bagh turns 
+	 * @throws IOException */
+	private void baghIATurn() throws IOException {
 		Move move = this.iaPlayer.iaAction();
 		this.gameTable.drawMoves(move, false);
 		Coordinates eatenChal = move.doMove();
@@ -169,7 +198,7 @@ public class Game {
 		this.changePlayer();
 	}
 	
-	private void secondIAPlayerTurn() {
+	private void secondIAPlayerTurn() throws IOException {
 		Move move = this.secondIAPlayer.iaAction();
 		this.gameTable.drawMoves(move, false);
 		Coordinates eatenChal = move.doMove();
